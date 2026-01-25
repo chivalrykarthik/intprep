@@ -83,7 +83,7 @@ function App() {
 
   return (
     <FluentProvider theme={currentTheme}>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Layout isDark={isDark} toggleTheme={toggleTheme} />
       </BrowserRouter>
     </FluentProvider>
