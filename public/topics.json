@@ -7,6 +7,10 @@
       {
         "title": "Sliding Window",
         "path": "/prep/14patterns/sliding_window.md"
+      },
+      {
+        "title": "Two Pointers",
+        "path": "/prep/14patterns/two-pointers.md"
       }
     ]
   },
