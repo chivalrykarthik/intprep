@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 
 // Custom plugin to generate topics.json
-const generateTopicsPlugin = () => {
+const generateTopicsPlugin = (basePath: string) => {
   return {
     name: 'generate-topics',
     buildStart() {
@@ -23,13 +23,14 @@ const generateTopicsPlugin = () => {
               .filter(file => file.endsWith('.md'))
               .map(file => ({
                 title: file.replace(/[-_]/g, ' ').replace('.md', '').replace(/\b\w/g, c => c.toUpperCase()),
-                path: `/intprep/prep/${topicDir.name}/${file}`
+                // Ensure double slashes doesn't happen if base is just /
+                path: `${basePath === '/' ? '' : basePath}/prep/${topicDir.name}/${file}`
               }))
 
             return {
               id: topicDir.name,
               title: topicDir.name.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-              path: `/intprep/prep/${topicDir.name}`,
+              path: `${basePath === '/' ? '' : basePath}/prep/${topicDir.name}`,
               items: topicItems
             }
           })
@@ -47,10 +48,15 @@ const generateTopicsPlugin = () => {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: '/intprep/',
-  plugins: [react(), generateTopicsPlugin()],
-  server: {
-    port: 3000,
-  },
+export default defineConfig(({ command }) => {
+  const isProd = command === 'build';
+  const base = isProd ? '/intprep/' : '/';
+
+  return {
+    base: base,
+    plugins: [react(), generateTopicsPlugin(base)],
+    server: {
+      port: 3000,
+    },
+  }
 })
