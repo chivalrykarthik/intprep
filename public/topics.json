@@ -1,0 +1,25 @@
+[
+  {
+    "id": "14patterns",
+    "title": "14patterns",
+    "path": "/intprep/prep/14patterns",
+    "items": [
+      {
+        "title": "Sliding Window",
+        "path": "/intprep/prep/14patterns/sliding_window.md"
+      }
+    ]
+  },
+  {
+    "id": "cloud",
+    "title": "Cloud",
+    "path": "/intprep/prep/cloud",
+    "items": []
+  },
+  {
+    "id": "DSA",
+    "title": "DSA",
+    "path": "/intprep/prep/DSA",
+    "items": []
+  }
+]
