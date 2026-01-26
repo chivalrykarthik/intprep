@@ -17,12 +17,14 @@ import { ArrowLeftRegular, DocumentRegular, ArrowRightRegular } from "@fluentui/
 
 const useStyles = makeStyles({
     container: {
-        ...shorthands.padding("40px"),
+        ...shorthands.padding("16px"),
         display: "flex",
         flexDirection: "column",
         gap: "32px",
         maxWidth: "1200px",
         margin: "0 auto",
+        width: "100%",
+        boxSizing: "border-box",
     },
     header: {
         display: "flex",
@@ -32,8 +34,8 @@ const useStyles = makeStyles({
     },
     grid: {
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        gap: "24px",
+        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+        gap: "16px",
     },
     card: {
         ...shorthands.padding("16px"),

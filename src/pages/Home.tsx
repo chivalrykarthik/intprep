@@ -16,12 +16,14 @@ import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
     container: {
-        ...shorthands.padding("40px"),
+        ...shorthands.padding("16px"), // Reduced from 40px for mobile friendliness
         display: "flex",
         flexDirection: "column",
         gap: "32px",
         maxWidth: "1200px",
         margin: "0 auto",
+        width: "100%",
+        boxSizing: "border-box", // Ensure padding doesn't overflow width
     },
     header: {
         display: "flex",
@@ -32,8 +34,8 @@ const useStyles = makeStyles({
     },
     grid: {
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        gap: "24px",
+        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", // Slightly smaller min-width
+        gap: "16px", // Reduced gap
     },
     card: {
         ...shorthands.padding("16px"),

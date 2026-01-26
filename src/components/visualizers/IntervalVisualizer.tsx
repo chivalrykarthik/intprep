@@ -36,6 +36,7 @@ const useStyles = makeStyles({
         borderRadius: "8px",
         minHeight: "150px",
         position: "relative",
+        overflowX: "auto", // Enable scrolling
     },
     row: {
         display: "flex",
@@ -43,6 +44,7 @@ const useStyles = makeStyles({
         height: "40px",
         position: "relative",
         width: "100%",
+        minWidth: "500px", // Ensure minimum width to prevent squashing
     },
     rowLabel: {
         width: "80px",

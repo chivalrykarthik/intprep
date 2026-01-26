@@ -37,10 +37,12 @@ const useStyles = makeStyles({
         borderRadius: "8px",
         minHeight: "350px",
         position: "relative",
+        overflowX: "auto", // Enable scrolling
     },
     graphContainer: {
         position: "relative",
         width: "100%",
+        minWidth: "300px", // Prevent squashing
         height: "250px",
         ...shorthands.border("1px", "dashed", tokens.colorNeutralStroke2),
         borderRadius: "8px",

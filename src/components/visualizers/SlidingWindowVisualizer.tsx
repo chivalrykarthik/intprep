@@ -31,9 +31,12 @@ const useStyles = makeStyles({
     arrayContainer: {
         display: "flex",
         gap: "8px",
-        flexWrap: "wrap",
-        justifyContent: "center",
+        flexWrap: "nowrap", // Scroll instead of wrap for window logic clarity
+        justifyContent: "flex-start", // Start from left so scrolling works
         padding: "20px 0",
+        overflowX: "auto", // Enable scrolling
+        width: "100%", // Take full width
+        maxWidth: "100%",
     },
     cell: {
         width: "40px",
@@ -62,6 +65,8 @@ const useStyles = makeStyles({
     stats: {
         display: "flex",
         justifyContent: "space-around",
+        flexWrap: "wrap", // Allow stats to wrap
+        gap: "10px", // Add gap when wrapping
         padding: "12px",
         backgroundColor: tokens.colorNeutralBackground3,
         borderRadius: "8px",

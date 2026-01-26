@@ -30,9 +30,12 @@ const useStyles = makeStyles({
     arrayContainer: {
         display: "flex",
         gap: "8px",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        padding: "40px 0 20px 0", // Extra top padding for pointers
+        flexWrap: "nowrap", // Scroll horizontal
+        justifyContent: "flex-start",
+        padding: "50px 0 20px 0", // Extra top padding for pointers, and more for safety
+        overflowX: "auto",
+        width: "100%",
+        maxWidth: "100%"
     },
     cellWrapper: {
         display: "flex",

@@ -37,12 +37,14 @@ const useStyles = makeStyles({
         borderRadius: "8px",
         minHeight: "250px",
         position: "relative",
+        overflowX: "auto", // Enable scrolling
     },
     listsContainer: {
         display: "flex",
         flexDirection: "column",
         gap: "10px",
         width: "100%",
+        minWidth: "300px", // Prevent squashing
         alignItems: "center"
     },
     listRow: {

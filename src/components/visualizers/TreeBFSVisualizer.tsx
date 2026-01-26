@@ -37,10 +37,12 @@ const useStyles = makeStyles({
         borderRadius: "8px",
         minHeight: "300px",
         position: "relative",
+        overflowX: "auto", // Enable scrolling
     },
     treeContainer: {
         position: "relative",
         width: "100%",
+        minWidth: "350px", // Prevent tree from collapsing
         display: "flex",
         justifyContent: "center",
         // Helper to center the absolute madness of tree layout
