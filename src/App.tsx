@@ -73,7 +73,7 @@ function Layout({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
 }
 
 function App() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   const toggleTheme = useCallback(() => {
     setIsDark((prev) => !prev);

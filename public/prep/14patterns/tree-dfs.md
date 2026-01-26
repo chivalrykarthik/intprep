@@ -1,0 +1,174 @@
+# Tree DFS (Depth First Search) 🌲
+
+## 1. The "Maze Explorer" Analogy
+
+Imagine you are exploring a maze. You want to find the exit.
+- You pick a path and keep walking **forward** until you hit a dead end.
+- Once you hit a wall, you **backtrack** to the last intersection.
+- Then you try the next available path.
+
+You don't take one step in path A, then one step in path B (that's BFS). You commit to path A all the way to the bitter end before you even think about path B.
+
+**This is Tree DFS.** It dives as deep as possible into one branch before backtracking. It creates a "stack" of where you've been.
+
+---
+
+## 2. The Core Concept
+
+In coding interviews, we use this to solve problems where we need to find a **specific path**, check **root-to-leaf** properties, or exhaustively search combinations.
+
+**The "BFS" (Queue) Way:**
+Good for "shortest path" or near neighbors. Bad if the target is uniquely deep in a leaf node, as BFS wastes memory holding all the shallow nodes.
+
+**The "DFS" (Stack/Recursion) Way:**
+1. Process the Node.
+2. Recursively call DFS on the **Left** child.
+3. Recursively call DFS on the **Right** child.
+- **Boom.** You effectively visit nodes in Pre-order (or In-order/Post-order depending on when you process).
+
+---
+
+## 3. Interactive Visualization 🎮
+Click "Next" to see the recursion stack grow and shrink!
+
+```visualizer
+{
+  "type": "tree-dfs", 
+  "data": {
+    "val": 1,
+    "left": {
+      "val": 2,
+      "left": { "val": 4 },
+      "right": { "val": 5 }
+    },
+    "right": {
+      "val": 3,
+      "left": { "val": 6 },
+      "right": { "val": 7 }
+    }
+  }
+}
+```
+
+---
+
+## 4. Scenario A: Path Sum (Root to Leaf)
+**Real-Life Scenario:** You are looking for a specific budget allocation. You want to see if any sequence of department approvals (Nodes) adds up exactly to $10,000.
+
+**Technical Problem:** Given the root of a binary tree and an integer `targetSum`, return `true` if the tree has a root-to-leaf path such that adding up all the values along the path equals `targetSum`.
+
+### TypeScript Implementation
+
+```typescript
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+/**
+ * Checks if a path with the given sum exists.
+ * 
+ * @param root - The root of the tree.
+ * @param targetSum - The sum we are looking for.
+ * @returns boolean
+ * 
+ * @timeComplexity O(N) - We might visit every node.
+ * @spaceComplexity O(H) - Recursion stack depth equals tree height (H).
+ */
+function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
+  if (!root) return false;
+
+  // Subtract current value from the target
+  const remainingWeight = targetSum - root.val;
+
+  // Check if it's a leaf node AND sum matches
+  if (!root.left && !root.right && remainingWeight === 0) {
+      return true;
+  }
+
+  // Recursively check left or right subtrees
+  return hasPathSum(root.left, remainingWeight) || hasPathSum(root.right, remainingWeight);
+}
+```
+
+---
+
+## 5. Scenario B: Count All Paths Sum (Complex)
+**Real-Life Scenario:** Find **all possible** spending chains that equal exactly $500, even if the chain doesn't start at the CEO (Root) or end at an intern (Leaf).
+
+**Technical Problem:** Given the root of a binary tree and an integer `k`, return the number of paths where the sum of the values along the path equals `k`.
+
+### TypeScript Implementation
+
+```typescript
+/**
+ * Counts all paths summing to k (using Prefix Sum map for O(N)).
+ * 
+ * @param root - Current node
+ * @param k - Target sum
+ * @returns Total count of valid paths
+ */
+function pathSum(root: TreeNode | null, k: number): number {
+    let count = 0;
+    const map = new Map<number, number>();
+    map.set(0, 1); // Base case: one path with sum 0 (empty)
+
+    function dfs(node: TreeNode | null, currSum: number) {
+        if (!node) return;
+
+        currSum += node.val;
+
+        // Check if there is a prefix sum such that currSum - oldSum = k
+        if (map.has(currSum - k)) {
+            count += map.get(currSum - k)!;
+        }
+
+        // Add current sum to map for children
+        map.set(currSum, (map.get(currSum) || 0) + 1);
+
+        dfs(node.left, currSum);
+        dfs(node.right, currSum);
+
+        // Backtrack: Remove current sum from map so cross-branch paths aren't counted
+        map.set(currSum, map.get(currSum)! - 1);
+    }
+
+    dfs(root, 0);
+    return count;
+}
+```
+
+---
+
+## 6. Real World Applications 🌍
+
+### 1. 📂 File System Traversal
+A file system is a tree. To calculate the total size of a folder, you DFS into subfolders, summing up file sizes, and bringing the total back up to the parent.
+
+### 2. 🧩 Dependency Resolution
+Build tools (like Webpack or Maven) use DFS (Topological Sort) to determine the order of compilation. If Library A depends on B, and B depends on C, we must build C, then B, then A.
+
+### 3. 🤖 Game AI (Chess/Minimax)
+AI explores moves by simulating a game tree. It dives deep into a move sequence ("If I move Pawn, he moves Knight, I move Bishop...") to see the outcome, evaluating the "leaf" of that decision branch.
+
+---
+
+## 7. Complexity Analysis 🧠
+
+### Time Complexity: O(N) ⚡
+- We visit every node exactly once.
+
+### Space Complexity: O(H) 💾
+- **H** is the height of the tree.
+- In the worst case (a skewed tree, essentially a linked list), H = N, so **O(N)** recursion stack.
+- In a balanced tree, H = log N, so **O(log N)** space.
+- Compare this to BFS which takes O(W) (width). DFS is better for wide, shallow trees.

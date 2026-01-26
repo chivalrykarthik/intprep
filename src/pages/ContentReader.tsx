@@ -17,6 +17,9 @@ import { SlidingWindowVisualizer } from "../components/visualizers/SlidingWindow
 import { TwoPointerVisualizer } from "../components/visualizers/TwoPointerVisualizer";
 import { IntervalVisualizer } from "../components/visualizers/IntervalVisualizer";
 import { CyclicSortVisualizer } from "../components/visualizers/CyclicSortVisualizer";
+import { LinkedListVisualizer } from "../components/visualizers/LinkedListVisualizer";
+import { TreeBFSVisualizer } from "../components/visualizers/TreeBFSVisualizer";
+import { TreeDFSVisualizer } from "../components/visualizers/TreeDFSVisualizer";
 
 // Styles for the reader
 const useStyles = makeStyles({
@@ -178,6 +181,15 @@ export const ContentReader = () => {
                                     }
                                     if (config.type === 'cyclic-sort') {
                                         return <CyclicSortVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'linked-list') {
+                                        return <LinkedListVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'tree-bfs') {
+                                        return <TreeBFSVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'tree-dfs') {
+                                        return <TreeDFSVisualizer data={config.data} />;
                                     }
                                 } catch (e) {
                                     return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;

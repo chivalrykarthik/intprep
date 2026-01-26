@@ -13,6 +13,10 @@
         "path": "/prep/14patterns/fast-and-slow-pointers.md"
       },
       {
+        "title": "In Place Reversal Of Linked List",
+        "path": "/prep/14patterns/in-place-reversal-of-linked-list.md"
+      },
+      {
         "title": "Merge Intervals",
         "path": "/prep/14patterns/merge-intervals.md"
       },
@@ -21,10 +25,24 @@
         "path": "/prep/14patterns/sliding_window.md"
       },
       {
+        "title": "Tree Bfs",
+        "path": "/prep/14patterns/tree-bfs.md"
+      },
+      {
+        "title": "Tree Dfs",
+        "path": "/prep/14patterns/tree-dfs.md"
+      },
+      {
         "title": "Two Pointers",
         "path": "/prep/14patterns/two-pointers.md"
       }
     ]
+  },
+  {
+    "id": "algorithm",
+    "title": "Algorithm",
+    "path": "/prep/algorithm",
+    "items": []
   },
   {
     "id": "cloud",
