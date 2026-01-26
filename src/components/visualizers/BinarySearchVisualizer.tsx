@@ -66,7 +66,7 @@ const useStyles = makeStyles({
         backgroundColor: tokens.colorNeutralBackground1,
     },
     activeCell: {
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         backgroundColor: tokens.colorBrandBackground2,
         transform: "scale(1.1)",
         zIndex: 1,
@@ -78,7 +78,7 @@ const useStyles = makeStyles({
     },
     foundCell: {
         backgroundColor: tokens.colorPaletteGreenBackground2,
-        borderColor: tokens.colorPaletteGreenBorder2,
+        ...shorthands.borderColor(tokens.colorPaletteGreenBorder2),
         color: tokens.colorPaletteGreenForeground1,
     },
     pointer: {

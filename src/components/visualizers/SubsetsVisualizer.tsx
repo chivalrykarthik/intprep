@@ -60,12 +60,12 @@ const useStyles = makeStyles({
     },
     newItem: {
         backgroundColor: tokens.colorBrandBackground2,
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         boxShadow: tokens.shadow4,
         animation: "popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
     },
     sourceItem: {
-        borderColor: tokens.colorPaletteGoldBorderActive,
+        ...shorthands.borderColor(tokens.colorPaletteGoldBorderActive),
         backgroundColor: tokens.colorPaletteGoldBackground2,
     },
     emptySetSymbol: {

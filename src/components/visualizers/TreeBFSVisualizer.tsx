@@ -62,19 +62,19 @@ const useStyles = makeStyles({
     },
     activeNode: {
         backgroundColor: tokens.colorBrandBackground2,
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         transform: "scale(1.1)",
         boxShadow: tokens.shadow4,
     },
     processedNode: {
         backgroundColor: tokens.colorPaletteGreenBackground2,
-        borderColor: tokens.colorPaletteGreenBorder2,
+        ...shorthands.borderColor(tokens.colorPaletteGreenBorder2),
         color: tokens.colorPaletteGreenForeground1,
     },
     visitedNode: {
         // In queue but not processed
-        borderColor: tokens.colorPaletteGoldBorderActive,
-        borderStyle: "dashed",
+        ...shorthands.borderColor(tokens.colorPaletteGoldBorderActive),
+        ...shorthands.borderStyle("dashed"),
     },
     queueContainer: {
         display: "flex",

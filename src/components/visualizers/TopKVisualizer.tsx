@@ -55,7 +55,7 @@ const useStyles = makeStyles({
         transition: "all 0.3s ease",
     },
     fullHeap: {
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         backgroundColor: tokens.colorBrandBackground2, // Slight tint when full
     },
     heapItem: {

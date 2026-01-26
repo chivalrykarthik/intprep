@@ -212,7 +212,7 @@ export const TopologicalSortVisualizer = ({
 
             // Neighbors
             const neighbors = adj[node] || [];
-            let newUnlocks = [];
+            let newUnlocks: number[] = [];
 
             for (const neighbor of neighbors) {
                 simInDegree[neighbor]--;
@@ -319,7 +319,7 @@ export const TopologicalSortVisualizer = ({
                     <Text style={{ fontSize: '12px', fontWeight: 'bold', width: '100%', textAlign: 'center' }}>Result Order:</Text>
                     {currentSnap.result.map((r, i) => (
                         <div key={`res-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
-                            <div className={styles.node} style={{ position: 'static', width: '30px', height: '30px', fontSize: '12px', backgroundColor: tokens.colorPaletteGreenBackground2, ...shorthands.borderColor(tokens.colorPaletteGreenBorder2) }}>
+                            <div className={styles.node} style={{ position: 'static', width: '30px', height: '30px', fontSize: '12px', backgroundColor: tokens.colorPaletteGreenBackground2, borderColor: tokens.colorPaletteGreenBorder2 }}>
                                 {r}
                             </div>
                             {i < currentSnap.result.length - 1 && <ArrowRightRegular style={{ margin: '0 4px', color: tokens.colorNeutralForeground3 }} />}
