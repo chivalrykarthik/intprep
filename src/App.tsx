@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { HashRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { FluentProvider, Button, tokens, makeStyles, shorthands, Title3, Link } from "@fluentui/react-components";
 import { WeatherMoonRegular, WeatherSunnyRegular } from "@fluentui/react-icons";
 import { darkTheme, lightTheme } from "./theme";
@@ -40,6 +40,7 @@ const useStyles = makeStyles({
 function Layout({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => void }) {
   const classes = useStyles();
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div
@@ -62,7 +63,10 @@ function Layout({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
         />
       </header>
 
-      <main className={classes.content}>
+      <main
+        className={classes.content}
+        style={location.pathname.includes("/read/") ? { padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" } : {}}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/topic/:topicId" element={<TopicDetail />} />

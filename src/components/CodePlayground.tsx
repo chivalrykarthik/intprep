@@ -124,16 +124,43 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                 filename: "repl.ts",
             }).code;
 
-            // Transpiled code typically runs in strict mode and might need to treat top-level vars carefully.
-            // Since we're using "new Function", we need to wrap the code to allow top-level variable usage without collisions
-            // and correct return.
-            // But usually for valid "script" execution in function body, direct code is fine.
+            // Transpiled code typically runs in strict mode.
+            // We implement a basic sandbox by shadowing global objects.
+            const runUserCode = new Function(
+                "console",
+                "fetch",
+                "XMLHttpRequest",
+                "window",
+                "document",
+                "localStorage",
+                "sessionStorage",
+                "location",
+                "alert",
+                `
+                "use strict";
+                ${transpiled || ""}
+                `
+            );
 
-            // Note: Babel might add "use strict";
+            const forbidden = (name: string) => () => {
+                throw new Error(`Security Error: Access to '${name}' is restricted in the playground.`);
+            };
 
-            const runUserCode = new Function("console", transpiled || "");
+            const mockWindow = {
+                // Allow some safe globals if needed, simpler to just block mostly
+            };
 
-            runUserCode(mockConsole);
+            runUserCode(
+                mockConsole,
+                forbidden("fetch"),
+                forbidden("XMLHttpRequest"),
+                undefined, // window - undefined to break access
+                undefined, // document
+                undefined, // localStorage
+                undefined, // sessionStorage
+                undefined, // location
+                forbidden("alert")
+            );
 
             if (logs.length === 0) {
                 logs.push("Code executed successfully (no output). \nTip: Use console.log() to see results.");
