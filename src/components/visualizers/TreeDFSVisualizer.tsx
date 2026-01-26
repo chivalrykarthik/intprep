@@ -61,13 +61,13 @@ const useStyles = makeStyles({
     },
     activeNode: {
         backgroundColor: tokens.colorBrandBackground2,
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         transform: "scale(1.1)",
         boxShadow: tokens.shadow4,
     },
     processedNode: {
         backgroundColor: tokens.colorPaletteGreenBackground2,
-        borderColor: tokens.colorPaletteGreenBorder2,
+        ...shorthands.borderColor(tokens.colorPaletteGreenBorder2),
         color: tokens.colorPaletteGreenForeground1,
     },
     stackContainer: {
@@ -129,6 +129,16 @@ interface TreeDFSVisualizerProps {
     data?: TreeNodeData;
 }
 
+interface TreeNode {
+    val: number;
+    left?: TreeNode;
+    right?: TreeNode;
+}
+
+interface TreeDFSVisualizerProps {
+    data?: TreeNode;
+}
+
 export const TreeDFSVisualizer = ({
     data = {
         val: 1,
@@ -146,6 +156,9 @@ export const TreeDFSVisualizer = ({
 }: TreeDFSVisualizerProps) => {
     const styles = useStyles();
     const [step, setStep] = useState(0);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _ignored = data;
 
     // Static positions for the specific 1-7 tree
     const positionMap: Record<number, { left: string, top: string }> = {

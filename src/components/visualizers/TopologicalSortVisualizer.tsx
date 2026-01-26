@@ -172,8 +172,8 @@ export const TopologicalSortVisualizer = ({
         snapshots.push({
             msg: "Calculate In-Degrees (Dependencies).",
             inDegree: [...inDegree],
-            queue: [],
-            result: [],
+            queue: [] as number[],
+            result: [] as number[],
             current: null as number | null
         });
 
