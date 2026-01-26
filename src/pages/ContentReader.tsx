@@ -14,6 +14,9 @@ import {
 import { ArrowLeftRegular } from "@fluentui/react-icons";
 import { Mermaid } from "../components/Mermaid";
 import { SlidingWindowVisualizer } from "../components/visualizers/SlidingWindowVisualizer";
+import { TwoPointerVisualizer } from "../components/visualizers/TwoPointerVisualizer";
+import { IntervalVisualizer } from "../components/visualizers/IntervalVisualizer";
+import { CyclicSortVisualizer } from "../components/visualizers/CyclicSortVisualizer";
 
 // Styles for the reader
 const useStyles = makeStyles({
@@ -166,6 +169,15 @@ export const ContentReader = () => {
                                     const config = JSON.parse(String(children));
                                     if (config.type === 'sliding-window') {
                                         return <SlidingWindowVisualizer data={config.data} k={config.k} />;
+                                    }
+                                    if (config.type === 'two-pointer') {
+                                        return <TwoPointerVisualizer data={config.data} speeds={config.speeds} />;
+                                    }
+                                    if (config.type === 'intervals') {
+                                        return <IntervalVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'cyclic-sort') {
+                                        return <CyclicSortVisualizer data={config.data} />;
                                     }
                                 } catch (e) {
                                     return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;

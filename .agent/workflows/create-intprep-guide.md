@@ -21,7 +21,7 @@ Copy and use the following template structure. Replace the placeholders with con
 
 ## 1. The "[Analogy Name]" Analogy
 
-[Explain the concept using a relatable, non-technical real-world analogy. Avoid jargon here. Use formatting like bolding key concepts.]
+[Explain the concept using a relatable, non-technical real-world analogy. Avoid jargon here. Use formatting like bolding key concepts. Explanation should be more interesting.]
 
 **This is the [Pattern Name].** [Brief summary of the connection between analogy and code].
 
@@ -35,7 +35,7 @@ In coding interviews, we use this to [solve specific problem type].
 [Explain the inefficient approach.]
 
 **The "[Pattern Name]" (Smart) Way:**
-[Explain the optimized approach.]
+[Explain the optimized approach. Follow industries best practices]
 - [Step 1]
 - [Step 2]
 - **Boom.** [Result].
@@ -52,7 +52,7 @@ Click "Next" to see the [action]!
   "k": 3
 }
 ```
-*(Note: Currently `sliding-window` is the only supported visualizer type. If this pattern requires a new visualizer, use `mermaid` instead, or request a new visualizer component implementation.)*
+*(Note: Currently `sliding-window` is the only supported visualizer type. If this pattern requires a new visualizer, or request a new visualizer component implementation. Do not use mermaid. Try to use animated explanation through digram)*
 
 ---
 
@@ -80,7 +80,7 @@ function solveProblem(input: number[]): number {
   // Implementation
 }
 ```
-
+### Sample input and output
 ---
 
 ## 5. Scenario B: [Name] (Dynamic/Complex Case)
@@ -122,4 +122,3 @@ Why do we care about [Pattern Name]?
 - Ensure the file is valid markdown.
 - Verify TypeScript code compiles (mentally or via a test file).
 - Check that the `visualizer` block is valid JSON.
-

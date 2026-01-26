@@ -5,6 +5,18 @@
     "path": "/prep/14patterns",
     "items": [
       {
+        "title": "Cyclic Sort",
+        "path": "/prep/14patterns/cyclic-sort.md"
+      },
+      {
+        "title": "Fast And Slow Pointers",
+        "path": "/prep/14patterns/fast-and-slow-pointers.md"
+      },
+      {
+        "title": "Merge Intervals",
+        "path": "/prep/14patterns/merge-intervals.md"
+      },
+      {
         "title": "Sliding Window",
         "path": "/prep/14patterns/sliding_window.md"
       },
