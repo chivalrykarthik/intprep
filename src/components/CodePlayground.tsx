@@ -148,10 +148,6 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                 throw new Error(`Security Error: Access to '${name}' is restricted in the playground.`);
             };
 
-            const mockWindow = {
-                // Allow some safe globals if needed, simpler to just block mostly
-            };
-
             runUserCode(
                 mockConsole,
                 forbidden("fetch"),
