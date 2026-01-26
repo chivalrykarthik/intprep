@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
     makeStyles,
     shorthands,
@@ -91,6 +91,8 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
     const [output, setOutput] = useState<string[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const [editorHeight, setEditorHeight] = useState<number | undefined>(undefined);
+    const editorContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setCode(initialCode.replace(/\n$/, ""));
@@ -179,6 +181,13 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
         setHasError(false);
     };
 
+    const toggleEdit = () => {
+        if (!isEditing && editorContainerRef.current) {
+            setEditorHeight(editorContainerRef.current.offsetHeight);
+        }
+        setIsEditing(!isEditing);
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -188,7 +197,7 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                         size="small"
                         icon={isEditing ? <CodeRegular /> : <EditRegular />}
                         appearance="subtle"
-                        onClick={() => setIsEditing(!isEditing)}
+                        onClick={toggleEdit}
                     >
                         {isEditing ? "View" : "Edit"}
                     </Button>
@@ -210,13 +219,14 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                 </div>
             </div>
 
-            <div className={styles.editorContainer}>
+            <div className={styles.editorContainer} ref={editorContainerRef}>
                 {isEditing ? (
                     <textarea
                         className={styles.textarea}
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
                         spellCheck={false}
+                        style={{ height: editorHeight }}
                     />
                 ) : (
                     <SyntaxHighlighter
@@ -228,6 +238,7 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                             borderRadius: 0,
                             fontSize: "14px",
                             lineHeight: "1.5",
+                            minHeight: "200px",
                         }}
                     >
                         {code}
