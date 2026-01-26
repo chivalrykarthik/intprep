@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -119,33 +119,22 @@ export const ContentReader = () => {
     const { topicId, fileId } = useParams();
     const navigate = useNavigate();
     const styles = useStyles();
-    const [content, setContent] = useState("");
-    const [loading, setLoading] = useState(true);
 
     // We need to know current theme for syntax highlighter
     // Simple check via body class or token (React Context woud be better but this works for now)
     const isDark = document.body.style.backgroundColor !== tokens.colorNeutralBackground2;
 
-    useEffect(() => {
-        // Construct path: /intprep/prep/14patterns/sliding_window.md (or /prep/... in dev)
-        const path = `${import.meta.env.BASE_URL}prep/${topicId}/${fileId}`;
+    const { data: content = "", isLoading } = useQuery({
+        queryKey: ['content', topicId, fileId],
+        queryFn: async () => {
+            const path = `${import.meta.env.BASE_URL}prep/${topicId}/${fileId}`;
+            const res = await fetch(path);
+            if (!res.ok) throw new Error("File not found");
+            return res.text();
+        }
+    });
 
-        fetch(path)
-            .then((res) => {
-                if (!res.ok) throw new Error("File not found");
-                return res.text();
-            })
-            .then((text) => {
-                setContent(text);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Failed to load content:", err);
-                setLoading(false);
-            });
-    }, [topicId, fileId]);
-
-    if (loading) {
+    if (isLoading) {
         return <div className={styles.container}><Text>Loading content...</Text></div>;
     }
 

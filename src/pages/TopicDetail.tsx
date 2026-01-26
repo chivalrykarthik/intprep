@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
     makeStyles,
     shorthands,
@@ -67,24 +67,14 @@ export const TopicDetail = () => {
     const { topicId } = useParams();
     const navigate = useNavigate();
     const styles = useStyles();
-    const [topic, setTopic] = useState<Topic | null>(null);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetch(`${import.meta.env.BASE_URL}topics.json`)
-            .then((res) => res.json())
-            .then((data: Topic[]) => {
-                const found = data.find((t) => t.id === topicId);
-                setTopic(found || null);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Failed to load topics:", err);
-                setLoading(false);
-            });
-    }, [topicId]);
+    const { data: topic, isLoading } = useQuery({
+        queryKey: ['topics'], // Using same key to leverage cache from Home
+        queryFn: () => fetch(`${import.meta.env.BASE_URL}topics.json`).then((res) => res.json()),
+        select: (data: Topic[]) => data.find((t) => t.id === topicId) || null
+    });
 
-    if (loading) {
+    if (isLoading) {
         return <div className={styles.container}><Text>Loading...</Text></div>;
     }
 

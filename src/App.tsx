@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { FluentProvider, Button, tokens, makeStyles, shorthands, Title3, Link } from "@fluentui/react-components";
 import { WeatherMoonRegular, WeatherSunnyRegular } from "@fluentui/react-icons";
@@ -81,12 +82,16 @@ function App() {
 
   const currentTheme = isDark ? darkTheme : lightTheme;
 
+  const queryClient = new QueryClient();
+
   return (
-    <FluentProvider theme={currentTheme}>
-      <HashRouter>
-        <Layout isDark={isDark} toggleTheme={toggleTheme} />
-      </HashRouter>
-    </FluentProvider>
+    <QueryClientProvider client={queryClient}>
+      <FluentProvider theme={currentTheme}>
+        <HashRouter>
+          <Layout isDark={isDark} toggleTheme={toggleTheme} />
+        </HashRouter>
+      </FluentProvider>
+    </QueryClientProvider>
   );
 }
 

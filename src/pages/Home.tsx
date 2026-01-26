@@ -12,7 +12,6 @@ import {
     Title1,
 } from "@fluentui/react-components";
 import { FolderRegular, ArrowRightRegular } from "@fluentui/react-icons";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -62,17 +61,18 @@ interface Topic {
     path: string;
 }
 
+import { useQuery } from "@tanstack/react-query";
+
+// ... (existing imports)
+
 export const Home = () => {
     const styles = useStyles();
     const navigate = useNavigate();
-    const [topics, setTopics] = useState<Topic[]>([]);
 
-    useEffect(() => {
-        fetch(`${import.meta.env.BASE_URL}topics.json`)
-            .then((res) => res.json())
-            .then((data) => setTopics(data))
-            .catch((err) => console.error("Failed to load topics:", err));
-    }, []);
+    const { data: topics = [] } = useQuery<Topic[]>({
+        queryKey: ['topics'],
+        queryFn: () => fetch(`${import.meta.env.BASE_URL}topics.json`).then((res) => res.json())
+    });
 
     return (
         <div className={styles.container}>
