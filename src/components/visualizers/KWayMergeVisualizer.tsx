@@ -159,17 +159,25 @@ export const KWayMergeVisualizer = ({
     const [step, setStep] = useState(0);
 
     const getSimulationState = () => {
-        const snapshots = [];
+        interface HeapItem { val: number, listIndex: number }
+
+        const snapshots: {
+            msg: string;
+            pointers: number[];
+            heap: HeapItem[];
+            result: number[];
+            highlightList: number;
+            highlightIdx: number;
+        }[] = [];
 
         // Setup internal state for simulation
         // Each list has a pointer
-        let pointers = new Array(data.length).fill(0);
-        let result: number[] = [];
+        const pointers = new Array(data.length).fill(0);
+        const result: number[] = [];
 
         // Simulating Min Heap behavior
         // Heap stores {val, listIndex}
-        interface HeapItem { val: number, listIndex: number }
-        let heap: HeapItem[] = [];
+        const heap: HeapItem[] = [];
 
         // Initial add
         for (let i = 0; i < data.length; i++) {

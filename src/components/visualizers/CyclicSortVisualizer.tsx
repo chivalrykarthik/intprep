@@ -98,9 +98,15 @@ export const CyclicSortVisualizer = ({
 
     // Simulation State Logic using Re-render compute pattern (similar to IntervalVisualizer)
     const getSimulationState = () => {
-        const snapshots = [];
+        const snapshots: {
+            nums: number[];
+            msg: string;
+            highlight: number;
+            target: number;
+            swapping?: boolean;
+        }[] = [];
         // Deep copy
-        let nums = [...data];
+        const nums = [...data];
         let i = 0;
 
         snapshots.push({
