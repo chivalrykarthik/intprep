@@ -105,6 +105,17 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 
     return completedCourses === numCourses;
 }
+
+// Example Usage:
+const numCourses = 2;
+const prerequisites = [[1, 0]]; // To take 1, needs 0
+console.log("Courses:", numCourses);
+console.log("Prereqs:", prerequisites);
+console.log("Can Finish?", canFinish(numCourses, prerequisites));
+
+const cyclePrereqs = [[1, 0], [0, 1]];
+console.log("Cycle Prereqs:", cyclePrereqs);
+console.log("Can Finish?", canFinish(2, cyclePrereqs));
 ```
 
 ---
@@ -167,9 +178,13 @@ function alienOrder(words: string[]): string {
         }
     }
 
-    if (result.length < inDegree.size) return ""; // Cycle detected
     return result;
 }
+
+// Example Usage:
+const alienWords = ["wrt","wrf","er","ett","rftt"];
+console.log("Alien Dictionary:", alienWords);
+console.log("Derived Order:", alienOrder(alienWords));
 ```
 
 ---

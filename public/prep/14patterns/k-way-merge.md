@@ -61,27 +61,94 @@ Click "Next" to pick the smallest from the heads!
 ```typescript
 /**
  * Definition for singly-linked list node.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     ...
- * }
  */
+class ListNode {
+    val: number;
+    next: ListNode | null;
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val === undefined ? 0 : val);
+        this.next = (next === undefined ? null : next);
+    }
+}
+
+/**
+ * Minimal MinHeap Implementation
+ */
+class MinHeap<T> {
+    private heap: T[] = [];
+    private compare: (a: T, b: T) => number;
+
+    constructor(compare: (a: T, b: T) => number) {
+        this.compare = compare;
+    }
+
+    size(): number { return this.heap.length; }
+
+    enqueue(val: T): void {
+        this.heap.push(val);
+        this.bubbleUp();
+    }
+
+    dequeue(): T | undefined {
+        if (this.size() === 0) return undefined;
+        const min = this.heap[0];
+        const last = this.heap.pop();
+        if (this.size() > 0 && last !== undefined) {
+            this.heap[0] = last;
+            this.bubbleDown();
+        }
+        return min;
+    }
+
+    isEmpty(): boolean {
+        return this.heap.length === 0;
+    }
+
+    private bubbleUp(): void {
+        let idx = this.heap.length - 1;
+        while (idx > 0) {
+            const parentIdx = Math.floor((idx - 1) / 2);
+            if (this.compare(this.heap[idx], this.heap[parentIdx]) < 0) {
+                [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+                idx = parentIdx;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private bubbleDown(): void {
+        let idx = 0;
+        while (true) {
+            const leftIdx = 2 * idx + 1;
+            const rightIdx = 2 * idx + 2;
+            let smallest = idx;
+
+            if (leftIdx < this.heap.length && this.compare(this.heap[leftIdx], this.heap[smallest]) < 0) {
+                smallest = leftIdx;
+            }
+            if (rightIdx < this.heap.length && this.compare(this.heap[rightIdx], this.heap[smallest]) < 0) {
+                smallest = rightIdx;
+            }
+
+            if (smallest !== idx) {
+                [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+                idx = smallest;
+            } else {
+                break;
+            }
+        }
+    }
+}
 
 /**
  * Merges K sorted lists using a Min Heap.
- * 
- * @param lists - Array of K sorted linked lists.
- * @returns Head of merged list.
- * 
- * @timeComplexity O(N log K) - N is total nodes, K is number of lists.
- * @spaceComplexity O(K) - Heap stores at most K elements.
  */
 function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
-    // 1. Min Heap to store nodes, ordered by val
-    const minHeap = new MinPriorityQueue({ priority: (node) => node.val });
+    // Min Heap to store nodes, ordered by val
+    const minHeap = new MinHeap<ListNode>((a, b) => a.val - b.val);
 
-    // 2. Add head of every list to heap
+    // Add head of every list to heap
     for (const head of lists) {
         if (head) minHeap.enqueue(head);
     }
@@ -89,9 +156,10 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
     const dummy = new ListNode(0);
     let curr = dummy;
 
-    // 3. Process Heap
+    // Process Heap
     while (!minHeap.isEmpty()) {
-        const smallestNode = minHeap.dequeue().element;
+        const smallestNode = minHeap.dequeue();
+        if (!smallestNode) break;
         
         // Add to result
         curr.next = smallestNode;
@@ -105,6 +173,44 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
 
     return dummy.next;
 }
+
+// Example Usage:
+// Helper to create list from array
+function createList(arr: number[]): ListNode | null {
+    if (arr.length === 0) return null;
+    const head = new ListNode(arr[0]);
+    let curr = head;
+    for (let i = 1; i < arr.length; i++) {
+        curr.next = new ListNode(arr[i]);
+        curr = curr.next;
+    }
+    return head;
+}
+
+// Helper to print list
+function printList(head: ListNode | null): void {
+    const values: number[] = [];
+    let curr = head;
+    while (curr) {
+        values.push(curr.val);
+        curr = curr.next;
+    }
+    console.log(values.join(" -> "));
+}
+
+// Input: [[1,4,5],[1,3,4],[2,6]]
+const l1 = createList([1, 4, 5]);
+const l2 = createList([1, 3, 4]);
+const l3 = createList([2, 6]);
+
+console.log("Merging 3 lists:");
+printList(l1);
+printList(l2);
+printList(l3);
+
+const merged = mergeKLists([l1, l2, l3]);
+console.log("Result:");
+printList(merged);
 ```
 
 ---
@@ -118,14 +224,85 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
 
 ```typescript
 /**
+ * Minimal MinHeap Implementation
+ */
+class MinHeap<T> {
+    private heap: T[] = [];
+    private compare: (a: T, b: T) => number;
+
+    constructor(compare: (a: T, b: T) => number) {
+        this.compare = compare;
+    }
+    
+    size(): number { return this.heap.length; }
+
+    enqueue(val: T): void {
+        this.heap.push(val);
+        this.bubbleUp();
+    }
+
+    dequeue(): T | undefined {
+        if (this.size() === 0) return undefined;
+        const min = this.heap[0];
+        const last = this.heap.pop();
+        if (this.size() > 0 && last !== undefined) {
+            this.heap[0] = last;
+            this.bubbleDown();
+        }
+        return min;
+    }
+
+    private bubbleUp(): void {
+        let idx = this.heap.length - 1;
+        while (idx > 0) {
+            const parentIdx = Math.floor((idx - 1) / 2);
+            if (this.compare(this.heap[idx], this.heap[parentIdx]) < 0) {
+                [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+                idx = parentIdx;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private bubbleDown(): void {
+        let idx = 0;
+        while (true) {
+            const leftIdx = 2 * idx + 1;
+            const rightIdx = 2 * idx + 2;
+            let smallest = idx;
+
+            if (leftIdx < this.heap.length && this.compare(this.heap[leftIdx], this.heap[smallest]) < 0) {
+                smallest = leftIdx;
+            }
+            if (rightIdx < this.heap.length && this.compare(this.heap[rightIdx], this.heap[smallest]) < 0) {
+                smallest = rightIdx;
+            }
+
+            if (smallest !== idx) {
+                [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+                idx = smallest;
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+/**
  * Finds smallest range using K-way merge + sliding max tracking.
  */
 function smallestRange(nums: number[][]): number[] {
-    const minHeap = new MinPriorityQueue({ priority: x => x.val });
+    interface HeapItem {
+        val: number;
+        listIdx: number;
+        itemIdx: number;
+    }
+
+    const minHeap = new MinHeap<HeapItem>((a, b) => a.val - b.val);
     let maxVal = -Infinity;
     
     // Init: Insert first element of each list
-    // Element structure: { val, listIdx, itemIdx }
     for (let i = 0; i < nums.length; i++) {
         const val = nums[i][0];
         minHeap.enqueue({ val, listIdx: i, itemIdx: 0 });
@@ -135,7 +312,10 @@ function smallestRange(nums: number[][]): number[] {
     let start = 0, end = Infinity;
 
     while (minHeap.size() === nums.length) {
-        const { val: minVal, listIdx, itemIdx } = minHeap.dequeue().element;
+        const item = minHeap.dequeue();
+        if (!item) break;
+        
+        const { val: minVal, listIdx, itemIdx } = item;
 
         // Check if current range is smaller
         if (maxVal - minVal < end - start) {
@@ -149,13 +329,22 @@ function smallestRange(nums: number[][]): number[] {
             minHeap.enqueue({ val: nextVal, listIdx, itemIdx: itemIdx + 1 });
             maxVal = Math.max(maxVal, nextVal);
         } else {
-            // One list is exhausted, can't cover all K lists anymore
+            // One list is exhausted
             break;
         }
     }
 
     return [start, end];
 }
+
+// Example Usage:
+const lists = [
+    [4, 10, 15, 24, 26], 
+    [0, 9, 12, 20], 
+    [5, 18, 22, 30]
+];
+console.log("Lists:", lists);
+console.log("Smallest Range:", smallestRange(lists));
 ```
 
 ---

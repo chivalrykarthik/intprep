@@ -62,17 +62,17 @@ Click "Next" to see the recursion stack grow and shrink!
 ```typescript
 /**
  * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
  */
+class TreeNode {
+    val: number;
+    left: TreeNode | null;
+    right: TreeNode | null;
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val===undefined ? 0 : val);
+        this.left = (left===undefined ? null : left);
+        this.right = (right===undefined ? null : right);
+    }
+}
 
 /**
  * Checks if a path with the given sum exists.
@@ -98,6 +98,22 @@ function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
   // Recursively check left or right subtrees
   return hasPathSum(root.left, remainingWeight) || hasPathSum(root.right, remainingWeight);
 }
+
+// Example Usage:
+//      5
+//     / \
+//    4   8
+//   /   / \
+//  11  13  4
+// /  \      \
+// 7   2      1
+const root = new TreeNode(5,
+    new TreeNode(4, new TreeNode(11, new TreeNode(7), new TreeNode(2))),
+    new TreeNode(8, new TreeNode(13), new TreeNode(4, null, new TreeNode(1)))
+);
+
+const target = 22; // 5 -> 4 -> 11 -> 2
+console.log(`Has path sum ${target}?`, hasPathSum(root, target));
 ```
 
 ---
@@ -110,6 +126,20 @@ function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
 ### TypeScript Implementation
 
 ```typescript
+/**
+ * Definition for a binary tree node.
+ */
+class TreeNode {
+    val: number;
+    left: TreeNode | null;
+    right: TreeNode | null;
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val===undefined ? 0 : val);
+        this.left = (left===undefined ? null : left);
+        this.right = (right===undefined ? null : right);
+    }
+}
+
 /**
  * Counts all paths summing to k (using Prefix Sum map for O(N)).
  * 
@@ -145,6 +175,29 @@ function pathSum(root: TreeNode | null, k: number): number {
     dfs(root, 0);
     return count;
 }
+
+// Example Usage:
+//      10
+//     /  \
+//    5   -3
+//   / \    \
+//  3   2   11
+// / \   \
+// 3 -2   1
+const rootSum = new TreeNode(10,
+    new TreeNode(5, 
+        new TreeNode(3, new TreeNode(3), new TreeNode(-2)), 
+        new TreeNode(2, null, new TreeNode(1))
+    ),
+    new TreeNode(-3, null, new TreeNode(11))
+);
+
+const kVal = 8;
+// Paths: 
+// 5 -> 3
+// 5 -> 2 -> 1
+// -3 -> 11
+console.log(`Number of paths summing to ${kVal}:`, pathSum(rootSum, kVal));
 ```
 
 ---

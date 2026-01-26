@@ -52,15 +52,15 @@ Click "Next" to see the movement!
 ```typescript
 /**
  * Definition for singly-linked list node.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
  */
+class ListNode {
+    val: number
+    next: ListNode | null
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
+    }
+}
 
 /**
  * Detects if a linked list has a cycle.
@@ -91,6 +91,37 @@ function hasCycle(head: ListNode | null): boolean {
   // Fast reached the end, so no cycle
   return false;
 }
+
+// Example Usage:
+// Helper to create a linked list with a cycle
+function createCycleList(values: number[], pos: number): ListNode | null {
+    if (values.length === 0) return null;
+    const head = new ListNode(values[0]);
+    let current = head;
+    let cycleNode: ListNode | null = null;
+    if (pos === 0) cycleNode = head;
+
+    for (let i = 1; i < values.length; i++) {
+        current.next = new ListNode(values[i]);
+        current = current.next;
+        if (i === pos) cycleNode = current;
+    }
+    
+    if (pos !== -1 && cycleNode) {
+        current.next = cycleNode;
+    }
+    return head;
+}
+
+// Case 1: Cycle
+const cycleHead = createCycleList([3, 2, 0, -4], 1);
+console.log("Checking list [3, 2, 0, -4] with cycle at index 1...");
+console.log("Has Cycle?", hasCycle(cycleHead));
+
+// Case 2: No Cycle
+const noCycleHead = createCycleList([1, 2, 3], -1);
+console.log("Checking list [1, 2, 3] with no cycle...");
+console.log("Has Cycle?", hasCycle(noCycleHead));
 ```
 ### Sample input and output
 - **Input**: `head = [3,2,0,-4]`, `pos = 1` (tail connects to node index 1)
@@ -142,6 +173,10 @@ function isHappy(n: number): boolean {
     // If they met at 1, it's happy. If they met elsewhere, it's a cycle (unhappy).
     return slow === 1;
 }
+
+// Example Usage:
+console.log("Is 19 a happy number?", isHappy(19));
+console.log("Is 4 a happy number?", isHappy(4));
 ```
 
 ---

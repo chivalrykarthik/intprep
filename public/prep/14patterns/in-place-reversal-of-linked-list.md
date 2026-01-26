@@ -57,15 +57,15 @@ Click "Next" to see the pointers flip!
 ```typescript
 /**
  * Definition for singly-linked list node.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
  */
+class ListNode {
+    val: number
+    next: ListNode | null
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
+    }
+}
 
 /**
  * Reverses a linked list in-place.
@@ -91,6 +91,27 @@ function reverseList(head: ListNode | null): ListNode | null {
 
   return prev; // New head
 }
+
+// Example Usage:
+// Helper to print list
+function printList(head: ListNode | null): void {
+    const values: number[] = [];
+    let curr = head;
+    while (curr) {
+        values.push(curr.val);
+        curr = curr.next;
+    }
+    console.log(values.join(" -> "));
+}
+
+// Create a list: 1 -> 2 -> 3 -> 4 -> 5
+const head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+console.log("Original List:");
+printList(head);
+
+const reversedHead = reverseList(head);
+console.log("Reversed List:");
+printList(reversedHead);
 ```
 
 ---
@@ -103,6 +124,18 @@ function reverseList(head: ListNode | null): ListNode | null {
 ### TypeScript Implementation
 
 ```typescript
+/**
+ * Definition for singly-linked list node.
+ */
+class ListNode {
+    val: number
+    next: ListNode | null
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
+    }
+}
+
 /**
  * Reverses a sub-list from position left to right.
  */
@@ -134,6 +167,28 @@ function reverseBetween(head: ListNode | null, left: number, right: number): Lis
 
     return dummy.next;
 }
+
+// Example Usage:
+// Helper to print list
+function printList(head: ListNode | null): void {
+    const values: number[] = [];
+    let curr = head;
+    while (curr) {
+        values.push(curr.val);
+        curr = curr.next;
+    }
+    console.log(values.join(" -> "));
+}
+
+// Create list: 1 -> 2 -> 3 -> 4 -> 5
+const head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+console.log("Original List:");
+printList(head);
+
+// Reverse from position 2 to 4
+const modifiedHead = reverseBetween(head, 2, 4);
+console.log("List after reversing from 2 to 4:");
+printList(modifiedHead);
 ```
 
 ---

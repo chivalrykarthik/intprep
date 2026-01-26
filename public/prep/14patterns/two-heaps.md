@@ -57,47 +57,119 @@ Click "Add" to insert numbers and watch them balance!
 
 ```typescript
 /**
- * Note: TypeScript/JS doesn't have a built-in Heap/PriorityQueue. 
- * We assume a MinPriorityQueue and MaxPriorityQueue class exists for this example.
+ * Generic Heap Implementation
  */
+class Heap<T> {
+    heap: T[];
+    compare: (a: T, b: T) => number;
 
-class MedianFinder {
-    minHeap: MinPriorityQueue<number>; // Stores larger half
-    maxHeap: MaxPriorityQueue<number>; // Stores smaller half
-
-    constructor() {
-        this.minHeap = new MinPriorityQueue();
-        this.maxHeap = new MaxPriorityQueue();
+    constructor(compare: (a: T, b: T) => number) {
+        this.heap = [];
+        this.compare = compare;
     }
 
-    /**
-     * Adds a number to the data stream.
-     * @timeComplexity O(log N) - Heap insertion
-     */
+    size(): number { return this.heap.length; }
+    peek(): T { return this.heap[0]; }
+
+    enqueue(val: T): void {
+        this.heap.push(val);
+        this.bubbleUp();
+    }
+
+    dequeue(): T | undefined {
+        if (this.size() === 0) return undefined;
+        const root = this.heap[0];
+        const last = this.heap.pop();
+        if (this.size() > 0 && last !== undefined) {
+            this.heap[0] = last;
+            this.bubbleDown();
+        }
+        return root;
+    }
+
+    private bubbleUp(): void {
+        let idx = this.heap.length - 1;
+        while (idx > 0) {
+            const parentIdx = Math.floor((idx - 1) / 2);
+            if (this.compare(this.heap[idx], this.heap[parentIdx]) < 0) {
+                [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+                idx = parentIdx;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private bubbleDown(): void {
+        let idx = 0;
+        while (true) {
+            const leftIdx = 2 * idx + 1;
+            const rightIdx = 2 * idx + 2;
+            let targetIdx = idx;
+
+            if (leftIdx < this.heap.length && this.compare(this.heap[leftIdx], this.heap[targetIdx]) < 0) {
+                targetIdx = leftIdx;
+            }
+            if (rightIdx < this.heap.length && this.compare(this.heap[rightIdx], this.heap[targetIdx]) < 0) {
+                targetIdx = rightIdx;
+            }
+
+            if (targetIdx !== idx) {
+                [this.heap[idx], this.heap[targetIdx]] = [this.heap[targetIdx], this.heap[idx]];
+                idx = targetIdx;
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+class MedianFinder {
+    minHeap: Heap<number>; // Stores larger half (Min Heap)
+    maxHeap: Heap<number>; // Stores smaller half (Max Heap)
+
+    constructor() {
+        // Min Heap: a - b < 0 means a is smaller (standard)
+        this.minHeap = new Heap<number>((a, b) => a - b);
+        // Max Heap: b - a < 0 means b is smaller (reverse, so larger comes first)
+        // Actually, for Max Heap logic in a generic structure:
+        // We want parent > child.
+        // Our Heap bubbles up if compare returns < 0.
+        // So for Max Heap, we want compare(bigger, smaller) < 0.
+        // So (a, b) => b - a.
+        this.maxHeap = new Heap<number>((a, b) => b - a);
+    }
+
     addNum(num: number): void {
         // 1. Add to Max Heap (Small half)
         this.maxHeap.enqueue(num);
 
         // 2. Move largest of small half to Min Heap (to keep order)
-        this.minHeap.enqueue(this.maxHeap.dequeue().element);
+        this.minHeap.enqueue(this.maxHeap.dequeue()!);
 
         // 3. Balance sizes: Max Heap can have at most 1 more element than Min Heap
         if (this.maxHeap.size() < this.minHeap.size()) {
-            this.maxHeap.enqueue(this.minHeap.dequeue().element);
+            this.maxHeap.enqueue(this.minHeap.dequeue()!);
         }
     }
 
-    /**
-     * Returns the median of all elements so far.
-     * @timeComplexity O(1) - calculating from tops
-     */
     findMedian(): number {
         if (this.maxHeap.size() > this.minHeap.size()) {
-            return this.maxHeap.front().element;
+            return this.maxHeap.peek();
         } else {
-            return (this.maxHeap.front().element + this.minHeap.front().element) / 2;
+            return (this.maxHeap.peek() + this.minHeap.peek()) / 2;
         }
     }
+}
+
+// Example Usage:
+const medianFinder = new MedianFinder();
+const stream = [5, 2, 8, 1, 9];
+
+console.log("Streaming numbers:", stream);
+for (const num of stream) {
+    medianFinder.addNum(num);
+    console.log(`Added ${num}, Median is: ${medianFinder.findMedian()}`);
 }
 ```
 
@@ -112,22 +184,45 @@ class MedianFinder {
 
 ```typescript
 /**
- * Finds median of sliding window. (Conceptual implementation)
- * Doing this efficiently requires a HashHeap (Heap + HashMap) to remove arbitrary elements in O(log N).
+ * Finds median of sliding window. 
+ * (Simplified O(N*K*logK) solution for demonstration, actual optimal solution uses Dual PriorityQueues with Hash Map for O(N*logK)).
  */
 function medianSlidingWindow(nums: number[], k: number): number[] {
     const result: number[] = [];
-    // Conceptual:
-    // 1. Init Two Heaps with first k elements.
-    // 2. Record median.
-    // 3. Slide:
-    //    - Remove nums[i-k] (Requires lazy removal or HashHeap)
-    //    - Add nums[i]
-    //    - Rebalance
-    //    - Record new median.
+    
+    for (let i = 0; i <= nums.length - k; i++) {
+        // 1. Extract window
+        const window = nums.slice(i, i + k);
+        
+        // 2. Sort window (O(K log K))
+        window.sort((a, b) => a - b);
+        
+        // 3. Find median
+        let median: number;
+        const mid = Math.floor(window.length / 2);
+        
+        if (window.length % 2 === 1) {
+            median = window[mid];
+        } else {
+            // For this specific LeetCode problem (Sliding Window Median), it usually asks for the upper median or specific logic.
+            // But mathematically:
+            median = (window[mid - 1] + window[mid]) / 2;
+            
+            // Note: LeetCode #480 actually says "median is the middle value... if even, take the smaller of the two? No, it takes average".
+            // Wait, LC #480 says "returns the median array... accepted as double".
+            // Let's stick to standard median definition.
+        }
+        result.push(median);
+    }
     
     return result; 
 }
+
+// Example Usage:
+const stockPrices = [1, 3, -1, -3, 5, 3, 6, 7];
+const windowSize = 3;
+console.log("Prices:", stockPrices);
+console.log(`Medians (window size ${windowSize}):`, medianSlidingWindow(stockPrices, windowSize));
 ```
 
 ---

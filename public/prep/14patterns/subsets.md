@@ -90,6 +90,11 @@ function subsets(nums: number[]): number[][] {
 
   return subsets;
 }
+
+// Example Usage:
+const uniqueNums = [1, 2, 3];
+console.log("Input:", uniqueNums);
+console.log("All Subsets:", subsets(uniqueNums));
 ```
 
 ---
@@ -136,6 +141,11 @@ function subsetsWithDup(nums: number[]): number[][] {
     
     return subsets;
 }
+
+// Example Usage:
+const numsWithDup = [1, 2, 2];
+console.log("Input with duplicates:", numsWithDup);
+console.log("Unique Subsets:", subsetsWithDup(numsWithDup));
 ```
 
 ---

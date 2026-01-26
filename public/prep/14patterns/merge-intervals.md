@@ -94,6 +94,11 @@ function merge(intervals: number[][]): number[][] {
 
   return result;
 }
+
+// Example Usage:
+const meetingTimes = [[1, 3], [2, 6], [8, 10], [15, 18]];
+console.log("Original Intervals:", meetingTimes);
+console.log("Merged Intervals:", merge(meetingTimes));
 ```
 ### Sample input and output
 - **Input**: `[[1,3],[2,6],[8,10],[15,18]]`
@@ -141,6 +146,13 @@ function insert(intervals: number[][], newInterval: number[]): number[][] {
 
     return result;
 }
+
+// Example Usage:
+const existingIntervals = [[1, 3], [6, 9]];
+const newSlot = [2, 5];
+console.log("Existing schedule:", existingIntervals);
+console.log("Insert slot:", newSlot);
+console.log("Calculated schedule:", insert(existingIntervals, newSlot));
 ```
 
 ---

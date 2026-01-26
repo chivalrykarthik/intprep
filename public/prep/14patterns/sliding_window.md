@@ -90,6 +90,12 @@ function findLoudestStretch(decibels: number[], k: number): number {
 
   return maxLoudness;
 }
+
+// Example Usage:
+const songs = [80, 90, 80, 100, 110, 80];
+const kSongs = 3;
+console.log("Playlist:", songs);
+console.log(`Loudest ${kSongs}-song stretch sum:`, findLoudestStretch(songs, kSongs));
 ```
 
 ---
@@ -136,6 +142,13 @@ function lazyCaterpillar(targetFullness: number, leaves: number[]): number {
 
   return minLeavesEaten === Infinity ? 0 : minLeavesEaten;
 }
+
+// Example Usage:
+const leaves = [10, 20, 30, 10, 50];
+const target = 70;
+console.log("Leaves:", leaves);
+console.log("Target Fullness:", target);
+console.log("Minimum leaves needed:", lazyCaterpillar(target, leaves));
 ```
 
 ---

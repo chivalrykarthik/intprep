@@ -86,6 +86,11 @@ function missingNumber(nums: number[]): number {
 
   return n;
 }
+
+// Example Usage:
+const inputNums = [3, 0, 1];
+console.log("Input Array:", inputNums);
+console.log("Missing Number:", missingNumber(inputNums));
 ```
 ### Sample input and output
 - **Input**: `[3,0,1]`
@@ -125,6 +130,11 @@ function findDuplicate(nums: number[]): number {
     }
     return -1;
 }
+
+// Example Usage:
+const dupNums = [1, 3, 4, 2, 2];
+console.log("Array with duplicate:", dupNums);
+console.log("Duplicate Number:", findDuplicate(dupNums));
 ```
 
 ---

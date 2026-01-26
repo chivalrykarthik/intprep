@@ -25,6 +25,7 @@ import { SubsetsVisualizer } from "../components/visualizers/SubsetsVisualizer";
 import { BinarySearchVisualizer } from "../components/visualizers/BinarySearchVisualizer";
 import { TopKVisualizer } from "../components/visualizers/TopKVisualizer";
 import { KWayMergeVisualizer } from "../components/visualizers/KWayMergeVisualizer";
+import { CodePlayground } from "../components/CodePlayground";
 import { TopologicalSortVisualizer } from "../components/visualizers/TopologicalSortVisualizer";
 
 // Styles for the reader
@@ -207,6 +208,16 @@ export const ContentReader = () => {
                                 } catch (e) {
                                     return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;
                                 }
+                            }
+
+
+                            if (!inline && (language === 'typescript' || language === 'javascript' || language === 'js' || language === 'ts')) {
+                                return (
+                                    <CodePlayground
+                                        initialCode={String(children)}
+                                        language={language}
+                                    />
+                                );
                             }
 
                             return !inline && match ? (

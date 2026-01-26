@@ -55,27 +55,85 @@ Click "Next" to filter the top K items!
 
 ```typescript
 /**
+ * Minimal MinHeap Implementation
+ */
+class MinHeap {
+    heap: number[];
+    constructor() { this.heap = []; }
+    
+    size(): number { return this.heap.length; }
+    peek(): number { return this.heap[0]; }
+
+    enqueue(val: number): void {
+        this.heap.push(val);
+        this.bubbleUp();
+    }
+
+    dequeue(): number | undefined {
+        if (this.size() === 0) return undefined;
+        const min = this.heap[0];
+        const last = this.heap.pop();
+        if (this.size() > 0 && last !== undefined) {
+            this.heap[0] = last;
+            this.bubbleDown();
+        }
+        return min;
+    }
+
+    private bubbleUp(): void {
+        let idx = this.heap.length - 1;
+        while (idx > 0) {
+            const parentIdx = Math.floor((idx - 1) / 2);
+            if (this.heap[idx] < this.heap[parentIdx]) {
+                [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+                idx = parentIdx;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private bubbleDown(): void {
+        let idx = 0;
+        while (true) {
+            const leftIdx = 2 * idx + 1;
+            const rightIdx = 2 * idx + 2;
+            let smallest = idx;
+
+            if (leftIdx < this.heap.length && this.heap[leftIdx] < this.heap[smallest]) smallest = leftIdx;
+            if (rightIdx < this.heap.length && this.heap[rightIdx] < this.heap[smallest]) smallest = rightIdx;
+
+            if (smallest !== idx) {
+                [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+                idx = smallest;
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+/**
  * Finds the Kth largest element using a Min Heap.
- * Note: TypeScript doesn't have a built-in MinPriorityQueue data structure in standard lib.
- * We act as if it exists.
  */
 function findKthLargest(nums: number[], k: number): number {
-    // Create a Min Heap
-     const minHeap = new MinPriorityQueue();
+     const minHeap = new MinHeap();
 
      for (const num of nums) {
          minHeap.enqueue(num);
-         
-         // If heap exceeds K, remove the smallest element.
-         // This ensures the heap always contains the "K largest seen so far".
-         // The root of this heap is the smallest of the K largest, i.e., the Kth largest.
          if (minHeap.size() > k) {
              minHeap.dequeue();
          }
      }
 
-     return minHeap.front().element; // The Kth largest
+     return minHeap.peek(); 
 }
+
+// Example Usage:
+const kNums = [3, 2, 1, 5, 6, 4];
+const K = 2;
+console.log("Array:", kNums);
+console.log(`${K}nd Largest Element:`, findKthLargest(kNums, K));
 ```
 
 ---
@@ -89,6 +147,74 @@ function findKthLargest(nums: number[], k: number): number {
 
 ```typescript
 /**
+ * Minimal MinHeap Implementation (Generic)
+ */
+class MinHeap<T> {
+    private heap: T[] = [];
+    private compare: (a: T, b: T) => number;
+
+    constructor(compare: (a: T, b: T) => number) {
+        this.compare = compare;
+    }
+    
+    size(): number { return this.heap.length; }
+
+    enqueue(val: T): void {
+        this.heap.push(val);
+        this.bubbleUp();
+    }
+
+    dequeue(): T | undefined {
+        if (this.size() === 0) return undefined;
+        const min = this.heap[0];
+        const last = this.heap.pop();
+        if (this.size() > 0 && last !== undefined) {
+            this.heap[0] = last;
+            this.bubbleDown();
+        }
+        return min;
+    }
+    
+    toArray(): T[] { return this.heap; }
+
+    private bubbleUp(): void {
+        let idx = this.heap.length - 1;
+        while (idx > 0) {
+            const parentIdx = Math.floor((idx - 1) / 2);
+            if (this.compare(this.heap[idx], this.heap[parentIdx]) < 0) {
+                [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+                idx = parentIdx;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private bubbleDown(): void {
+        let idx = 0;
+        while (true) {
+            const leftIdx = 2 * idx + 1;
+            const rightIdx = 2 * idx + 2;
+            let smallest = idx;
+
+            if (leftIdx < this.heap.length && this.compare(this.heap[leftIdx], this.heap[smallest]) < 0) {
+                smallest = leftIdx;
+            }
+            if (rightIdx < this.heap.length && this.compare(this.heap[rightIdx], this.heap[smallest]) < 0) {
+                smallest = rightIdx;
+            }
+
+            if (smallest !== idx) {
+                [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+                idx = smallest;
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+/**
  * Finds top K frequent elements.
  */
 function topKFrequent(nums: number[], k: number): number[] {
@@ -101,7 +227,7 @@ function topKFrequent(nums: number[], k: number): number[] {
 
     // 2. Use Min Heap to keep top K. 
     // Heap stores [num, frequency], ordered by frequency.
-    const minHeap = new MinPriorityQueue({ priority: (x) => x[1] });
+    const minHeap = new MinHeap<[number, number]>((a, b) => a[1] - b[1]);
 
     for (const [num, count] of frequencyMap) {
         minHeap.enqueue([num, count]);
@@ -112,8 +238,14 @@ function topKFrequent(nums: number[], k: number): number[] {
     }
 
     // 3. Extract results
-    return minHeap.toArray().map(x => x.element[0]);
+    return minHeap.toArray().map(x => x[0]);
 }
+
+// Example Usage:
+const freqNums = [1, 1, 1, 2, 2, 3];
+const kFreq = 2;
+console.log("Array:", freqNums);
+console.log(`Top ${kFreq} Frequent Elements:`, topKFrequent(freqNums, kFreq));
 ```
 
 ---

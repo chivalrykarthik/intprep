@@ -81,6 +81,12 @@ function search(nums: number[], target: number): number {
 
   return -1;
 }
+
+// Example Usage:
+const sortedArr = [-1, 0, 3, 5, 9, 12];
+const targetVal = 9;
+console.log("Array:", sortedArr);
+console.log(`Index of ${targetVal}:`, search(sortedArr, targetVal));
 ```
 
 ---
@@ -124,6 +130,12 @@ function searchRotated(nums: number[], target: number): number {
     }
     return -1;
 }
+
+// Example Usage:
+const rotatedArr = [4, 5, 6, 7, 0, 1, 2];
+const targetItem = 0;
+console.log("Rotated Array:", rotatedArr);
+console.log(`Index of ${targetItem}:`, searchRotated(rotatedArr, targetItem));
 ```
 
 ---

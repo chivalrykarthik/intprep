@@ -66,17 +66,17 @@ Click "Next" to see the level-order traversal!
 ```typescript
 /**
  * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
  */
+class TreeNode {
+    val: number;
+    left: TreeNode | null;
+    right: TreeNode | null;
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val===undefined ? 0 : val);
+        this.left = (left===undefined ? null : left);
+        this.right = (right===undefined ? null : right);
+    }
+}
 
 /**
  * Returns level order traversal of a tree.
@@ -112,6 +112,18 @@ function levelOrder(root: TreeNode | null): number[][] {
 
   return result;
 }
+
+// Example Usage:
+//      3
+//     / \
+//    9  20
+//      /  \
+//     15   7
+const root = new TreeNode(3, 
+    new TreeNode(9), 
+    new TreeNode(20, new TreeNode(15), new TreeNode(7))
+);
+console.log("Tree Level Order:", levelOrder(root));
 ```
 
 ---
@@ -124,6 +136,20 @@ function levelOrder(root: TreeNode | null): number[][] {
 ### TypeScript Implementation
 
 ```typescript
+/**
+ * Definition for a binary tree node.
+ */
+class TreeNode {
+    val: number;
+    left: TreeNode | null;
+    right: TreeNode | null;
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val===undefined ? 0 : val);
+        this.left = (left===undefined ? null : left);
+        this.right = (right===undefined ? null : right);
+    }
+}
+
 /**
  * Returns zigzag level order traversal.
  */
@@ -155,6 +181,19 @@ function zigzagLevelOrder(root: TreeNode | null): number[][] {
 
     return result;
 }
+
+// Example Usage:
+//      3
+//     / \
+//    9  20
+//      /  \
+//     15   7
+// Zigzag: [ [3], [20, 9], [15, 7] ]
+const rootZigzag = new TreeNode(3, 
+    new TreeNode(9), 
+    new TreeNode(20, new TreeNode(15), new TreeNode(7))
+);
+console.log("Zigzag Traversal:", zigzagLevelOrder(rootZigzag));
 ```
 
 ---

@@ -19,6 +19,7 @@ In coding interviews, we use this to **search for pairs in a sorted array** or *
 **The "Brute Force" (Dumb) Way:**
 Checking every single pair.
 ```javascript
+const n = 100; // Example size
 for (let i = 0; i < n; i++) {
   for (let j = 0; j < n; j++) {
     // Check every combination...
@@ -87,6 +88,13 @@ function twoSumSorted(numbers: number[], target: number): number[] {
 
   return [];
 }
+
+// Example Usage:
+const numbers = [2, 7, 11, 15];
+const targetSum = 9;
+console.log("Numbers:", numbers);
+console.log("Target Sum:", targetSum);
+console.log("Indices found:", twoSumSorted(numbers, targetSum));
 ```
 
 ---
@@ -133,6 +141,11 @@ function maxArea(height: number[]): number {
 
   return maxWater;
 };
+
+// Example Usage:
+const heights = [1, 8, 6, 2, 5, 4, 8, 3, 7];
+console.log("Wall Heights:", heights);
+console.log("Max Water Area:", maxArea(heights));
 ```
 
 ---
