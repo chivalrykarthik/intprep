@@ -157,8 +157,8 @@ export const TreeDFSVisualizer = ({
     const styles = useStyles();
     const [step, setStep] = useState(0);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _ignored = data;
+    // Use void to suppress unused data warning
+    void data;
 
     // Static positions for the specific 1-7 tree
     const positionMap: Record<number, { left: string, top: string }> = {
@@ -172,7 +172,12 @@ export const TreeDFSVisualizer = ({
     };
 
     const getSimulationState = () => {
-        const snapshots = [];
+        const snapshots: {
+            msg: string;
+            current: number | null;
+            stack: number[];
+            processed: number[];
+        }[] = [];
         const processed: number[] = [];
         const stack: number[] = []; // Only for visualization text
 

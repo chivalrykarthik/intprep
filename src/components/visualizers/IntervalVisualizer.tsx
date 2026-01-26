@@ -112,8 +112,12 @@ export const IntervalVisualizer = ({
 
     const getSimulationState = () => {
         // Clone deep 
-        let currentList = JSON.parse(JSON.stringify(data.sort((a, b) => a[0] - b[0])));
-        const snapshots = [];
+        const currentList: number[][] = JSON.parse(JSON.stringify(data.sort((a, b) => a[0] - b[0])));
+        const snapshots: {
+            msg: string;
+            intervals: number[][];
+            highlight: number[];
+        }[] = [];
 
         snapshots.push({
             msg: "Initial sorted intervals.",

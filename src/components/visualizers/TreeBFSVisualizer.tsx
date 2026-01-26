@@ -134,9 +134,16 @@ const useStyles = makeStyles({
 //     data?: TreeNodeData;
 // }
 
-export const TreeBFSVisualizer = ({ }: any) => {
+interface TreeBFSVisualizerProps {
+    data?: any; // Using any for now as strict structure isn't defined/used
+}
+
+export const TreeBFSVisualizer = ({ data }: TreeBFSVisualizerProps) => {
     const styles = useStyles();
     const [step, setStep] = useState(0);
+
+    // Suppress unused warning
+    void data;
 
     // 1. Flatten tree and calculate positions for rendering
     // Simple static layout for 3 levels

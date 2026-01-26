@@ -128,7 +128,13 @@ export const LinkedListVisualizer = ({
 
     // Simulation Data
     const getSimulationState = () => {
-        const snapshots = [];
+        const snapshots: {
+            msg: string;
+            nodes: { val: number; next: number | 'NULL' }[];
+            prev: number | 'NULL';
+            curr: number | 'NULL';
+            next: number | 'NULL' | null;
+        }[] = [];
 
         // Initial State
         // Nodes: 1->2->3->4->5->NULL
@@ -136,15 +142,15 @@ export const LinkedListVisualizer = ({
 
         snapshots.push({
             msg: "Initial State. Prev is NULL. Curr is HEAD (1).",
-            nodes: data.map(val => ({ val, next: val === 5 ? 'NULL' : val + 1 })), // Simplified ID matching value
+            nodes: data.map((val, i) => ({ val, next: i === data.length - 1 ? 'NULL' : data[i + 1] })), // Simplified ID matching value
             prev: 'NULL',
             curr: data[0],
             next: null
         });
 
-        let prev: any = 'NULL';
-        let curr: any = data[0];
-        let next: any = null;
+        let prev: number | 'NULL' = 'NULL';
+        let curr: number | 'NULL' = data[0];
+        let next: number | 'NULL' | null = null;
 
         // Clone initial structure to simulate changes on
         // For visualization simplicity, we track the *target* next of each node
@@ -159,19 +165,19 @@ export const LinkedListVisualizer = ({
             stepCount++;
 
             // 1. Save Next
-            next = nodeTargets[curr];
+            next = nodeTargets[curr as number];
             snapshots.push({
                 msg: `1. Save Next. curr(${curr}) points to ${next}, so next = ${next}.`,
-                nodes: { ...nodeTargets },
+                nodes: data.map(val => ({ val, next: nodeTargets[val] })),
                 prev, curr, next
             });
 
             // 2. Reverse Link
             // let oldTarget = nodeTargets[curr]; // Unused
-            nodeTargets[curr] = prev;
+            nodeTargets[curr as number] = prev;
             snapshots.push({
                 msg: `2. Reverse! Point curr(${curr}) backward to prev(${prev}).`,
-                nodes: { ...nodeTargets },
+                nodes: data.map(val => ({ val, next: nodeTargets[val] })),
                 prev, curr, next
             });
 
@@ -179,7 +185,7 @@ export const LinkedListVisualizer = ({
             prev = curr;
             snapshots.push({
                 msg: `3. Advance Prev. Prev is now ${curr}.`,
-                nodes: { ...nodeTargets },
+                nodes: data.map(val => ({ val, next: nodeTargets[val] })),
                 prev, curr, next
             });
 
@@ -187,14 +193,14 @@ export const LinkedListVisualizer = ({
             curr = next;
             snapshots.push({
                 msg: `4. Advance Curr. Curr is now ${next}.`,
-                nodes: { ...nodeTargets },
+                nodes: data.map(val => ({ val, next: nodeTargets[val] })),
                 prev, curr, next
             });
         }
 
         snapshots.push({
             msg: "Done! List is reversed. Prev is the new Head.",
-            nodes: { ...nodeTargets },
+            nodes: data.map(val => ({ val, next: nodeTargets[val] })),
             prev, curr, next
         });
 

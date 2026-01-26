@@ -111,10 +111,16 @@ export const TwoHeapsVisualizer = ({
     const [step, setStep] = useState(0);
 
     const getSimulationState = () => {
-        const snapshots = [];
+        const snapshots: {
+            msg: string;
+            maxHeap: number[];
+            minHeap: number[];
+            median: number | null;
+            incoming: number | null;
+        }[] = [];
 
-        let minHeap: number[] = []; // Top is smallest (Stores larger half)
-        let maxHeap: number[] = []; // Top is largest (Stores smaller half)
+        const minHeap: number[] = []; // Top is smallest (Stores larger half)
+        const maxHeap: number[] = []; // Top is largest (Stores smaller half)
 
         // Helper to mimic Priority Queue (inefficiently for sim)
         const addToMax = (val: number) => {
@@ -135,7 +141,7 @@ export const TwoHeapsVisualizer = ({
             maxHeap: [],
             minHeap: [],
             median: 0,
-            incoming: null as number | null
+            incoming: null
         });
 
         for (const num of data) {
