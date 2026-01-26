@@ -79,5 +79,27 @@
     "title": "DSA",
     "path": "/prep/DSA",
     "items": []
+  },
+  {
+    "id": "efficiency",
+    "title": "Efficiency",
+    "path": "/prep/efficiency",
+    "items": [
+      {
+        "title": "Time Complexity",
+        "path": "/prep/efficiency/time-complexity.md"
+      }
+    ]
+  },
+  {
+    "id": "machine-learning",
+    "title": "Machine Learning",
+    "path": "/prep/machine-learning",
+    "items": [
+      {
+        "title": "Linear Regression",
+        "path": "/prep/machine-learning/linear-regression.md"
+      }
+    ]
   }
 ]
