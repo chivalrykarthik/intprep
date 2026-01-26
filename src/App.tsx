@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { FluentProvider, Button, tokens, makeStyles, shorthands, Title3, Link } from "@fluentui/react-components";
 import { WeatherMoonRegular, WeatherSunnyRegular } from "@fluentui/react-icons";
 import { darkTheme, lightTheme } from "./theme";
@@ -83,9 +83,9 @@ function App() {
 
   return (
     <FluentProvider theme={currentTheme}>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <HashRouter>
         <Layout isDark={isDark} toggleTheme={toggleTheme} />
-      </BrowserRouter>
+      </HashRouter>
     </FluentProvider>
   );
 }
