@@ -17,12 +17,28 @@
         "path": "/prep/14patterns/in-place-reversal-of-linked-list.md"
       },
       {
+        "title": "K Way Merge",
+        "path": "/prep/14patterns/k-way-merge.md"
+      },
+      {
         "title": "Merge Intervals",
         "path": "/prep/14patterns/merge-intervals.md"
       },
       {
+        "title": "Modified Binary Search",
+        "path": "/prep/14patterns/modified-binary-search.md"
+      },
+      {
         "title": "Sliding Window",
         "path": "/prep/14patterns/sliding_window.md"
+      },
+      {
+        "title": "Subsets",
+        "path": "/prep/14patterns/subsets.md"
+      },
+      {
+        "title": "Top K Elements",
+        "path": "/prep/14patterns/top-k-elements.md"
       },
       {
         "title": "Tree Bfs",
@@ -31,6 +47,10 @@
       {
         "title": "Tree Dfs",
         "path": "/prep/14patterns/tree-dfs.md"
+      },
+      {
+        "title": "Two Heaps",
+        "path": "/prep/14patterns/two-heaps.md"
       },
       {
         "title": "Two Pointers",

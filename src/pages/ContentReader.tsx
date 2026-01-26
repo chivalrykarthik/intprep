@@ -20,6 +20,11 @@ import { CyclicSortVisualizer } from "../components/visualizers/CyclicSortVisual
 import { LinkedListVisualizer } from "../components/visualizers/LinkedListVisualizer";
 import { TreeBFSVisualizer } from "../components/visualizers/TreeBFSVisualizer";
 import { TreeDFSVisualizer } from "../components/visualizers/TreeDFSVisualizer";
+import { TwoHeapsVisualizer } from "../components/visualizers/TwoHeapsVisualizer";
+import { SubsetsVisualizer } from "../components/visualizers/SubsetsVisualizer";
+import { BinarySearchVisualizer } from "../components/visualizers/BinarySearchVisualizer";
+import { TopKVisualizer } from "../components/visualizers/TopKVisualizer";
+import { KWayMergeVisualizer } from "../components/visualizers/KWayMergeVisualizer";
 
 // Styles for the reader
 const useStyles = makeStyles({
@@ -190,6 +195,21 @@ export const ContentReader = () => {
                                     }
                                     if (config.type === 'tree-dfs') {
                                         return <TreeDFSVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'two-heaps') {
+                                        return <TwoHeapsVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'subsets') {
+                                        return <SubsetsVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'binary-search') {
+                                        return <BinarySearchVisualizer data={config.data} target={config.target} />;
+                                    }
+                                    if (config.type === 'top-k') {
+                                        return <TopKVisualizer data={config.data} k={config.k} />;
+                                    }
+                                    if (config.type === 'k-way-merge') {
+                                        return <KWayMergeVisualizer data={config.data} />;
                                     }
                                 } catch (e) {
                                     return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;
