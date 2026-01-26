@@ -235,6 +235,7 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                             fontSize: "14px",
                             lineHeight: "1.5",
                             minHeight: "200px",
+                            maxHeight: "350px",
                         }}
                     >
                         {code}
