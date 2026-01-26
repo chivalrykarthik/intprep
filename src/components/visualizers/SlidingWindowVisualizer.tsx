@@ -22,6 +22,9 @@ const useStyles = makeStyles({
         borderRadius: "12px",
         margin: "24px 0",
         ...shorthands.border("1px", "solid", tokens.colorNeutralStroke2),
+        width: "100%", // Explicitly fill parent width
+        boxSizing: "border-box", // Ensure padding is included in width
+        maxWidth: "100%", // Prevent expanding beyond parent
     },
     title: {
         fontWeight: "600",
@@ -31,12 +34,13 @@ const useStyles = makeStyles({
     arrayContainer: {
         display: "flex",
         gap: "8px",
-        flexWrap: "nowrap", // Scroll instead of wrap for window logic clarity
-        justifyContent: "flex-start", // Start from left so scrolling works
+        flexWrap: "nowrap",
+        justifyContent: "flex-start",
         padding: "20px 0",
-        overflowX: "auto", // Enable scrolling
-        width: "100%", // Take full width
+        overflowX: "auto",
+        width: "100%",
         maxWidth: "100%",
+        minWidth: 0, // Allow flex item to shrink
     },
     cell: {
         width: "40px",
@@ -61,6 +65,7 @@ const useStyles = makeStyles({
         display: "flex",
         gap: "12px",
         justifyContent: "center",
+        flexWrap: "wrap",
     },
     stats: {
         display: "flex",
@@ -89,6 +94,10 @@ const useStyles = makeStyles({
         minHeight: "40px",
         fontStyle: "italic",
         color: tokens.colorNeutralForeground2,
+        wordBreak: "break-word",
+        maxWidth: "100%",
+        padding: "0 8px",
+        lineHeight: "1.4",
     },
 });
 

@@ -21,6 +21,9 @@ const useStyles = makeStyles({
         borderRadius: "12px",
         margin: "24px 0",
         ...shorthands.border("1px", "solid", tokens.colorNeutralStroke2),
+        width: "100%",
+        boxSizing: "border-box",
+        maxWidth: "100%",
     },
     title: {
         fontWeight: "600",
@@ -30,12 +33,13 @@ const useStyles = makeStyles({
     arrayContainer: {
         display: "flex",
         gap: "8px",
-        flexWrap: "nowrap", // Scroll horizontal
+        flexWrap: "nowrap",
         justifyContent: "flex-start",
-        padding: "50px 0 20px 0", // Extra top padding for pointers, and more for safety
+        padding: "50px 0 20px 0",
         overflowX: "auto",
         width: "100%",
-        maxWidth: "100%"
+        maxWidth: "100%",
+        minWidth: 0, // Allow flex item to shrink
     },
     cellWrapper: {
         display: "flex",
@@ -78,12 +82,17 @@ const useStyles = makeStyles({
         display: "flex",
         gap: "12px",
         justifyContent: "center",
+        flexWrap: "wrap",
     },
     status: {
         textAlign: "center",
         minHeight: "24px",
         fontStyle: "italic",
         color: tokens.colorNeutralForeground2,
+        wordBreak: "break-word",
+        maxWidth: "100%",
+        padding: "0 8px",
+        lineHeight: "1.4",
     },
     legend: {
         display: "flex",

@@ -123,11 +123,16 @@ const useStyles = makeStyles({
         minHeight: "40px",
         fontStyle: "italic",
         color: tokens.colorNeutralForeground2,
+        wordBreak: "break-word",
+        maxWidth: "100%",
+        padding: "0 8px",
+        lineHeight: "1.4",
     },
     controls: {
         display: "flex",
         gap: "12px",
         justifyContent: "center",
+        flexWrap: "wrap",
     },
 });
 

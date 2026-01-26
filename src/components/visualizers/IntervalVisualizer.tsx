@@ -21,6 +21,9 @@ const useStyles = makeStyles({
         borderRadius: "12px",
         margin: "24px 0",
         ...shorthands.border("1px", "solid", tokens.colorNeutralStroke2),
+        width: "100%",
+        boxSizing: "border-box",
+        maxWidth: "100%",
     },
     title: {
         fontWeight: "600",
@@ -79,12 +82,17 @@ const useStyles = makeStyles({
         display: "flex",
         gap: "12px",
         justifyContent: "center",
+        flexWrap: "wrap",
     },
     status: {
         textAlign: "center",
         minHeight: "24px",
         fontStyle: "italic",
         color: tokens.colorNeutralForeground2,
+        wordBreak: "break-word",
+        maxWidth: "100%",
+        padding: "0 8px",
+        lineHeight: "1.4",
     },
 });
 

@@ -21,6 +21,9 @@ const useStyles = makeStyles({
         borderRadius: "12px",
         margin: "24px 0",
         ...shorthands.border("1px", "solid", tokens.colorNeutralStroke2),
+        width: "100%",
+        boxSizing: "border-box",
+        maxWidth: "100%",
     },
     title: {
         fontWeight: "600",
@@ -37,13 +40,18 @@ const useStyles = makeStyles({
         borderRadius: "8px",
         overflowX: "auto",
         minHeight: "200px",
+        width: "100%",
+        boxSizing: "border-box",
+        minWidth: 0, // Shrink to fit parent so overflow triggers
     },
     nodesContainer: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        gap: "40px", // space for arrows
-        flexWrap: "wrap",
+        justifyContent: "flex-start", // Change from center which hides start on overflow
+        paddingLeft: "20px", // Give some initial space
+        gap: "40px",
+        flexWrap: "nowrap", // Ensure it scrolls
+        width: "max-content", // Allow it to take up necessary space
     },
     nodeWrapper: {
         display: "flex",
@@ -79,6 +87,10 @@ const useStyles = makeStyles({
         minHeight: "40px",
         fontStyle: "italic",
         color: tokens.colorNeutralForeground2,
+        wordBreak: "break-word",
+        maxWidth: "100%",
+        padding: "0 8px",
+        lineHeight: "1.4",
     },
     pointer: {
         marginTop: "8px",
@@ -113,6 +125,7 @@ const useStyles = makeStyles({
         display: "flex",
         gap: "12px",
         justifyContent: "center",
+        flexWrap: "wrap",
     },
 });
 

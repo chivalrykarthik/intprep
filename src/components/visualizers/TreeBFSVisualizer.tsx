@@ -106,11 +106,16 @@ const useStyles = makeStyles({
         minHeight: "40px",
         fontStyle: "italic",
         color: tokens.colorNeutralForeground2,
+        wordBreak: "break-word", // Prevent long text overflow
+        maxWidth: "100%",
+        padding: "0 8px", // Add internal padding
+        lineHeight: "1.4", // Better readability for wrapped text
     },
     controls: {
         display: "flex",
         gap: "12px",
         justifyContent: "center",
+        flexWrap: "wrap", // Allow buttons to stack
     },
     // SVG lines
     svgContainer: {
