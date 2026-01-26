@@ -41,6 +41,10 @@
         "path": "/prep/14patterns/top-k-elements.md"
       },
       {
+        "title": "Topological Sort",
+        "path": "/prep/14patterns/topological-sort.md"
+      },
+      {
         "title": "Tree Bfs",
         "path": "/prep/14patterns/tree-bfs.md"
       },

@@ -60,18 +60,18 @@ const useStyles = makeStyles({
     },
     correctCell: {
         backgroundColor: tokens.colorPaletteGreenBackground2,
-        borderColor: tokens.colorPaletteGreenBorder2,
+        ...shorthands.borderColor(tokens.colorPaletteGreenBorder2),
         color: tokens.colorPaletteGreenForeground1,
     },
     activeCell: {
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         boxShadow: tokens.shadow8,
         transform: "scale(1.1)",
         zIndex: 1,
     },
     targetCell: {
-        borderColor: tokens.colorPaletteGoldBorderActive,
-        borderStyle: "dashed",
+        ...shorthands.borderColor(tokens.colorPaletteGoldBorderActive),
+        ...shorthands.borderStyle("dashed"),
     },
     controls: {
         display: "flex",

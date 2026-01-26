@@ -25,6 +25,7 @@ import { SubsetsVisualizer } from "../components/visualizers/SubsetsVisualizer";
 import { BinarySearchVisualizer } from "../components/visualizers/BinarySearchVisualizer";
 import { TopKVisualizer } from "../components/visualizers/TopKVisualizer";
 import { KWayMergeVisualizer } from "../components/visualizers/KWayMergeVisualizer";
+import { TopologicalSortVisualizer } from "../components/visualizers/TopologicalSortVisualizer";
 
 // Styles for the reader
 const useStyles = makeStyles({
@@ -210,6 +211,9 @@ export const ContentReader = () => {
                                     }
                                     if (config.type === 'k-way-merge') {
                                         return <KWayMergeVisualizer data={config.data} />;
+                                    }
+                                    if (config.type === 'topological-sort') {
+                                        return <TopologicalSortVisualizer data={config.data} />;
                                     }
                                 } catch (e) {
                                     return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;

@@ -78,7 +78,7 @@ const useStyles = makeStyles({
         transition: "all 0.3s ease",
     },
     activeCell: {
-        borderColor: tokens.colorBrandStroke1,
+        ...shorthands.borderColor(tokens.colorBrandStroke1),
         backgroundColor: tokens.colorBrandBackground2,
         transform: "scale(1.1)",
         zIndex: 2,
@@ -88,7 +88,7 @@ const useStyles = makeStyles({
         backgroundColor: tokens.colorNeutralBackground4,
     },
     inHeapCell: {
-        borderColor: tokens.colorPaletteGoldBorderActive,
+        ...shorthands.borderColor(tokens.colorPaletteGoldBorderActive),
         backgroundColor: tokens.colorPaletteGoldBackground2,
     },
     heapContainer: {
@@ -101,7 +101,7 @@ const useStyles = makeStyles({
         minWidth: "200px",
         justifyContent: "center",
         alignItems: "center",
-        border: `1px dashed ${tokens.colorBrandStroke1}`
+        ...shorthands.border("1px", "dashed", tokens.colorBrandStroke1)
     },
     resultContainer: {
         display: "flex",
@@ -109,7 +109,7 @@ const useStyles = makeStyles({
         flexWrap: "wrap",
         justifyContent: "center",
         paddingTop: "10px",
-        borderTop: `1px solid ${tokens.colorNeutralStroke1}`,
+        ...shorthands.borderTop("1px", "solid", tokens.colorNeutralStroke1),
         width: "100%",
     },
     resultCell: {
@@ -119,9 +119,9 @@ const useStyles = makeStyles({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: tokens.colorPaletteGreenBackground2,
-        borderColor: tokens.colorPaletteGreenBorder2,
-        borderStyle: "solid",
-        borderWidth: "1px",
+        ...shorthands.borderColor(tokens.colorPaletteGreenBorder2),
+        ...shorthands.borderStyle("solid"),
+        ...shorthands.borderWidth("1px"),
         borderRadius: "4px",
         fontSize: "12px",
         fontWeight: "bold",
