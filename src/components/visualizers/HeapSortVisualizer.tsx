@@ -67,7 +67,7 @@ const useStyles = makeStyles({
     },
     compareCell: {
         backgroundColor: tokens.colorPaletteGoldBackground2,
-        ...shorthands.borderColor(tokens.colorPaletteGoldBorder2),
+        ...shorthands.borderColor(tokens.colorPaletteMarigoldBorder2),
     },
     sortedCell: {
         backgroundColor: tokens.colorPaletteGreenBackground2,

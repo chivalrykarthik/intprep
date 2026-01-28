@@ -60,8 +60,8 @@ const useStyles = makeStyles({
     },
     pivotCell: {
         backgroundColor: tokens.colorPaletteGoldBackground2,
-        ...shorthands.borderColor(tokens.colorPaletteGoldBorder2),
-        color: tokens.colorPaletteGoldForeground1,
+        ...shorthands.borderColor(tokens.colorPaletteMarigoldBorder2),
+        color: tokens.colorPaletteMarigoldForeground1,
         transform: "scale(1.1)",
         zIndex: 5,
     },
