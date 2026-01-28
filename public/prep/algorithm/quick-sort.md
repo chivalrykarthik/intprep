@@ -97,6 +97,11 @@ function quickSort(nums: number[]): number[] {
     sort(nums, 0, nums.length - 1);
     return nums;
 }
+
+// Usage Example
+const input = [5, 2, 9, 1, 5, 6];
+console.log("Original:", input);
+console.log("Sorted:", quickSort([...input])); // Pass copy since it sorts in-place
 ```
 
 ### Sample input and output
@@ -157,6 +162,12 @@ function findKthLargest(nums: number[], k: number): number {
         return i;
     }
 }
+
+// Usage Example
+const scores = [3, 2, 1, 5, 6, 4];
+const k = 2;
+console.log("Scores:", scores);
+console.log(`${k}nd Largest Element:`, findKthLargest(scores, k)); // Output 5
 ```
 
 ---

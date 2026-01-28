@@ -113,6 +113,11 @@ function heapify(arr: number[], n: number, i: number) {
     heapify(arr, n, largest);
   }
 }
+
+// Usage Example
+const input = [12, 11, 13, 5, 6, 7];
+console.log("Original:", input);
+console.log("Sorted:", heapSort([...input]));
 ```
 
 ### Sample input and output
@@ -129,8 +134,6 @@ Output: `[5, 6, 7, 11, 12, 13]`
 ### TypeScript Implementation
 
 ```typescript
-import { MinHeap } from './utils'; // Assuming a MinHeap class exists
-
 /**
  * sortKSortedArray
  * Uses a Min Heap of size k+1 to efficiently sort.
@@ -159,6 +162,25 @@ function sortKSortedArray(nums: number[], k: number): number[] {
 
     return result;
 }
+
+// Usage Example
+
+// Mock MinHeap for demonstration
+class MinHeap {
+    data: number[] = [];
+    push(val: number) { 
+        this.data.push(val); 
+        this.data.sort((a,b) => a-b); // Simple Sort for demo
+    }
+    pop(): number { return this.data.shift()!; }
+    size(): number { return this.data.length; }
+}
+
+const nearlySorted = [6, 5, 3, 2, 8, 10, 9];
+const k = 3; 
+// Each element is at most 3 positions away from sorted position
+console.log("Nearly Sorted:", nearlySorted);
+console.log("Fully Sorted:", sortKSortedArray(nearlySorted, k));
 ```
 
 ---

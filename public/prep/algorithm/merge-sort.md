@@ -100,6 +100,11 @@ function merge(left: number[], right: number[]): number[] {
   // Concatenate any remaining elements (one of these will be empty)
   return [...sorted, ...left.slice(i), ...right.slice(j)];
 }
+
+// Usage Example
+const input = [5, 1, 1, 2, 0, 0];
+console.log("Original:", input);
+console.log("Sorted:", mergeSort([...input])); // Output: [0, 0, 1, 1, 2, 5]
 ```
 
 ### Sample input and output
@@ -173,6 +178,46 @@ function mergeLists(l1: ListNode | null, l2: ListNode | null): ListNode | null {
 
     return dummy.next;
 }
+
+// Usage Example
+class ListNode {
+    val: number
+    next: ListNode | null
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
+    }
+}
+
+// Helper to create list from array
+function createList(arr: number[]): ListNode | null {
+    if (arr.length === 0) return null;
+    const head = new ListNode(arr[0]);
+    let current = head;
+    for (let i = 1; i < arr.length; i++) {
+        current.next = new ListNode(arr[i]);
+        current = current.next;
+    }
+    return head;
+}
+
+// Helper to print list
+function printList(head: ListNode | null) {
+    const res = [];
+    while (head) {
+        res.push(head.val);
+        head = head.next;
+    }
+    console.log(res);
+}
+
+const head = createList([4, 2, 1, 3]);
+console.log("Original List:");
+printList(head);
+
+const sortedHead = sortList(head);
+console.log("Sorted List:");
+printList(sortedHead);
 ```
 
 ---

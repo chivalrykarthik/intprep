@@ -85,6 +85,12 @@ function binarySearch(nums: number[], target: number): number {
 
   return -1; // Target not found
 }
+
+// Usage Example
+const nums = [-1, 0, 3, 5, 9, 12];
+const target = 9;
+console.log("Input:", nums, "Target:", target);
+console.log("Index:", binarySearch(nums, target)); // Output: 4
 ```
 
 ### Sample input and output
@@ -133,6 +139,15 @@ const solution = function(isBadVersion: any) {
         return left;
     };
 };
+
+// Usage Example
+// Let's say version 4 is the first bad version
+const isBadVersion = (version: number) => version >= 4;
+const findFirstBad = solution(isBadVersion);
+
+const n = 5; // Total 5 versions
+console.log("Total versions:", n);
+console.log("First bad version:", findFirstBad(n)); // Output: 4
 ```
 
 ---
