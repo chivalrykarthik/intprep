@@ -27,6 +27,9 @@ import { TopKVisualizer } from "../components/visualizers/TopKVisualizer";
 import { KWayMergeVisualizer } from "../components/visualizers/KWayMergeVisualizer";
 import { CodePlayground } from "../components/CodePlayground";
 import { TopologicalSortVisualizer } from "../components/visualizers/TopologicalSortVisualizer";
+import { QuickSortVisualizer } from "../components/visualizers/QuickSortVisualizer";
+import { MergeSortVisualizer } from "../components/visualizers/MergeSortVisualizer";
+import { HeapSortVisualizer } from "../components/visualizers/HeapSortVisualizer";
 
 // Styles for the reader
 const useStyles = makeStyles({
@@ -244,6 +247,15 @@ export const ContentReader = () => {
                                             }
                                             if (config.type === 'topological-sort') {
                                                 return <TopologicalSortVisualizer data={config.data} />;
+                                            }
+                                            if (config.type === 'quick-sort') {
+                                                return <QuickSortVisualizer data={config.data} />;
+                                            }
+                                            if (config.type === 'merge-sort') {
+                                                return <MergeSortVisualizer data={config.data} />;
+                                            }
+                                            if (config.type === 'heap-sort') {
+                                                return <HeapSortVisualizer data={config.data} />;
                                             }
                                         } catch (e) {
                                             return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;
