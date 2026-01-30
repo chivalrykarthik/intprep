@@ -5,6 +5,9 @@ import path from 'path'
 
 // Custom plugin to generate topics.json
 const generateTopicsPlugin = (basePath: string) => {
+  // Remove trailing slash from basePath to prevent double slashes
+  const normalizedBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+
   return {
     name: 'generate-topics',
     buildStart() {
@@ -24,13 +27,13 @@ const generateTopicsPlugin = (basePath: string) => {
               .map(file => ({
                 title: file.replace(/[-_]/g, ' ').replace('.md', '').replace(/\b\w/g, c => c.toUpperCase()),
                 // Ensure double slashes doesn't happen if base is just /
-                path: `${basePath === '/' ? '' : basePath}/prep/${topicDir.name}/${file}`
+                path: `${normalizedBase}/prep/${topicDir.name}/${file}`
               }))
 
             return {
               id: topicDir.name,
               title: topicDir.name.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-              path: `${basePath === '/' ? '' : basePath}/prep/${topicDir.name}`,
+              path: `${normalizedBase}/prep/${topicDir.name}`,
               items: topicItems
             }
           })

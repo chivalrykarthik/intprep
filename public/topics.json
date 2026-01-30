@@ -2,103 +2,177 @@
   {
     "id": "14patterns",
     "title": "14patterns",
-    "path": "/prep/14patterns",
+    "path": "/intprep/prep/14patterns",
     "items": [
       {
+        "title": "Backtracking",
+        "path": "/intprep/prep/14patterns/backtracking.md"
+      },
+      {
         "title": "Cyclic Sort",
-        "path": "/prep/14patterns/cyclic-sort.md"
+        "path": "/intprep/prep/14patterns/cyclic-sort.md"
+      },
+      {
+        "title": "Dynamic Programming",
+        "path": "/intprep/prep/14patterns/dynamic-programming.md"
       },
       {
         "title": "Fast And Slow Pointers",
-        "path": "/prep/14patterns/fast-and-slow-pointers.md"
+        "path": "/intprep/prep/14patterns/fast-and-slow-pointers.md"
+      },
+      {
+        "title": "Greedy Algorithms",
+        "path": "/intprep/prep/14patterns/greedy-algorithms.md"
       },
       {
         "title": "In Place Reversal Of Linked List",
-        "path": "/prep/14patterns/in-place-reversal-of-linked-list.md"
+        "path": "/intprep/prep/14patterns/in-place-reversal-of-linked-list.md"
       },
       {
         "title": "K Way Merge",
-        "path": "/prep/14patterns/k-way-merge.md"
+        "path": "/intprep/prep/14patterns/k-way-merge.md"
       },
       {
         "title": "Merge Intervals",
-        "path": "/prep/14patterns/merge-intervals.md"
+        "path": "/intprep/prep/14patterns/merge-intervals.md"
       },
       {
         "title": "Modified Binary Search",
-        "path": "/prep/14patterns/modified-binary-search.md"
+        "path": "/intprep/prep/14patterns/modified-binary-search.md"
       },
       {
         "title": "Sliding Window",
-        "path": "/prep/14patterns/sliding_window.md"
+        "path": "/intprep/prep/14patterns/sliding-window.md"
       },
       {
         "title": "Subsets",
-        "path": "/prep/14patterns/subsets.md"
+        "path": "/intprep/prep/14patterns/subsets.md"
       },
       {
         "title": "Top K Elements",
-        "path": "/prep/14patterns/top-k-elements.md"
+        "path": "/intprep/prep/14patterns/top-k-elements.md"
       },
       {
         "title": "Topological Sort",
-        "path": "/prep/14patterns/topological-sort.md"
+        "path": "/intprep/prep/14patterns/topological-sort.md"
       },
       {
         "title": "Tree Bfs",
-        "path": "/prep/14patterns/tree-bfs.md"
+        "path": "/intprep/prep/14patterns/tree-bfs.md"
       },
       {
         "title": "Tree Dfs",
-        "path": "/prep/14patterns/tree-dfs.md"
+        "path": "/intprep/prep/14patterns/tree-dfs.md"
       },
       {
         "title": "Two Heaps",
-        "path": "/prep/14patterns/two-heaps.md"
+        "path": "/intprep/prep/14patterns/two-heaps.md"
       },
       {
         "title": "Two Pointers",
-        "path": "/prep/14patterns/two-pointers.md"
+        "path": "/intprep/prep/14patterns/two-pointers.md"
       }
     ]
   },
   {
     "id": "algorithm",
     "title": "Algorithm",
-    "path": "/prep/algorithm",
-    "items": []
+    "path": "/intprep/prep/algorithm",
+    "items": [
+      {
+        "title": "Binary Search",
+        "path": "/intprep/prep/algorithm/binary-search.md"
+      },
+      {
+        "title": "Breadth First Search",
+        "path": "/intprep/prep/algorithm/breadth-first-search.md"
+      },
+      {
+        "title": "Depth First Search",
+        "path": "/intprep/prep/algorithm/depth-first-search.md"
+      },
+      {
+        "title": "Heap Sort",
+        "path": "/intprep/prep/algorithm/heap-sort.md"
+      },
+      {
+        "title": "Merge Sort",
+        "path": "/intprep/prep/algorithm/merge-sort.md"
+      },
+      {
+        "title": "Quick Sort",
+        "path": "/intprep/prep/algorithm/quick-sort.md"
+      }
+    ]
   },
   {
     "id": "cloud",
     "title": "Cloud",
-    "path": "/prep/cloud",
+    "path": "/intprep/prep/cloud",
     "items": []
   },
   {
     "id": "DSA",
     "title": "DSA",
-    "path": "/prep/DSA",
-    "items": []
+    "path": "/intprep/prep/DSA",
+    "items": [
+      {
+        "title": "Arrays",
+        "path": "/intprep/prep/DSA/arrays.md"
+      },
+      {
+        "title": "Binary Trees",
+        "path": "/intprep/prep/DSA/binary-trees.md"
+      },
+      {
+        "title": "Graphs",
+        "path": "/intprep/prep/DSA/graphs.md"
+      },
+      {
+        "title": "Hash Tables",
+        "path": "/intprep/prep/DSA/hash-tables.md"
+      },
+      {
+        "title": "Linked Lists",
+        "path": "/intprep/prep/DSA/linked-lists.md"
+      },
+      {
+        "title": "Stacks And Queues",
+        "path": "/intprep/prep/DSA/stacks-and-queues.md"
+      },
+      {
+        "title": "Tries",
+        "path": "/intprep/prep/DSA/tries.md"
+      }
+    ]
   },
   {
     "id": "efficiency",
     "title": "Efficiency",
-    "path": "/prep/efficiency",
+    "path": "/intprep/prep/efficiency",
     "items": [
       {
+        "title": "Big O Notation",
+        "path": "/intprep/prep/efficiency/big-o-notation.md"
+      },
+      {
+        "title": "Space Complexity",
+        "path": "/intprep/prep/efficiency/space-complexity.md"
+      },
+      {
         "title": "Time Complexity",
-        "path": "/prep/efficiency/time-complexity.md"
+        "path": "/intprep/prep/efficiency/time-complexity.md"
       }
     ]
   },
   {
     "id": "machine-learning",
     "title": "Machine Learning",
-    "path": "/prep/machine-learning",
+    "path": "/intprep/prep/machine-learning",
     "items": [
       {
         "title": "Linear Regression",
-        "path": "/prep/machine-learning/linear-regression.md"
+        "path": "/intprep/prep/machine-learning/linear-regression.md"
       }
     ]
   }

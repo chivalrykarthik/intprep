@@ -8,7 +8,7 @@ This workflow guides you through creating a new study guide (markdown file) for 
 
 ## 1. Define Topic and Filename
 - **Topic**: Does this belong to an existing topic (folder) like `14patterns` or a new one?
-- **Filename**: Use `pebab-case` (e.g., `two-pointers.md`).
+- **Filename**: Use `kebab-case` (e.g., `two-pointers.md`).
 
 ## 2. Create the File
 Create the markdown file in `public/prep/<topic>/<filename>.md`.
@@ -52,7 +52,7 @@ Click "Next" to see the [action]!
   "k": 3
 }
 ```
-*(Note: Currently `sliding-window` is the only supported visualizer type. If this pattern requires a new visualizer, or request a new visualizer component implementation. Do not use mermaid. Try to use animated explanation through digram)*
+*(Supported visualizer types: `sliding-window`, `binary-search`, `merge-sort`, `quick-sort`, `heap-sort`, `cyclic-sort`, `k-way-merge`, `two-pointer`, `interval`, `subsets`, `top-k`, `topological-sort`, `tree-bfs`, `tree-dfs`, `two-heaps`, `linked-list`. If this pattern requires a new visualizer, request a new visualizer component implementation. Do not use mermaid.)*
 
 ---
 

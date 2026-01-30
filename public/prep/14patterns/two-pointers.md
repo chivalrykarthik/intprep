@@ -41,12 +41,11 @@ Click "Next" to see the pointers move!
 
 ```visualizer
 {
-  "type": "sliding-window",
+  "type": "two-pointer",
   "data": [1, 3, 4, 6, 8, 9, 11],
-  "k": 2
+  "target": 10
 }
 ```
-*(Visualizing the pointers as a window of size 2 converging usually helps understanding, even if they aren't strictly a fixed window)*
 
 ---
 
