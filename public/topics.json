@@ -248,8 +248,16 @@
         "path": "/intprep/prep/system-design/api-design.md"
       },
       {
+        "title": "Back Of Envelope Estimation",
+        "path": "/intprep/prep/system-design/back-of-envelope-estimation.md"
+      },
+      {
         "title": "Caching Strategies",
         "path": "/intprep/prep/system-design/caching-strategies.md"
+      },
+      {
+        "title": "Consistent Hashing",
+        "path": "/intprep/prep/system-design/consistent-hashing.md"
       },
       {
         "title": "Database Design",
@@ -266,6 +274,10 @@
       {
         "title": "Microservices Architecture",
         "path": "/intprep/prep/system-design/microservices-architecture.md"
+      },
+      {
+        "title": "Rate Limiting",
+        "path": "/intprep/prep/system-design/rate-limiting.md"
       },
       {
         "title": "Scalability Basics",
