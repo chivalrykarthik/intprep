@@ -255,6 +255,17 @@
     ]
   },
   {
+    "id": "roadmap",
+    "title": "Roadmap",
+    "path": "/prep/roadmap",
+    "items": [
+      {
+        "title": "15 Yoe Study Plan",
+        "path": "/prep/roadmap/15-yoe-study-plan.md"
+      }
+    ]
+  },
+  {
     "id": "system-design",
     "title": "System Design",
     "path": "/prep/system-design",
