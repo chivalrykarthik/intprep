@@ -34,12 +34,31 @@ Bandwidth → Data size × QPS → Network needed
 
 ## 3. Interactive Visualization 🎮
 
-```visualizer
-{
-  "type": "none",
-  "data": [],
-  "message": "Estimation Calculator visualizer coming soon!"
-}
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  ESTIMATION FRAMEWORK                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   📊 TRAFFIC ESTIMATION                                         │
+│   ════════════════════                                          │
+│   Users × Actions/Day ÷ 86,400 = QPS                            │
+│   Example: 10M users × 5 req/day ÷ 86,400 = 578 QPS            │
+│                                                                 │
+│   💾 STORAGE ESTIMATION                                         │
+│   ════════════════════                                          │
+│   Records × Size × Days = Total                                 │
+│   Example: 1M posts × 1KB × 365 = 365 GB/year                  │
+│                                                                 │
+│   🌐 BANDWIDTH ESTIMATION                                       │
+│   ═══════════════════════                                       │
+│   QPS × Response Size = Throughput                              │
+│   Example: 1000 QPS × 10KB = 10 MB/s = 80 Mbps                 │
+│                                                                 │
+│   📏 QUICK REFERENCE (Powers of 10)                             │
+│   ─────────────────────────────────                             │
+│   1 KB = 10³    1 MB = 10⁶    1 GB = 10⁹    1 TB = 10¹²        │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
