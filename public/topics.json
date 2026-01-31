@@ -113,6 +113,14 @@
       {
         "title": "Authentication Authorization",
         "path": "/prep/backend/authentication-authorization.md"
+      },
+      {
+        "title": "Communication Protocols",
+        "path": "/prep/backend/communication-protocols.md"
+      },
+      {
+        "title": "Database Internals",
+        "path": "/prep/backend/database-internals.md"
       }
     ]
   },
@@ -155,6 +163,14 @@
       {
         "title": "Docker Containerization",
         "path": "/prep/cloud/docker-containerization.md"
+      },
+      {
+        "title": "Kubernetes Patterns",
+        "path": "/prep/cloud/kubernetes-patterns.md"
+      },
+      {
+        "title": "Observability",
+        "path": "/prep/cloud/observability.md"
       }
     ]
   },
@@ -260,8 +276,32 @@
         "path": "/prep/system-design/consistent-hashing.md"
       },
       {
+        "title": "Cqrs Event Sourcing",
+        "path": "/prep/system-design/cqrs-event-sourcing.md"
+      },
+      {
         "title": "Database Design",
         "path": "/prep/system-design/database-design.md"
+      },
+      {
+        "title": "Design Google Docs",
+        "path": "/prep/system-design/design-google-docs.md"
+      },
+      {
+        "title": "Design Uber",
+        "path": "/prep/system-design/design-uber.md"
+      },
+      {
+        "title": "Design Whatsapp",
+        "path": "/prep/system-design/design-whatsapp.md"
+      },
+      {
+        "title": "Distributed Transactions",
+        "path": "/prep/system-design/distributed-transactions.md"
+      },
+      {
+        "title": "Leader Election",
+        "path": "/prep/system-design/leader-election.md"
       },
       {
         "title": "Load Balancing",
@@ -282,6 +322,10 @@
       {
         "title": "Scalability Basics",
         "path": "/prep/system-design/scalability-basics.md"
+      },
+      {
+        "title": "Sharding Partitioning",
+        "path": "/prep/system-design/sharding-partitioning.md"
       }
     ]
   }
