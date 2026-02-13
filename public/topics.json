@@ -2,389 +2,405 @@
   {
     "id": "14patterns",
     "title": "14patterns",
-    "path": "/intprep/prep/14patterns",
+    "path": "/prep/14patterns",
     "items": [
       {
         "title": "Backtracking",
-        "path": "/intprep/prep/14patterns/backtracking.md"
+        "path": "/prep/14patterns/backtracking.md"
       },
       {
         "title": "Bit Manipulation",
-        "path": "/intprep/prep/14patterns/bit-manipulation.md"
+        "path": "/prep/14patterns/bit-manipulation.md"
       },
       {
         "title": "Cyclic Sort",
-        "path": "/intprep/prep/14patterns/cyclic-sort.md"
+        "path": "/prep/14patterns/cyclic-sort.md"
       },
       {
         "title": "Dynamic Programming",
-        "path": "/intprep/prep/14patterns/dynamic-programming.md"
+        "path": "/prep/14patterns/dynamic-programming.md"
       },
       {
         "title": "Fast And Slow Pointers",
-        "path": "/intprep/prep/14patterns/fast-and-slow-pointers.md"
+        "path": "/prep/14patterns/fast-and-slow-pointers.md"
       },
       {
         "title": "Graph Bfs Dfs",
-        "path": "/intprep/prep/14patterns/graph-bfs-dfs.md"
+        "path": "/prep/14patterns/graph-bfs-dfs.md"
       },
       {
         "title": "Greedy Algorithms",
-        "path": "/intprep/prep/14patterns/greedy-algorithms.md"
+        "path": "/prep/14patterns/greedy-algorithms.md"
       },
       {
         "title": "In Place Reversal Of Linked List",
-        "path": "/intprep/prep/14patterns/in-place-reversal-of-linked-list.md"
+        "path": "/prep/14patterns/in-place-reversal-of-linked-list.md"
       },
       {
         "title": "K Way Merge",
-        "path": "/intprep/prep/14patterns/k-way-merge.md"
+        "path": "/prep/14patterns/k-way-merge.md"
       },
       {
         "title": "Matrix Patterns",
-        "path": "/intprep/prep/14patterns/matrix-patterns.md"
+        "path": "/prep/14patterns/matrix-patterns.md"
       },
       {
         "title": "Merge Intervals",
-        "path": "/intprep/prep/14patterns/merge-intervals.md"
+        "path": "/prep/14patterns/merge-intervals.md"
       },
       {
         "title": "Modified Binary Search",
-        "path": "/intprep/prep/14patterns/modified-binary-search.md"
+        "path": "/prep/14patterns/modified-binary-search.md"
       },
       {
         "title": "Monotonic Stack",
-        "path": "/intprep/prep/14patterns/monotonic-stack.md"
+        "path": "/prep/14patterns/monotonic-stack.md"
       },
       {
         "title": "Sliding Window",
-        "path": "/intprep/prep/14patterns/sliding-window.md"
+        "path": "/prep/14patterns/sliding-window.md"
       },
       {
         "title": "Subsets",
-        "path": "/intprep/prep/14patterns/subsets.md"
+        "path": "/prep/14patterns/subsets.md"
       },
       {
         "title": "Top K Elements",
-        "path": "/intprep/prep/14patterns/top-k-elements.md"
+        "path": "/prep/14patterns/top-k-elements.md"
       },
       {
         "title": "Topological Sort",
-        "path": "/intprep/prep/14patterns/topological-sort.md"
+        "path": "/prep/14patterns/topological-sort.md"
       },
       {
         "title": "Tree Bfs",
-        "path": "/intprep/prep/14patterns/tree-bfs.md"
+        "path": "/prep/14patterns/tree-bfs.md"
       },
       {
         "title": "Tree Dfs",
-        "path": "/intprep/prep/14patterns/tree-dfs.md"
+        "path": "/prep/14patterns/tree-dfs.md"
       },
       {
         "title": "Trie",
-        "path": "/intprep/prep/14patterns/trie.md"
+        "path": "/prep/14patterns/trie.md"
       },
       {
         "title": "Two Heaps",
-        "path": "/intprep/prep/14patterns/two-heaps.md"
+        "path": "/prep/14patterns/two-heaps.md"
       },
       {
         "title": "Two Pointers",
-        "path": "/intprep/prep/14patterns/two-pointers.md"
+        "path": "/prep/14patterns/two-pointers.md"
       },
       {
         "title": "Union Find",
-        "path": "/intprep/prep/14patterns/union-find.md"
+        "path": "/prep/14patterns/union-find.md"
       }
     ]
   },
   {
     "id": "algorithm",
     "title": "Algorithm",
-    "path": "/intprep/prep/algorithm",
+    "path": "/prep/algorithm",
     "items": [
       {
         "title": "Binary Search",
-        "path": "/intprep/prep/algorithm/binary-search.md"
+        "path": "/prep/algorithm/binary-search.md"
       },
       {
         "title": "Breadth First Search",
-        "path": "/intprep/prep/algorithm/breadth-first-search.md"
+        "path": "/prep/algorithm/breadth-first-search.md"
       },
       {
         "title": "Depth First Search",
-        "path": "/intprep/prep/algorithm/depth-first-search.md"
+        "path": "/prep/algorithm/depth-first-search.md"
+      },
+      {
+        "title": "Dijkstras Algorithm",
+        "path": "/prep/algorithm/dijkstras-algorithm.md"
+      },
+      {
+        "title": "Dynamic Programming",
+        "path": "/prep/algorithm/dynamic-programming.md"
       },
       {
         "title": "Heap Sort",
-        "path": "/intprep/prep/algorithm/heap-sort.md"
+        "path": "/prep/algorithm/heap-sort.md"
       },
       {
         "title": "Merge Sort",
-        "path": "/intprep/prep/algorithm/merge-sort.md"
+        "path": "/prep/algorithm/merge-sort.md"
       },
       {
         "title": "Quick Sort",
-        "path": "/intprep/prep/algorithm/quick-sort.md"
+        "path": "/prep/algorithm/quick-sort.md"
+      },
+      {
+        "title": "Topological Sort",
+        "path": "/prep/algorithm/topological-sort.md"
       }
     ]
   },
   {
     "id": "backend",
     "title": "Backend",
-    "path": "/intprep/prep/backend",
+    "path": "/prep/backend",
     "items": [
       {
         "title": "Authentication Authorization",
-        "path": "/intprep/prep/backend/authentication-authorization.md"
+        "path": "/prep/backend/authentication-authorization.md"
       },
       {
         "title": "Communication Protocols",
-        "path": "/intprep/prep/backend/communication-protocols.md"
+        "path": "/prep/backend/communication-protocols.md"
       },
       {
         "title": "Database Internals",
-        "path": "/intprep/prep/backend/database-internals.md"
+        "path": "/prep/backend/database-internals.md"
       }
     ]
   },
   {
     "id": "behavioral",
     "title": "Behavioral",
-    "path": "/intprep/prep/behavioral",
+    "path": "/prep/behavioral",
     "items": [
       {
         "title": "Conflict Resolution",
-        "path": "/intprep/prep/behavioral/conflict-resolution.md"
+        "path": "/prep/behavioral/conflict-resolution.md"
       },
       {
         "title": "Failure Learning",
-        "path": "/intprep/prep/behavioral/failure-learning.md"
+        "path": "/prep/behavioral/failure-learning.md"
       },
       {
         "title": "Leadership Mentoring",
-        "path": "/intprep/prep/behavioral/leadership-mentoring.md"
+        "path": "/prep/behavioral/leadership-mentoring.md"
       },
       {
         "title": "Star Method",
-        "path": "/intprep/prep/behavioral/star-method.md"
+        "path": "/prep/behavioral/star-method.md"
       }
     ]
   },
   {
     "id": "cloud",
     "title": "Cloud",
-    "path": "/intprep/prep/cloud",
+    "path": "/prep/cloud",
     "items": [
       {
         "title": "Aws Fundamentals",
-        "path": "/intprep/prep/cloud/aws-fundamentals.md"
+        "path": "/prep/cloud/aws-fundamentals.md"
       },
       {
         "title": "Cicd Pipelines",
-        "path": "/intprep/prep/cloud/cicd-pipelines.md"
+        "path": "/prep/cloud/cicd-pipelines.md"
       },
       {
         "title": "Docker Containerization",
-        "path": "/intprep/prep/cloud/docker-containerization.md"
+        "path": "/prep/cloud/docker-containerization.md"
       },
       {
         "title": "Kubernetes Patterns",
-        "path": "/intprep/prep/cloud/kubernetes-patterns.md"
+        "path": "/prep/cloud/kubernetes-patterns.md"
       },
       {
         "title": "Observability",
-        "path": "/intprep/prep/cloud/observability.md"
+        "path": "/prep/cloud/observability.md"
       }
     ]
   },
   {
     "id": "DSA",
     "title": "DSA",
-    "path": "/intprep/prep/DSA",
+    "path": "/prep/DSA",
     "items": [
       {
         "title": "Arrays",
-        "path": "/intprep/prep/DSA/arrays.md"
+        "path": "/prep/DSA/arrays.md"
       },
       {
         "title": "Binary Trees",
-        "path": "/intprep/prep/DSA/binary-trees.md"
+        "path": "/prep/DSA/binary-trees.md"
       },
       {
         "title": "Graphs",
-        "path": "/intprep/prep/DSA/graphs.md"
+        "path": "/prep/DSA/graphs.md"
+      },
+      {
+        "title": "Heaps And Priority Queues",
+        "path": "/prep/DSA/heaps-priority-queues.md"
       },
       {
         "title": "Hash Tables",
-        "path": "/intprep/prep/DSA/hash-tables.md"
+        "path": "/prep/DSA/hash-tables.md"
       },
       {
         "title": "Linked Lists",
-        "path": "/intprep/prep/DSA/linked-lists.md"
+        "path": "/prep/DSA/linked-lists.md"
       },
       {
         "title": "Stacks And Queues",
-        "path": "/intprep/prep/DSA/stacks-and-queues.md"
+        "path": "/prep/DSA/stacks-and-queues.md"
       },
       {
         "title": "Tries",
-        "path": "/intprep/prep/DSA/tries.md"
+        "path": "/prep/DSA/tries.md"
       }
     ]
   },
   {
     "id": "efficiency",
     "title": "Efficiency",
-    "path": "/intprep/prep/efficiency",
+    "path": "/prep/efficiency",
     "items": [
       {
         "title": "Big O Notation",
-        "path": "/intprep/prep/efficiency/big-o-notation.md"
+        "path": "/prep/efficiency/big-o-notation.md"
       },
       {
         "title": "Space Complexity",
-        "path": "/intprep/prep/efficiency/space-complexity.md"
+        "path": "/prep/efficiency/space-complexity.md"
       },
       {
         "title": "Time Complexity",
-        "path": "/intprep/prep/efficiency/time-complexity.md"
+        "path": "/prep/efficiency/time-complexity.md"
       }
     ]
   },
   {
     "id": "frontend",
     "title": "Frontend",
-    "path": "/intprep/prep/frontend",
+    "path": "/prep/frontend",
     "items": [
       {
         "title": "Performance Optimization",
-        "path": "/intprep/prep/frontend/performance-optimization.md"
+        "path": "/prep/frontend/performance-optimization.md"
       },
       {
         "title": "Web Security",
-        "path": "/intprep/prep/frontend/web-security.md"
+        "path": "/prep/frontend/web-security.md"
       }
     ]
   },
   {
     "id": "machine-learning",
     "title": "Machine Learning",
-    "path": "/intprep/prep/machine-learning",
+    "path": "/prep/machine-learning",
     "items": [
       {
         "title": "Linear Regression",
-        "path": "/intprep/prep/machine-learning/linear-regression.md"
+        "path": "/prep/machine-learning/linear-regression.md"
       }
     ]
   },
   {
     "id": "roadmap",
     "title": "Roadmap",
-    "path": "/intprep/prep/roadmap",
+    "path": "/prep/roadmap",
     "items": [
       {
         "title": "15 Yoe Study Plan",
-        "path": "/intprep/prep/roadmap/15-yoe-study-plan.md"
+        "path": "/prep/roadmap/15-yoe-study-plan.md"
       }
     ]
   },
   {
     "id": "system-design",
     "title": "System Design",
-    "path": "/intprep/prep/system-design",
+    "path": "/prep/system-design",
     "items": [
       {
         "title": "Api Design",
-        "path": "/intprep/prep/system-design/api-design.md"
+        "path": "/prep/system-design/api-design.md"
       },
       {
         "title": "Back Of Envelope Estimation",
-        "path": "/intprep/prep/system-design/back-of-envelope-estimation.md"
+        "path": "/prep/system-design/back-of-envelope-estimation.md"
       },
       {
         "title": "Caching Strategies",
-        "path": "/intprep/prep/system-design/caching-strategies.md"
+        "path": "/prep/system-design/caching-strategies.md"
       },
       {
         "title": "Cap Theorem",
-        "path": "/intprep/prep/system-design/cap-theorem.md"
+        "path": "/prep/system-design/cap-theorem.md"
       },
       {
         "title": "Cdn",
-        "path": "/intprep/prep/system-design/cdn.md"
+        "path": "/prep/system-design/cdn.md"
       },
       {
         "title": "Consistent Hashing",
-        "path": "/intprep/prep/system-design/consistent-hashing.md"
+        "path": "/prep/system-design/consistent-hashing.md"
       },
       {
         "title": "Cqrs Event Sourcing",
-        "path": "/intprep/prep/system-design/cqrs-event-sourcing.md"
+        "path": "/prep/system-design/cqrs-event-sourcing.md"
       },
       {
         "title": "Database Design",
-        "path": "/intprep/prep/system-design/database-design.md"
+        "path": "/prep/system-design/database-design.md"
       },
       {
         "title": "Design Google Docs",
-        "path": "/intprep/prep/system-design/design-google-docs.md"
+        "path": "/prep/system-design/design-google-docs.md"
       },
       {
         "title": "Design Notification System",
-        "path": "/intprep/prep/system-design/design-notification-system.md"
+        "path": "/prep/system-design/design-notification-system.md"
       },
       {
         "title": "Design Twitter Feed",
-        "path": "/intprep/prep/system-design/design-twitter-feed.md"
+        "path": "/prep/system-design/design-twitter-feed.md"
       },
       {
         "title": "Design Uber",
-        "path": "/intprep/prep/system-design/design-uber.md"
+        "path": "/prep/system-design/design-uber.md"
       },
       {
         "title": "Design Url Shortener",
-        "path": "/intprep/prep/system-design/design-url-shortener.md"
+        "path": "/prep/system-design/design-url-shortener.md"
       },
       {
         "title": "Design Whatsapp",
-        "path": "/intprep/prep/system-design/design-whatsapp.md"
+        "path": "/prep/system-design/design-whatsapp.md"
       },
       {
         "title": "Distributed Transactions",
-        "path": "/intprep/prep/system-design/distributed-transactions.md"
+        "path": "/prep/system-design/distributed-transactions.md"
       },
       {
         "title": "Leader Election",
-        "path": "/intprep/prep/system-design/leader-election.md"
+        "path": "/prep/system-design/leader-election.md"
       },
       {
         "title": "Load Balancing",
-        "path": "/intprep/prep/system-design/load-balancing.md"
+        "path": "/prep/system-design/load-balancing.md"
       },
       {
         "title": "Message Queues",
-        "path": "/intprep/prep/system-design/message-queues.md"
+        "path": "/prep/system-design/message-queues.md"
       },
       {
         "title": "Microservices Architecture",
-        "path": "/intprep/prep/system-design/microservices-architecture.md"
+        "path": "/prep/system-design/microservices-architecture.md"
       },
       {
         "title": "Proxies",
-        "path": "/intprep/prep/system-design/proxies.md"
+        "path": "/prep/system-design/proxies.md"
       },
       {
         "title": "Rate Limiting",
-        "path": "/intprep/prep/system-design/rate-limiting.md"
+        "path": "/prep/system-design/rate-limiting.md"
       },
       {
         "title": "Scalability Basics",
-        "path": "/intprep/prep/system-design/scalability-basics.md"
+        "path": "/prep/system-design/scalability-basics.md"
       },
       {
         "title": "Sharding Partitioning",
-        "path": "/intprep/prep/system-design/sharding-partitioning.md"
+        "path": "/prep/system-design/sharding-partitioning.md"
       }
     ]
   }

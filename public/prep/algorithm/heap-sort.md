@@ -8,7 +8,7 @@ Imagine a company where the boss MUST always be more capable (larger value) than
 You try to arrange the entire company by swapping random employees until it works. Disaster.
 
 **The "Heap Sort" Way:**  
-1. **Promote the Best:** You organize everyone into a "Max Heap" structure where every manager is better than their subordinates. The CEO (root) is now guaranteed to be the best (lazgest value).
+1. **Promote the Best:** You organize everyone into a "Max Heap" structure where every manager is better than their subordinates. The CEO (root) is now guaranteed to be the best (largest value).
 2. **Retire the CEO:** You take the CEO and move them to a "Hall of Fame" (the end of the sorted array).
 3. **Re-organize:** You accidentally promote the intern (last element) to CEO. 
 4. **Sift Down:** The intern realizes they are unqualified and swaps with the most capable VP below them. That VP swaps with a Director, and so on, until order is restored.
@@ -129,34 +129,90 @@ Output: `[5, 6, 7, 11, 12, 13]`
 ## 5. Scenario B: Sort a Nearly Sorted Array (K-Sorted)
 **Real-Life Scenario:** You receive data packets that are mostly in order but some arrive slightly out of sequence (e.g., within 5 seconds of their correct time).
 
-**Technical Problem:** Sort an array where each element is at most `k` positions away from its target definition.
+**Technical Problem:** Sort an array where each element is at most `k` positions away from its target position.
 
 ### TypeScript Implementation
 
 ```typescript
 /**
+ * MinHeap — Proper binary heap implementation.
+ * 
+ * Why NOT use .sort()? Because the entire point of a heap is O(log K)
+ * insertions/removals. Using .sort() would be O(K log K) per operation,
+ * defeating the purpose.
+ */
+class MinHeap {
+  private data: number[] = [];
+
+  push(val: number): void {
+    this.data.push(val);
+    this.bubbleUp(this.data.length - 1);
+  }
+
+  pop(): number {
+    const min = this.data[0];
+    const last = this.data.pop()!;
+    if (this.data.length > 0) {
+      this.data[0] = last;
+      this.siftDown(0);
+    }
+    return min;
+  }
+
+  size(): number { return this.data.length; }
+
+  private bubbleUp(i: number): void {
+    while (i > 0) {
+      const parent = Math.floor((i - 1) / 2);
+      if (this.data[parent] > this.data[i]) {
+        [this.data[parent], this.data[i]] = [this.data[i], this.data[parent]];
+        i = parent;
+      } else break;
+    }
+  }
+
+  private siftDown(i: number): void {
+    const n = this.data.length;
+    while (true) {
+      let smallest = i;
+      const left = 2 * i + 1;
+      const right = 2 * i + 2;
+      if (left < n && this.data[left] < this.data[smallest]) smallest = left;
+      if (right < n && this.data[right] < this.data[smallest]) smallest = right;
+      if (smallest === i) break;
+      [this.data[i], this.data[smallest]] = [this.data[smallest], this.data[i]];
+      i = smallest;
+    }
+  }
+}
+
+/**
  * sortKSortedArray
  * Uses a Min Heap of size k+1 to efficiently sort.
  * 
- * @timeComplexity O(N log K) - Much faster than O(N log N) if k is small.
+ * Key Insight: Since each element is at most k positions away,
+ * we only need to consider k+1 elements at a time.
+ * 
+ * @timeComplexity O(N log K) - Much faster than O(N log N) when k << N
+ * @spaceComplexity O(K) - Heap size is bounded by k+1
  */
 function sortKSortedArray(nums: number[], k: number): number[] {
     const heap = new MinHeap();
     const result: number[] = [];
 
     // Add first k+1 items to heap
-    for(let i = 0; i <= k && i < nums.length; i++) {
+    for (let i = 0; i <= k && i < nums.length; i++) {
         heap.push(nums[i]);
     }
 
     // Process remaining elements
-    for(let i = k + 1; i < nums.length; i++) {
+    for (let i = k + 1; i < nums.length; i++) {
         result.push(heap.pop());
         heap.push(nums[i]);
     }
 
     // Empty the heap
-    while(heap.size() > 0) {
+    while (heap.size() > 0) {
         result.push(heap.pop());
     }
 
@@ -164,34 +220,32 @@ function sortKSortedArray(nums: number[], k: number): number[] {
 }
 
 // Usage Example
-
-// Mock MinHeap for demonstration
-class MinHeap {
-    data: number[] = [];
-    push(val: number) { 
-        this.data.push(val); 
-        this.data.sort((a,b) => a-b); // Simple Sort for demo
-    }
-    pop(): number { return this.data.shift()!; }
-    size(): number { return this.data.length; }
-}
-
 const nearlySorted = [6, 5, 3, 2, 8, 10, 9];
 const k = 3; 
 // Each element is at most 3 positions away from sorted position
 console.log("Nearly Sorted:", nearlySorted);
 console.log("Fully Sorted:", sortKSortedArray(nearlySorted, k));
+// Output: [2, 3, 5, 6, 8, 9, 10]
 ```
 
 ---
 
 ## 6. Real World Applications 🌍
 
-### 1. 🖥️ Operating Systems process scheduling
-OS schedulers often use heaps (Priority Queues) to decide which process to run next based on priority, not just arrival time.
+### 1. 🖥️ Operating Systems Process Scheduling
+OS schedulers use heaps (Priority Queues) to decide which process to run next based on priority, not just arrival time. Linux CFS uses a red-black tree variant, but the concept is the same.
 
 ### 2. 🎮 A* Pathfinding Algorithm
-Games use heaps to store "nodes to explore next", ordered by their estimated cost/distance to the destination.
+Games use min-heaps to store "nodes to explore next", ordered by their estimated cost/distance to the destination. Without a heap, A* would be O(V²) instead of O(E log V).
+
+### 3. 📊 Median Maintenance (Two Heaps)
+Streaming data median is computed using a max-heap (lower half) + min-heap (upper half). Insertion is O(log N), median retrieval is O(1). Used in real-time dashboards.
+
+### 4. 🔔 Event-Driven Simulation
+Discrete event simulators (network, traffic, physics) store future events in a priority queue. The next event to process is always the one with the earliest timestamp → min-heap.
+
+### 5. 📦 External K-Way Merge
+When merging K sorted files (e.g., distributed sort output), a min-heap of size K tracks the smallest unprocessed element from each file. This is how Hadoop MapReduce merges intermediate results.
 
 ---
 
@@ -201,6 +255,27 @@ Why Heap Sort?
 
 ### Time Complexity: O(N log N) ⚡
 - **Consistent:** Unlike Quick Sort which can degrade to O(N²), Heap Sort is strictly O(N log N) in all cases (Best, Average, Worst).
+- **Build Heap:** O(N) — not O(N log N)! This is a common interview trivia question. The math: sum of (height × nodes at that level) converges to O(N).
 
 ### Space Complexity: O(1) 💾
 - **In-Place:** Unlike Merge Sort which needs O(N) extra array space, Heap Sort shuffles items within the same array. This is critical for embedded systems with limited memory.
+
+### Sorting Algorithm Comparison
+
+| Algorithm | Best | Average | Worst | Space | Stable? | When to Use |
+|-----------|------|---------|-------|-------|---------|-------------|
+| **Quick Sort** | O(N log N) | O(N log N) | O(N²) | O(log N) | ❌ | General purpose, fastest in practice |
+| **Merge Sort** | O(N log N) | O(N log N) | O(N log N) | O(N) | ✅ | Linked lists, need stability, external sort |
+| **Heap Sort** | O(N log N) | O(N log N) | O(N log N) | O(1) | ❌ | Memory constrained, guaranteed O(N log N) |
+| **Tim Sort** | O(N) | O(N log N) | O(N log N) | O(N) | ✅ | Python/Java default, real-world data |
+| **Counting Sort** | O(N+K) | O(N+K) | O(N+K) | O(K) | ✅ | Small integer range |
+
+### Interview Tips 💡
+
+1. **Build Heap is O(N), not O(N log N):** This is a common interview question. The bottom-up `heapify` approach processes nodes from leaves up, and most nodes are near the bottom (low height).
+2. **Heap Sort vs Quick Sort:** "Heap Sort guarantees O(N log N) worst case, but Quick Sort is faster in practice due to better cache locality (sequential memory access vs. jumping around the heap)."
+3. **Priority Queue ≠ Heap:** A Priority Queue is an ADT (abstract data type). A Heap is one way to implement it (and the most common).
+4. **Min Heap vs Max Heap:** Know how to convert between them. Trick: negate all values to turn a min-heap into a max-heap.
+5. **Not stable:** Heap Sort is NOT stable — equal elements may change their relative order. If stability matters, use Merge Sort.
+6. **K-sorted shortcut:** If you know data is nearly sorted (within k), use a heap of size k for O(N log K) — much faster than O(N log N).
+7. **Common heap interview problems:** Top K elements, Median from Data Stream, Merge K Sorted Lists, Task Scheduler.

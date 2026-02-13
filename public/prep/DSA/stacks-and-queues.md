@@ -203,46 +203,194 @@ pop():
 
 ---
 
-## 6. Real World Applications 🌍
+## 6. Scenario C: Min Stack — O(1) getMin
+
+**Real-Life Scenario:** A temperature tracking system that needs to instantly report the coldest temperature seen so far, updating in real time as readings come in.
+
+**Technical Problem:** Design a stack that supports push, pop, top, and retrieving the minimum element in O(1) time.
+
+### TypeScript Implementation
+
+```typescript
+/**
+ * MinStack — Stack with O(1) min retrieval.
+ * 
+ * Trick: Maintain a SECOND stack that tracks minimums.
+ * When pushing, also push to minStack IF the value is ≤ current min.
+ * When popping, also pop from minStack if the popped value === current min.
+ * 
+ * @timeComplexity O(1) for ALL operations
+ * @spaceComplexity O(N) — Two stacks
+ */
+class MinStack {
+  private stack: number[] = [];
+  private minStack: number[] = []; // Tracks minimums
+
+  push(val: number): void {
+    this.stack.push(val);
+    // Push to minStack if it's empty or val ≤ current min
+    if (this.minStack.length === 0 || val <= this.getMin()) {
+      this.minStack.push(val);
+    }
+  }
+
+  pop(): void {
+    const val = this.stack.pop()!;
+    // If popped value is the current min, pop from minStack too
+    if (val === this.getMin()) {
+      this.minStack.pop();
+    }
+  }
+
+  top(): number {
+    return this.stack[this.stack.length - 1];
+  }
+
+  getMin(): number {
+    return this.minStack[this.minStack.length - 1];
+  }
+}
+
+// Usage:
+const ms = new MinStack();
+ms.push(-2);
+ms.push(0);
+ms.push(-3);
+console.log(ms.getMin()); // -3
+ms.pop();
+console.log(ms.top());    // 0
+console.log(ms.getMin()); // -2 (still knows the min!)
+```
+
+---
+
+## 7. Scenario D: Monotonic Stack — Next Greater Element
+
+**Real-Life Scenario:** You're in a queue at a theme park. For each person, find the next person who is taller than them (they can see over you!).
+
+**Technical Problem:** For each element in an array, find the next element to the right that is GREATER. If none exists, return -1.
+
+### TypeScript Implementation
+
+```typescript
+/**
+ * Next Greater Element using Monotonic Decreasing Stack.
+ * 
+ * A "monotonic stack" maintains elements in sorted order.
+ * Here, the stack holds indices of elements in DECREASING order.
+ * 
+ * When we encounter a larger element, it "resolves" everything
+ * in the stack that is smaller — those now have their "next greater".
+ * 
+ * @param nums - Input array
+ * @returns Array where result[i] = next greater element of nums[i]
+ * 
+ * @timeComplexity O(N) — Each element pushed and popped at most once
+ * @spaceComplexity O(N) — Stack + result array
+ */
+function nextGreaterElement(nums: number[]): number[] {
+  const result = new Array(nums.length).fill(-1);
+  const stack: number[] = []; // Stack of INDICES (decreasing values)
+
+  for (let i = 0; i < nums.length; i++) {
+    // Pop all elements smaller than current — they've found their answer
+    while (stack.length > 0 && nums[stack[stack.length - 1]] < nums[i]) {
+      const idx = stack.pop()!;
+      result[idx] = nums[i];
+    }
+    stack.push(i);
+  }
+
+  // Elements remaining in stack have no next greater element (-1)
+  return result;
+}
+
+// Example:
+const temperatures = [73, 74, 75, 71, 69, 72, 76, 73];
+console.log("Temps:", temperatures);
+console.log("Next Greater:", nextGreaterElement(temperatures));
+// [74, 75, 76, 72, 72, 76, -1, -1]
+
+// Walkthrough:
+// i=0 (73): stack=[], push. stack=[0]
+// i=1 (74): 74>73, pop 0→result[0]=74. stack=[1]
+// i=2 (75): 75>74, pop 1→result[1]=75. stack=[2]
+// i=3 (71): 71<75, push. stack=[2,3]
+// i=4 (69): 69<71, push. stack=[2,3,4]
+// i=5 (72): 72>69, pop 4→result[4]=72. 72>71, pop 3→result[3]=72. stack=[2,5]
+// i=6 (76): 76>72, pop 5→result[5]=76. 76>75, pop 2→result[2]=76. stack=[6]
+// i=7 (73): 73<76, push. stack=[6,7]
+// Done: indices 6,7 remain → result[6]=result[7]=-1
+```
+
+### Daily Temperatures Variant
+
+```typescript
+/**
+ * "How many days until a warmer day?"
+ * Same monotonic stack idea, but return INDEX DIFFERENCE instead of value.
+ */
+function dailyTemperatures(temps: number[]): number[] {
+  const result = new Array(temps.length).fill(0);
+  const stack: number[] = [];
+
+  for (let i = 0; i < temps.length; i++) {
+    while (stack.length > 0 && temps[stack[stack.length - 1]] < temps[i]) {
+      const prevIdx = stack.pop()!;
+      result[prevIdx] = i - prevIdx; // Days to wait
+    }
+    stack.push(i);
+  }
+  return result;
+}
+```
+
+---
+
+## 8. Real World Applications 🌍
 
 ### Stacks
 
 #### 1. 🔙 Undo/Redo Functionality
-Every action pushed to a stack. Ctrl+Z pops the last action and applies its reverse.
+Every action pushed to a stack. Ctrl+Z pops the last action and applies its reverse. The "redo" stack stores undone actions.
 
 #### 2. 🌐 Browser Back Button
-Each visited URL is pushed. Back button pops the current and shows the previous.
+Each visited URL is pushed. Back button pops the current and shows the previous. Forward button pops from a second stack.
 
 #### 3. 📞 Call Stack (Recursion)
-Function calls are stacked. When a function returns, it's popped and control returns to the caller.
+Function calls are stacked. When a function returns, it's popped and control returns to the caller. Stack overflow = too deep recursion.
 
-#### 4. 🧮 Expression Evaluation
-Calculators use stacks to handle operator precedence and parentheses.
+#### 4. 🧮 Expression Evaluation / Parsing
+Calculators use stacks to handle operator precedence and parentheses. Compilers use stacks for syntax tree construction.
+
+#### 5. 📊 Stock Span Problem
+"How many consecutive days before today had a price ≤ today's price?" — Solved with a monotonic stack in O(N).
 
 ### Queues
 
-#### 1. 🖨️ Print Queue
-Documents printed in the order they were sent.
+#### 1. 🖨️ Print Queue / Task Scheduling
+Documents printed in the order they were sent. OS process scheduler uses priority queues.
 
 #### 2. 🌳 BFS Traversal
-Nodes are queued level by level for breadth-first exploration.
+Nodes are queued level by level for breadth-first exploration. The core of shortest-path in unweighted graphs.
 
-#### 3. 📨 Message Queues (Kafka, RabbitMQ)
-Distributed systems process messages in order.
+#### 3. 📨 Message Queues (Kafka, RabbitMQ, SQS)
+Distributed systems process messages in order. Exactly-once delivery, at-least-once, at-most-once semantics.
 
-#### 4. 🎮 Event Loop (JavaScript)
-Events are queued and processed one by one.
+#### 4. 🎮 Event Loop (JavaScript / Node.js)
+Events are queued in the macrotask queue. Microtasks (Promises) have their own queue. Understanding this is essential for async JS.
 
 ---
 
-## 7. Complexity Analysis 🧠
+## 9. Complexity Analysis 🧠
 
 ### Stack Implementations
 
-| Implementation | Push | Pop | Peek |
-|----------------|------|-----|------|
-| Array (dynamic) | O(1)* | O(1) | O(1) |
-| Linked List | O(1) | O(1) | O(1) |
+| Implementation | Push | Pop | Peek | getMin |
+|----------------|------|-----|------|--------|
+| Array (dynamic) | O(1)* | O(1) | O(1) | O(N) |
+| Linked List | O(1) | O(1) | O(1) | O(N) |
+| MinStack (two stacks) | O(1) | O(1) | O(1) | O(1) ✓ |
 
 *Amortized (occasional resize)
 
@@ -250,25 +398,40 @@ Events are queued and processed one by one.
 
 | Implementation | Enqueue | Dequeue | Peek |
 |----------------|---------|---------|------|
-| Array (naive) | O(1) | O(N) | O(1) |
+| Array (naive) | O(1) | O(N) ⚠️ | O(1) |
 | Circular Array | O(1) | O(1) | O(1) |
 | Linked List | O(1) | O(1) | O(1) |
 | Two Stacks | O(1) | O(1)* | O(1)* |
 
 *Amortized
 
-### Variations
+### Important Variations
 
-| Type | Description | Use Case |
-|------|-------------|----------|
-| **Deque** | Double-ended queue | Sliding window |
-| **Priority Queue** | Sorted by priority | Dijkstra's algorithm |
-| **Monotonic Stack** | Maintain sorted order | Next greater element |
-| **Circular Queue** | Fixed-size, wraps around | Bounded buffers |
+| Type | Description | Key Use Case |
+|------|-------------|-------------|
+| **Deque** | Double-ended queue (push/pop both ends) | Sliding window maximum |
+| **Priority Queue** | Sorted by priority (heap-based) | Dijkstra, Top K, scheduling |
+| **Monotonic Stack** | Maintains ascending/descending invariant | Next greater/smaller element |
+| **Monotonic Deque** | Sliding window min/max in O(N) | Sliding window maximum |
+| **Circular Queue** | Fixed-size, wraps around | Bounded buffers, ring buffers |
+
+### Monotonic Stack Cheat Sheet
+
+| Problem | Stack Type | What to Store |
+|---------|-----------|---------------|
+| Next Greater Element | Decreasing | Indices |
+| Next Smaller Element | Increasing | Indices |
+| Largest Rectangle in Histogram | Increasing | Indices (heights) |
+| Stock Span | Decreasing | Indices (prices) |
+| Daily Temperatures | Decreasing | Indices (temps) |
+| Trapping Rain Water | Both / Two-pointer | Indices or heights |
 
 ### Interview Tips 💡
 
-- **Use stack for matching:** Parentheses, HTML tags, undo operations.
-- **Use queue for ordering:** BFS, job scheduling, rate limiting.
-- **Monotonic stack:** Finding next greater/smaller element in O(N).
-- **Watch for empty stack errors:** Always check `isEmpty()` before `pop()`.
+1. **Parentheses = Stack.** If you see matching/nesting of any kind (brackets, HTML tags, expressions), use a stack.
+2. **"Next greater/smaller" = Monotonic Stack.** Single pass O(N) solution. Stack holds candidates in sorted order.
+3. **Queue from two stacks**: Amortized O(1) — each element is pushed/popped at most twice total (once per stack).
+4. **Min Stack pattern:** Keep a parallel stack tracking minimums. When popping, check if you need to pop the min too.
+5. **BFS = Queue, DFS = Stack.** Always. BFS uses explicit queue. DFS can use the call stack (recursion) or explicit stack.
+6. **Sliding Window Maximum** (Hard): Use a monotonic DEQUE (double-ended queue). Front = max of current window. O(N) total.
+7. **Common stack interview problems:** Valid Parentheses, Min Stack, Daily Temperatures, Largest Rectangle in Histogram, Trapping Rain Water, Evaluate Reverse Polish Notation.

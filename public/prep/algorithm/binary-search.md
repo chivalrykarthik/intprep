@@ -152,17 +152,87 @@ console.log("First bad version:", findFirstBad(n)); // Output: 4
 
 ---
 
-## 6. Real World Applications 🌍
+## 6. Scenario C: Search in Rotated Sorted Array (Most Asked!)
+**Real-Life Scenario:** Imagine a circular conveyor belt at an airport carousel. Bags were loaded in order (1-100), but the belt rotated — so it now looks like `[56, 57, ... 100, 1, 2, ... 55]`. You need to find your bag quickly without scanning the entire belt.
 
-### 1. 🚦 Database Indexing
-When you run a SQL query like `SELECT * FROM Users WHERE ID = 54321`, the database doesn't scan millions of rows. It uses B-Trees or similar structures (based on Binary Search principles) to jump straight to the data.
+**Technical Problem:** An ascending sorted array was rotated at some unknown pivot. Given a target, return its index or -1.
 
-### 2. 🐛 Git Bisect
-When debugging a regression (a bug that appeared recently), `git bisect` uses binary search to find the exact commit that introduced the bug. It checks a commit in the middle of your "good" and "bad" history, halving the timeline until the culprit is found.
+### TypeScript Implementation
+
+```typescript
+/**
+ * searchRotatedArray
+ * Searches for a target in a rotated sorted array.
+ * 
+ * Key Insight: Even after rotation, at least ONE half is always sorted.
+ * We determine which half is sorted, then check if target is in that range.
+ * 
+ * @timeComplexity O(log N)
+ * @spaceComplexity O(1)
+ */
+function searchRotatedArray(nums: number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const mid = left + Math.floor((right - left) / 2);
+
+    if (nums[mid] === target) return mid;
+
+    // Determine which half is sorted
+    if (nums[left] <= nums[mid]) {
+      // LEFT half is sorted [left...mid]
+      if (target >= nums[left] && target < nums[mid]) {
+        right = mid - 1; // Target is in the sorted left half
+      } else {
+        left = mid + 1;  // Target must be in the right half
+      }
+    } else {
+      // RIGHT half is sorted [mid...right]
+      if (target > nums[mid] && target <= nums[right]) {
+        left = mid + 1;  // Target is in the sorted right half
+      } else {
+        right = mid - 1; // Target must be in the left half
+      }
+    }
+  }
+
+  return -1;
+}
+
+// Usage Example
+const rotated = [4, 5, 6, 7, 0, 1, 2];
+console.log("Array:", rotated);
+console.log("Search 0:", searchRotatedArray(rotated, 0)); // Output: 4
+console.log("Search 3:", searchRotatedArray(rotated, 3)); // Output: -1
+```
+
+### Sample input and output
+Input: `nums = [4,5,6,7,0,1,2]`, `target = 0`
+Output: `4`
 
 ---
 
-## 7. Complexity Analysis 🧠
+## 7. Real World Applications 🌍
+
+### 1. 🚦 Database Indexing (B-Trees)
+When you run `SELECT * FROM Users WHERE ID = 54321`, the database doesn't scan millions of rows. B-Trees use binary search at each node to navigate to the correct leaf in O(log N) disk reads.
+
+### 2. 🐛 Git Bisect
+`git bisect` uses binary search to find the exact commit that introduced a regression bug. It halves the commit history with each check — finding the culprit in ~20 checks among 1M commits.
+
+### 3. 📦 Package Version Resolution
+Package managers (npm, pip) use binary search to find compatible version ranges. Given semver constraints like `>=2.0.0 <3.0.0`, they binary-search through published versions.
+
+### 4. 🎮 Game Physics (Collision Detection)
+Binary search over time intervals to pinpoint the exact frame when two objects collide (`t=0` no collision, `t=1` collision → search `[0, 1]`).
+
+### 5. 📊 Rate Limiting / Throttling
+Binary search through timestamp arrays to count requests within a sliding window. "How many requests in the last 60 seconds?" → binary search for the boundary timestamp.
+
+---
+
+## 8. Complexity Analysis 🧠
 
 Why do we care about Binary Search?
 
@@ -172,3 +242,23 @@ Why do we care about Binary Search?
 
 ### Space Complexity: O(1) 💾
 - We only need variables to store our `left`, `right`, and `mid` pointers. We don't copy the array.
+
+### Binary Search Patterns Quick Reference
+
+| Pattern | Loop Condition | Return | When to Use |
+|---------|---------------|--------|-------------|
+| **Exact Match** | `left <= right` | `mid` when found | Find specific element |
+| **Left Boundary** | `left < right` | `left` | First occurrence / lower bound |
+| **Right Boundary** | `left < right` | `left - 1` | Last occurrence / upper bound |
+| **Rotated Array** | `left <= right` | `mid` when found | Rotated sorted array |
+| **Answer Space** | `left < right` | `left` | Min/max feasibility problems |
+
+### Interview Tips 💡
+
+1. **Overflow:** Always use `left + Math.floor((right - left) / 2)` instead of `(left + right) / 2` to prevent integer overflow.
+2. **Off-by-one:** The #1 source of bugs. Decide upfront: `left <= right` vs `left < right`, and `right = mid` vs `right = mid - 1`.
+3. **Monotonic predicate:** If you can phrase the problem as "find the first X where condition is true" and the condition is monotonic (FFFFTTTTT), it's binary search.
+4. **Answer space binary search:** For problems like "minimum capacity to ship packages in D days" — binary search on the ANSWER, not the input array.
+5. **Rotated arrays:** At least one half is ALWAYS sorted. Check which, then decide.
+6. **Duplicates change everything:** With duplicates, worst case becomes O(N) — you can't safely eliminate a half when `nums[left] == nums[mid] == nums[right]`.
+7. **Real interview frequency:** Binary search appears in ~30% of coding interviews. Master all 5 patterns above.

@@ -174,11 +174,20 @@ console.log(`${k}nd Largest Element:`, findKthLargest(scores, k)); // Output 5
 
 ## 6. Real World Applications 🌍
 
-### 1. ⚡ Language Libraries
-Many standard libraries (C++ `std::sort`, Java `Arrays.sort`, JavaScript engines) use optimized versions of Quick Sort (often Introsort - a hybrid of Quick Sort and Heap Sort) because it is extremely fast in practice due to cache locality.
+### 1. ⚡ Language Standard Libraries
+Many standard libraries (C++ `std::sort`, Java `Arrays.sort`, JavaScript engines) use optimized versions of Quick Sort. Modern implementations use **Introsort** — Quick Sort that falls back to Heap Sort if recursion depth exceeds O(log N), guaranteeing O(N log N) worst case.
 
-### 2. 📊 Big Data Processing
-When you need to sort distributed data, principles of "Divide and Conquer" from Quick Sort are adapted (e.g., TeraSort) to partition data across different machines.
+### 2. 📊 Big Data Processing (TeraSort)
+Distributed sorting algorithms partition data across machines using Quick Sort's partitioning strategy. Each machine gets a range of values, sorts locally, then the results are concatenated.
+
+### 3. 🎯 Quick Select (Order Statistics)
+"Find the Kth smallest element without fully sorting" — Quick Select uses Quick Sort's partition to narrow down to the Kth element in O(N) average time. Used in database query optimizers for `ORDER BY ... LIMIT K`.
+
+### 4. 🔒 Dutch National Flag (3-Way Partition)
+Sort an array of 0s, 1s, and 2s in one pass using 3-way partitioning. This is a direct application of the partition step and a classic interview question.
+
+### 5. 🧮 Randomized Algorithms
+Quick Sort is one of the most studied randomized algorithms. It demonstrates how randomization can turn a worst-case O(N²) algorithm into expected O(N log N) — a key concept in algorithm design.
 
 ---
 
@@ -188,7 +197,48 @@ Why is Quick Sort "Quick"?
 
 ### Time Complexity: O(N log N) ⚡
 - **Average Case:** O(N log N). We divide the list in half roughly `log N` times, and iterate `N` times at each level.
-- **Worst Case:** O(N²). If the array is already sorted (or reverse sorted) and we pick the last element as pivot, we only eliminate one element at a time (like worst-case recursion). *Fix:* Pick a random pivot.
+- **Worst Case:** O(N²). If the array is already sorted (or reverse sorted) and we pick the last element as pivot, we only eliminate one element at a time. *Fix:* Pick a random pivot or use median-of-three.
+- **Best Case:** O(N log N). When the pivot always lands in the middle.
 
 ### Space Complexity: O(log N) 💾
 - Uses recursion stack space. It's better than Merge Sort's O(N) auxiliary space, which is why it's often preferred for in-memory sorting.
+- Worst case space: O(N) — when the recursion is maximally unbalanced.
+
+### Why Quick Sort is Fastest in Practice
+
+```
+Cache Locality:  Quick Sort wins!
+──────────────────────────────────
+Quick Sort: Scans array sequentially (cache-friendly)
+  [████████████████████]  → CPU prefetcher loves this
+  
+Merge Sort: Creates new arrays, copies back and forth
+  [████████] → new[] → [████████████████████]
+  
+Heap Sort: Jumps parent → child → sibling (random access pattern)
+  [█ ← → █ ← → █]  → cache misses
+```
+
+### Randomized Pivot (Fixing Worst Case)
+
+```typescript
+/**
+ * Randomized partition — prevents O(N²) on sorted input.
+ * Swap a random element with the last, then partition normally.
+ */
+function randomizedPartition(arr: number[], low: number, high: number): number {
+  const randomIndex = low + Math.floor(Math.random() * (high - low + 1));
+  [arr[randomIndex], arr[high]] = [arr[high], arr[randomIndex]];
+  return partition(arr, low, high); // Standard Lomuto partition
+}
+```
+
+### Interview Tips 💡
+
+1. **Always use random pivot:** If an interviewer mentions "worst case", show you know about randomized Quick Sort. Swap `arr[random]` with `arr[high]` before partitioning.
+2. **Lomuto vs Hoare partition:** Lomuto (shown above) is simpler to implement. Hoare uses two pointers from both ends and is ~3x faster in practice (fewer swaps). Know both.
+3. **3-Way partition for duplicates:** When the array has many duplicate values, standard Quick Sort degrades. Use Dutch National Flag (3-way partition: `< pivot | == pivot | > pivot`) to handle duplicates in O(N).
+4. **Quick Select for Kth element:** Don't sort the whole array. Partition once, recurse into only ONE side. Average O(N), worst O(N²). This is the basis of `std::nth_element` in C++.
+5. **Tail recursion optimization:** Recurse into the SMALLER partition first, then use a loop for the larger one. This reduces the stack depth from O(N) to O(log N) in the worst case.
+6. **Not stable:** Quick Sort is NOT stable. If you need stability, use Merge Sort or TimSort.
+7. **When NOT to use Quick Sort:** Linked lists (no random access for partition), already sorted data (without randomization), and when worst case must be guaranteed O(N log N) — use Merge Sort or Heap Sort.

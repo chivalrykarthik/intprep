@@ -224,11 +224,20 @@ printList(sortedHead);
 
 ## 6. Real World Applications 🌍
 
-### 1. 📂 External Sorting
-When sorting massive datasets (e.g., 100GB file) that don't fit in RAM, Merge Sort is king. You break the file into chunks that fit in RAM, sort them, write them to disk, and then merge the sorted chunks.
+### 1. 📂 External Sorting (Big Data)
+When sorting massive datasets (e.g., 100GB file) that don't fit in RAM, Merge Sort is king. You break the file into chunks that fit in RAM, sort them, write them to disk, and then merge the sorted chunks. Hadoop MapReduce uses this approach.
 
 ### 2. 🛡️ Stable Sorts
 Merge Sort is **stable**, meaning if two items have the same value, their original order is preserved. This is crucial for things like sorting a spreadsheet by "Last Name" then by "First Name". Quick Sort is usually unstable.
+
+### 3. 🔗 Sorting Linked Lists
+Merge Sort is the **best** algorithm for linked lists (O(N log N) time, O(1) space). Why? It doesn't need random access — you only traverse sequentially. Quick Sort needs random access for partition and is terrible on linked lists.
+
+### 4. 🧮 Counting Inversions
+"How far is this array from being sorted?" — The number of inversions can be counted during the merge step in O(N log N). Used in collaborative filtering and recommendation systems.
+
+### 5. 🗄️ Database Query Processing
+When databases join two large tables, they often use "Sort-Merge Join": sort both tables by the join key, then merge them. It's efficient when both sides are large and already partially sorted.
 
 ---
 
@@ -238,6 +247,28 @@ Why choose Merge Sort?
 
 ### Time Complexity: O(N log N) ⚡
 - **Every Case:** Best, Average, and Worst case are all O(N log N). It is predictable and reliable, unlike Quick Sort which can degrade to N².
+- **Why N log N?** We split log N times (halving), and at each level we do O(N) work (merging all elements at that level).
 
 ### Space Complexity: O(N) 💾
 - The downside: It requires O(N) auxiliary space to store the merged arrays during the process.
+- For linked lists: O(log N) space (only recursion stack, no auxiliary arrays).
+
+### Stability Explained
+
+```
+Input:  [(Alice, 90), (Bob, 85), (Carol, 90)]
+  Sorted by score descending:
+  
+Merge Sort: [(Alice, 90), (Carol, 90), (Bob, 85)]  ← Alice before Carol (stable ✅)
+Quick Sort: [(Carol, 90), (Alice, 90), (Bob, 85)]  ← Order may flip (unstable ❌)
+```
+
+### Interview Tips 💡
+
+1. **Stability matters in interviews:** If asked "sort by X, then by Y", Merge Sort preserves the first sort order. This is WHY Python uses TimSort (a Merge Sort variant).
+2. **Linked List sort = Merge Sort:** Always. No random access needed, O(1) extra space (vs arrays needing O(N)).
+3. **Count inversions during merge:** During the merge step, when you pick from the right array, every remaining element in the left array is an inversion. Count them.
+4. **External sort pattern:** "Sort 100GB with 1GB RAM" → chunk into 100 files of 1GB → sort each in RAM → K-way merge with a min-heap.
+5. **Merge Sort vs Quick Sort trade-off:** "Merge Sort gives predictable O(N log N) and stability, but needs O(N) space. Quick Sort is faster in practice (cache locality) but can degrade to O(N²) without randomization."
+6. **Bottom-up Merge Sort:** The iterative version — useful to avoid recursion stack overflow on very large arrays. Start with pairs, then quads, then 8s, etc.
+7. **Parallel Merge Sort:** Since the two halves are independent, they can be sorted in parallel. This is why Merge Sort is the foundation of distributed sorting (MapReduce).
