@@ -154,6 +154,9 @@ console.log("Existing schedule:", existingIntervals);
 console.log("Insert slot:", newSlot);
 console.log("Calculated schedule:", insert(existingIntervals, newSlot));
 ```
+### Sample input and output
+- **Input**: `intervals = [[1,3],[6,9]]`, `newInterval = [2,5]`
+- **Output**: `[[1,5],[6,9]]` ([1,3] and [2,5] overlap → merged to [1,5])
 
 ---
 

@@ -99,6 +99,9 @@ function levelOrder(root: TreeNode | null): number[][] {
 
       // Process all nodes at this current level
       for (let i = 0; i < levelSize; i++) {
+          // ⚠️ Note: Array.shift() is O(N) in JS (re-indexes entire array).
+          // For production code, use a proper Queue (linked list or circular buffer).
+          // Here it's fine for interview demonstrations.
           const currentNode = queue.shift()!; // Dequeue
           currentLevel.push(currentNode.val);
 
@@ -125,6 +128,9 @@ const root = new TreeNode(3,
 );
 console.log("Tree Level Order:", levelOrder(root));
 ```
+### Sample input and output
+- **Input**: Tree `[3, 9, 20, null, null, 15, 7]`
+- **Output**: `[[3], [9, 20], [15, 7]]`
 
 ---
 
@@ -195,6 +201,9 @@ const rootZigzag = new TreeNode(3,
 );
 console.log("Zigzag Traversal:", zigzagLevelOrder(rootZigzag));
 ```
+### Sample input and output
+- **Input**: Tree `[3, 9, 20, null, null, 15, 7]`
+- **Output**: `[[3], [20, 9], [15, 7]]` (Level 0: L→R, Level 1: R→L, Level 2: L→R)
 
 ---
 
@@ -214,8 +223,8 @@ Search engines use BFS to crawl the web. They start at a seed page (e.g., Wikipe
 ## 7. Complexity Analysis 🧠
 
 ### Time Complexity: O(N) ⚡
-- We visit every node once. Enqueuing and dequeuing takes O(1).
-- Total time is linear to the number of nodes.
+- We visit every node once.
+- ⚠️ **Caveat:** JavaScript's `Array.shift()` is O(N) per call (re-indexes the array). With N nodes, this makes the naive implementation O(N²) in practice. For true O(N) BFS, use a **linked-list-based Queue** or a **circular buffer**. In interview settings, `shift()` is acceptable — but mention the caveat to impress your interviewer.
 
 ### Space Complexity: O(W) 💾
 - **W** is the maximum width of the tree.

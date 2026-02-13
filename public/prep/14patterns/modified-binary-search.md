@@ -88,6 +88,9 @@ const targetVal = 9;
 console.log("Array:", sortedArr);
 console.log(`Index of ${targetVal}:`, search(sortedArr, targetVal));
 ```
+### Sample input and output
+- **Input**: `nums = [-1, 0, 3, 5, 9, 12]`, `target = 9`
+- **Output**: `4` (nums[4] = 9)
 
 ---
 
@@ -137,6 +140,9 @@ const targetItem = 0;
 console.log("Rotated Array:", rotatedArr);
 console.log(`Index of ${targetItem}:`, searchRotated(rotatedArr, targetItem));
 ```
+### Sample input and output
+- **Input**: `nums = [4, 5, 6, 7, 0, 1, 2]`, `target = 0`
+- **Output**: `4` (The array was rotated; 0 is at index 4)
 
 ---
 

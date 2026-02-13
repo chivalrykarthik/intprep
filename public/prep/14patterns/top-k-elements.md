@@ -135,6 +135,9 @@ const K = 2;
 console.log("Array:", kNums);
 console.log(`${K}nd Largest Element:`, findKthLargest(kNums, K));
 ```
+### Sample input and output
+- **Input**: `nums = [3, 2, 1, 5, 6, 4]`, `k = 2`
+- **Output**: `5` (Sorted: [1,2,3,4,5,6], 2nd largest = 5)
 
 ---
 
@@ -247,6 +250,9 @@ const kFreq = 2;
 console.log("Array:", freqNums);
 console.log(`Top ${kFreq} Frequent Elements:`, topKFrequent(freqNums, kFreq));
 ```
+### Sample input and output
+- **Input**: `nums = [1, 1, 1, 2, 2, 3]`, `k = 2`
+- **Output**: `[1, 2]` (1 appears 3×, 2 appears 2×, 3 appears 1×)
 
 ---
 

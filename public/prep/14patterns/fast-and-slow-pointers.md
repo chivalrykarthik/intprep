@@ -130,7 +130,7 @@ console.log("Has Cycle?", hasCycle(noCycleHead));
 ---
 
 ## 5. Scenario B: The Happy Number (Mathematical Loops)
-**Real-Life Scenario:** You are checking a "magic" number property. You apply a rule repeately. If you get to 1, you win. If you get stuck in a never-ending loop of numbers, you lose.
+**Real-Life Scenario:** You are checking a "magic" number property. You apply a rule repeatedly. If you get to 1, you win. If you get stuck in a never-ending loop of numbers, you lose.
 
 **Technical Problem:** A "happy number" is one where the sum of squares of its digits eventually equals 1. If it loops endlessly in a cycle that excludes 1, it is not happy.
 
@@ -178,6 +178,11 @@ function isHappy(n: number): boolean {
 console.log("Is 19 a happy number?", isHappy(19));
 console.log("Is 4 a happy number?", isHappy(4));
 ```
+### Sample input and output
+- **Input**: `n = 19` → 1² + 9² = 82 → 8² + 2² = 68 → 6² + 8² = 100 → 1² = **1** ✅
+- **Output**: `true`
+- **Input**: `n = 4` → 16 → 37 → 58 → 89 → 145 → 42 → 20 → **4** (cycle!) ❌
+- **Output**: `false`
 
 ---
 

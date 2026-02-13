@@ -68,27 +68,27 @@ Click "Next" to see the list of subsets double in size!
  * @spaceComplexity O(N * 2^N) - To store all subsets.
  */
 function subsets(nums: number[]): number[][] {
-  const subsets: number[][] = [];
-  subsets.push([]); // Start with empty set
+  const result: number[][] = [];
+  result.push([]); // Start with empty set
 
   for (const currentNumber of nums) {
       // Take the current snapshot of the list size
       // Because we are appending to the list while iterating
-      const n = subsets.length;
+      const n = result.length;
 
       for (let i = 0; i < n; i++) {
           // 1. Create a copy of the existing subset
-          const setCopy = [...subsets[i]]; 
+          const setCopy = [...result[i]]; 
           
           // 2. Add the current number
           setCopy.push(currentNumber);
           
           // 3. Add to result
-          subsets.push(setCopy);
+          result.push(setCopy);
       }
   }
 
-  return subsets;
+  return result;
 }
 
 // Example Usage:
@@ -96,6 +96,9 @@ const uniqueNums = [1, 2, 3];
 console.log("Input:", uniqueNums);
 console.log("All Subsets:", subsets(uniqueNums));
 ```
+### Sample input and output
+- **Input**: `[1, 2, 3]`
+- **Output**: `[[], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3]]` (2³ = 8 subsets)
 
 ---
 
@@ -147,6 +150,9 @@ const numsWithDup = [1, 2, 2];
 console.log("Input with duplicates:", numsWithDup);
 console.log("Unique Subsets:", subsetsWithDup(numsWithDup));
 ```
+### Sample input and output
+- **Input**: `[1, 2, 2]`
+- **Output**: `[[], [1], [2], [1,2], [2,2], [1,2,2]]` (duplicates handled — no `[2]` appearing twice)
 
 ---
 

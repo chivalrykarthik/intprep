@@ -117,6 +117,9 @@ const cyclePrereqs = [[1, 0], [0, 1]];
 console.log("Cycle Prereqs:", cyclePrereqs);
 console.log("Can Finish?", canFinish(2, cyclePrereqs));
 ```
+### Sample input and output
+- **Input**: `numCourses = 2`, `prerequisites = [[1,0]]` → **Output**: `true` (Take 0 first, then 1)
+- **Input**: `numCourses = 2`, `prerequisites = [[1,0],[0,1]]` → **Output**: `false` (Circular dependency!)
 
 ---
 
@@ -186,6 +189,9 @@ const alienWords = ["wrt","wrf","er","ett","rftt"];
 console.log("Alien Dictionary:", alienWords);
 console.log("Derived Order:", alienOrder(alienWords));
 ```
+### Sample input and output
+- **Input**: `words = ["wrt", "wrf", "er", "ett", "rftt"]`
+- **Output**: `"wertf"` (Derived edges: t→f, w→e, r→t, e→r → ordering: w, e, r, t, f)
 
 ---
 

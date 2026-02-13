@@ -50,11 +50,38 @@ In a Monolith, you have `BEGIN TRANSACTION ... COMMIT`. In Microservices, you ha
 
 ## 3. Interactive Visualization 🎮
 
-```visualizer
-{
-  "type": "sequence-diagram",
-  "content": "participant P as Payment\nparticipant S as Stock\nparticipant D as Delivery\n\nNote over P,S: Core Transaction Flow (Saga)\n\nP->S: Order Paid (Event)\nNote right of S: Local TX: Reserve Item\nS->D: Item Reserved (Event)\nNote right of D: Local TX: Schedule Delivery\nD-->P: Delivery Scheduled (Success)\n\nNote over P,S: Compensation Flow (Failure)\n\nP->S: Order Paid\nS->D: Item Reserved\nD-->S: Delivery Failed! (Event)\nNote left of S: COMPENSATING TX: Un-reserve Item\nS-->P: Item Un-reserved\nP-->User: Refund Issued"
-}
+```
+┌──────────────────────────────────────────────────────────┐
+│         SAGA PATTERN — Sequence Flow                     │
+│                                                          │
+│  ═══ SUCCESS FLOW ═══                                    │
+│                                                          │
+│  Payment        Stock          Delivery                  │
+│     │              │              │                      │
+│     │──Order Paid──▶              │                      │
+│     │              │──Reserve─────▶                      │
+│     │              │  Item        │                      │
+│     │              │              │──Schedule──┐         │
+│     │              │              │  Delivery  │         │
+│     ◀──────────────┼──────────────┼── Done ◀───┘         │
+│                                                          │
+│  ═══ FAILURE + COMPENSATION FLOW ═══                     │
+│                                                          │
+│  Payment        Stock          Delivery                  │
+│     │              │              │                      │
+│     │──Order Paid──▶              │                      │
+│     │              │──Reserve─────▶                      │
+│     │              │              │── FAILED! ──┐        │
+│     │              │              │             │        │
+│     │              ◀──Un-reserve──┼─────────────┘        │
+│     │              │  (Compensate)│                      │
+│     ◀──Refund──────┤              │                      │
+│     │  (Compensate)│              │                      │
+│                                                          │
+│  Key: Each step is a LOCAL transaction.                  │
+│       Failures trigger COMPENSATING transactions.        │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---

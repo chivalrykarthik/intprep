@@ -95,6 +95,9 @@ console.log("Numbers:", numbers);
 console.log("Target Sum:", targetSum);
 console.log("Indices found:", twoSumSorted(numbers, targetSum));
 ```
+### Sample input and output
+- **Input**: `numbers = [2, 7, 11, 15]`, `target = 9`
+- **Output**: `[1, 2]` (numbers[0]=2 + numbers[1]=7 = 9, 1-based indices)
 
 ---
 
@@ -146,16 +149,25 @@ const heights = [1, 8, 6, 2, 5, 4, 8, 3, 7];
 console.log("Wall Heights:", heights);
 console.log("Max Water Area:", maxArea(heights));
 ```
+### Sample input and output
+- **Input**: `height = [1, 8, 6, 2, 5, 4, 8, 3, 7]`
+- **Output**: `49` (between heights 8 and 7, width = 7, area = 7 × 7 = 49)
 
 ---
 
 ## 6. Real World Applications 🌍
 
-### 1. 🎵 Playlist Shuffling
-Verifying if a playlist is a palindrome or reversing a generic list in place involves swapping elements from ends towards the center.
+### 1. 🎵 Palindrome Detection (Strings & Playlists)
+Checking if a string (or any sequence) reads the same forwards and backwards is a classic two-pointer problem. One pointer starts at the beginning, the other at the end, and they walk towards each other comparing characters. If they ever mismatch, it's not a palindrome. This is used in DNA sequence analysis, input validation, and playlist symmetry checks.
 
-### 2. 💾 Memory Management
-Compact free space blocks. One pointer reads used blocks, another writes them to the front to defragment memory (similar to "Move Zeroes" problem).
+### 2. 💾 Memory Defragmentation (Move Zeroes)
+Operating systems compact free memory blocks by moving used data to the front. One pointer (read) scans for used blocks, another (write) tracks where to place them. This is identical to the "Move Zeroes" problem — move all non-zero elements to the front while maintaining order, filling the rest with zeroes.
+
+### 3. 🔗 Merging Sorted Arrays
+When merging two sorted arrays (e.g., in Merge Sort's merge step), you maintain one pointer per array. Compare the elements at both pointers, take the smaller one, and advance that pointer. This runs in O(N+M) rather than the O((N+M) log(N+M)) of dumping everything and re-sorting.
+
+### 4. 🧪 A/B Testing (Sorted Log Analysis)
+When comparing two sorted event logs from variant A and variant B, two pointers let you walk through both logs simultaneously, identifying matching events, gaps, and divergences in a single pass — critical for real-time analytics pipelines at scale.
 
 ---
 

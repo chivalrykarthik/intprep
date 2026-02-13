@@ -164,6 +164,11 @@ class MedianFinder {
 
 // Example Usage:
 const medianFinder = new MedianFinder();
+// addNum(5)  → median: 5
+// addNum(2)  → median: (2+5)/2 = 3.5
+// addNum(8)  → median: 5
+// addNum(1)  → median: (2+5)/2 = 3.5
+// addNum(9)  → median: 5
 const stream = [5, 2, 8, 1, 9];
 
 console.log("Streaming numbers:", stream);
@@ -172,6 +177,9 @@ for (const num of stream) {
     console.log(`Added ${num}, Median is: ${medianFinder.findMedian()}`);
 }
 ```
+### Sample input and output
+- **Input**: Stream `[5, 2, 8, 1, 9]`
+- **Output (medians after each add)**: `[5, 3.5, 5, 3.5, 5]`
 
 ---
 
@@ -182,10 +190,19 @@ for (const num of stream) {
 
 ### TypeScript Implementation
 
+> **⚠️ Interview Note:** The brute-force approach below sorts each window independently at O(K log K), giving O(N × K log K) total. The **optimal** approach uses **Two Heaps (Max Heap + Min Heap) with lazy deletion** (using a HashMap to track invalidated elements), achieving **O(N log K)**. In an interview, explain both — implement the simpler version first, then discuss the optimal upgrade.
+
 ```typescript
 /**
- * Finds median of sliding window. 
- * (Simplified O(N*K*logK) solution for demonstration, actual optimal solution uses Dual PriorityQueues with Hash Map for O(N*logK)).
+ * Finds median of each sliding window of size k.
+ * 
+ * @param nums - The array of numbers.
+ * @param k - Window size.
+ * @returns Array of medians for each window position.
+ * 
+ * @timeComplexity O(N * K log K) - Sort each window. 
+ *   Optimal: O(N log K) using dual heaps with lazy deletion.
+ * @spaceComplexity O(K) - For the window copy.
  */
 function medianSlidingWindow(nums: number[], k: number): number[] {
     const result: number[] = [];
@@ -198,20 +215,11 @@ function medianSlidingWindow(nums: number[], k: number): number[] {
         window.sort((a, b) => a - b);
         
         // 3. Find median
-        let median: number;
         const mid = Math.floor(window.length / 2);
+        const median = (window.length % 2 === 1)
+            ? window[mid]
+            : (window[mid - 1] + window[mid]) / 2;
         
-        if (window.length % 2 === 1) {
-            median = window[mid];
-        } else {
-            // For this specific LeetCode problem (Sliding Window Median), it usually asks for the upper median or specific logic.
-            // But mathematically:
-            median = (window[mid - 1] + window[mid]) / 2;
-            
-            // Note: LeetCode #480 actually says "median is the middle value... if even, take the smaller of the two? No, it takes average".
-            // Wait, LC #480 says "returns the median array... accepted as double".
-            // Let's stick to standard median definition.
-        }
         result.push(median);
     }
     
@@ -224,6 +232,22 @@ const windowSize = 3;
 console.log("Prices:", stockPrices);
 console.log(`Medians (window size ${windowSize}):`, medianSlidingWindow(stockPrices, windowSize));
 ```
+
+### Optimal Approach Outline (O(N log K))
+1. Maintain a **Max Heap** (lower half) and **Min Heap** (upper half) — just like Scenario A.
+2. As the window slides, **add** the new element and **remove** the outgoing element.
+3. **Lazy deletion:** Don't remove immediately from the heap. Instead, track "invalidated" elements in a HashMap. When they bubble to the top during future operations, discard them.
+4. Rebalance heaps after each add/remove to maintain the median property.
+
+### Sample input and output
+- **Input**: `nums = [1, 3, -1, -3, 5, 3, 6, 7]`, `k = 3`
+- **Output**: `[1, -1, -1, 3, 5, 6]`
+  - Window `[1,3,-1]` sorted `[-1,1,3]` → median `1`
+  - Window `[3,-1,-3]` sorted `[-3,-1,3]` → median `-1`
+  - Window `[-1,-3,5]` sorted `[-3,-1,5]` → median `-1`
+  - Window `[-3,5,3]` sorted `[-3,3,5]` → median `3`
+  - Window `[5,3,6]` sorted `[3,5,6]` → median `5`
+  - Window `[3,6,7]` sorted `[3,6,7]` → median `6`
 
 ---
 

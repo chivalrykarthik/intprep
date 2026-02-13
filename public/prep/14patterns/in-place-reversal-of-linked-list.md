@@ -113,6 +113,9 @@ const reversedHead = reverseList(head);
 console.log("Reversed List:");
 printList(reversedHead);
 ```
+### Sample input and output
+- **Input**: `1 -> 2 -> 3 -> 4 -> 5`
+- **Output**: `5 -> 4 -> 3 -> 2 -> 1`
 
 ---
 
@@ -190,6 +193,9 @@ const modifiedHead = reverseBetween(head, 2, 4);
 console.log("List after reversing from 2 to 4:");
 printList(modifiedHead);
 ```
+### Sample input and output
+- **Input**: `1 -> 2 -> 3 -> 4 -> 5`, `left = 2`, `right = 4`
+- **Output**: `1 -> 4 -> 3 -> 2 -> 5` (only nodes at positions 2–4 are reversed)
 
 ---
 

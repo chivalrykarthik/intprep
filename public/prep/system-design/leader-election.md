@@ -40,11 +40,30 @@ To make a decision (commit a write or elect a leader), you need `N/2 + 1` nodes.
 
 ## 3. Interactive Visualization 🎮
 
-```visualizer
-{
-  "type": "state-machine",
-  "content": "stateDiagram-v2\n    [*] --> Follower\n    Follower --> Candidate: Election Timeout\n    Candidate --> Leader: Majority Votes Received\n    Candidate --> Follower: Discovers Higher Term / Leader\n    Leader --> Follower: Discovers Higher Term\n    Leader --> Leader: Send Heartbeats"
-}
+```
+┌──────────────────────────────────────────────────────────┐
+│              RAFT STATE MACHINE                           │
+│                                                          │
+│                  Election Timeout                         │
+│   ┌──────────┐ ──────────────────▶ ┌─────────────┐       │
+│   │ FOLLOWER │                     │  CANDIDATE  │       │
+│   └──────────┘ ◀────────────────── └─────────────┘       │
+│        ▲        Discovers Higher        │                │
+│        │        Term / Leader           │ Majority       │
+│        │                                │ Votes          │
+│        │                                ▼                │
+│        │    Discovers              ┌──────────┐          │
+│        └─── Higher Term ────────── │  LEADER  │          │
+│                                    │  (sends  │          │
+│                                    │  heart-  │ ◀──┐     │
+│                                    │  beats)  │ ───┘     │
+│                                    └──────────┘          │
+│                                     Send Heartbeats      │
+│                                                          │
+│   Key: Only ONE Leader per Term.                         │
+│   Majority = N/2 + 1 (Quorum)                           │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---

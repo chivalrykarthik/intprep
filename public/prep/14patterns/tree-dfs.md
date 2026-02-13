@@ -115,6 +115,9 @@ const root = new TreeNode(5,
 const target = 22; // 5 -> 4 -> 11 -> 2
 console.log(`Has path sum ${target}?`, hasPathSum(root, target));
 ```
+### Sample input and output
+- **Input**: Tree `[5,4,8,11,null,13,4,7,2,null,null,null,1]`, `targetSum = 22`
+- **Output**: `true` (Path: 5 → 4 → 11 → 2 = 22)
 
 ---
 
@@ -199,6 +202,9 @@ const kVal = 8;
 // -3 -> 11
 console.log(`Number of paths summing to ${kVal}:`, pathSum(rootSum, kVal));
 ```
+### Sample input and output
+- **Input**: Tree `[10,5,-3,3,2,null,11,3,-2,null,1]`, `k = 8`
+- **Output**: `3` (Paths: 5→3, 5→2→1, -3→11)
 
 ---
 

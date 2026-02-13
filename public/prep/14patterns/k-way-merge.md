@@ -212,6 +212,9 @@ const merged = mergeKLists([l1, l2, l3]);
 console.log("Result:");
 printList(merged);
 ```
+### Sample input and output
+- **Input**: `lists = [[1,4,5], [1,3,4], [2,6]]`
+- **Output**: `1 -> 1 -> 2 -> 3 -> 4 -> 4 -> 5 -> 6`
 
 ---
 
@@ -346,6 +349,9 @@ const lists = [
 console.log("Lists:", lists);
 console.log("Smallest Range:", smallestRange(lists));
 ```
+### Sample input and output
+- **Input**: `lists = [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]`
+- **Output**: `[20, 24]` (range of 4, covers 24 from list 0, 20 from list 1, 22 from list 2)
 
 ---
 

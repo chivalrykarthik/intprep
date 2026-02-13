@@ -97,6 +97,9 @@ const kSongs = 3;
 console.log("Playlist:", songs);
 console.log(`Loudest ${kSongs}-song stretch sum:`, findLoudestStretch(songs, kSongs));
 ```
+### Sample input and output
+- **Input**: `decibels = [80, 90, 80, 100, 110, 80]`, `k = 3`
+- **Output**: `290` (subarray `[80, 100, 110]` or `[100, 110, 80]`)
 
 ---
 
@@ -150,6 +153,9 @@ console.log("Leaves:", leaves);
 console.log("Target Fullness:", target);
 console.log("Minimum leaves needed:", lazyCaterpillar(target, leaves));
 ```
+### Sample input and output
+- **Input**: `targetFullness = 70`, `leaves = [10, 20, 30, 10, 50]`
+- **Output**: `3` (subarray `[30, 10, 50]` has sum 90 ≥ 70)
 
 ---
 

@@ -136,6 +136,9 @@ const dupNums = [1, 3, 4, 2, 2];
 console.log("Array with duplicate:", dupNums);
 console.log("Duplicate Number:", findDuplicate(dupNums));
 ```
+### Sample input and output
+- **Input**: `[1, 3, 4, 2, 2]`
+- **Output**: `2` (After cyclic sorting, index 4 still holds 2 — it's the duplicate)
 
 ---
 
