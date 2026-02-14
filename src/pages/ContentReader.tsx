@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     headerWrapper: {
         flex: "0 0 auto",
         width: "100%",
-        maxWidth: "800px",
+        maxWidth: "1280px",
         margin: "0 auto",
         backgroundColor: tokens.colorNeutralBackground1, // Ensure header has bg
         zIndex: 10,
@@ -66,7 +66,7 @@ const useStyles = makeStyles({
     },
     contentInner: {
         width: "100%",
-        maxWidth: "800px",
+        maxWidth: "1280px",
         ...shorthands.padding("20px", "20px", "60px", "20px"), // Bottom padding for scrolling space
         lineHeight: "1.6",
         color: tokens.colorNeutralForeground1,

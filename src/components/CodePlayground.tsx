@@ -13,13 +13,22 @@ import * as Babel from "@babel/standalone";
 const useStyles = makeStyles({
     container: {
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         margin: "24px 0",
         backgroundColor: tokens.colorNeutralBackground2,
         borderRadius: "8px",
         ...shorthands.border("1px", "solid", tokens.colorNeutralStroke2),
         overflow: "hidden",
         boxShadow: tokens.shadow4,
+        alignItems: "stretch",
+        maxHeight: "450px",
+    },
+    leftPane: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        minWidth: "50%",
+        maxHeight: "450px",
     },
     header: {
         display: "flex",
@@ -38,16 +47,22 @@ const useStyles = makeStyles({
     editorContainer: {
         position: "relative",
         minHeight: "100px",
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        overflow: "auto",
+        maxHeight: "calc(450px - 41px)",
     },
     textarea: {
         width: "100%",
+        height: "100%",
         minHeight: "200px",
         padding: "16px",
         fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
         fontSize: "14px",
         lineHeight: "1.5",
         border: "none",
-        resize: "vertical",
+        resize: "none",
         backgroundColor: tokens.colorNeutralBackground1,
         color: tokens.colorNeutralForeground1,
         outline: "none",
@@ -57,12 +72,16 @@ const useStyles = makeStyles({
         padding: "16px",
         backgroundColor: "#1e1e1e",
         color: "#d4d4d4",
-        borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
+        borderLeft: `1px solid ${tokens.colorNeutralStroke2}`,
         fontFamily: tokens.fontFamilyMonospace,
         fontSize: "13px",
-        maxHeight: "200px",
+        width: "40%",
+        minWidth: "300px",
+        maxHeight: "450px",
         overflowY: "auto",
         whiteSpace: "pre-wrap",
+        display: "flex",
+        flexDirection: "column",
     },
     outputLabel: {
         fontSize: "11px",
@@ -186,61 +205,63 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <span className={styles.title}>{language.toUpperCase()} PLAYGROUND</span>
-                <div className={styles.controls}>
-                    <Button
-                        size="small"
-                        icon={isEditing ? <CodeRegular /> : <EditRegular />}
-                        appearance="subtle"
-                        onClick={toggleEdit}
-                    >
-                        {isEditing ? "View" : "Edit"}
-                    </Button>
-                    <Button
-                        size="small"
-                        icon={<ArrowCounterclockwiseRegular />}
-                        appearance="subtle"
-                        onClick={handleReset}
-                        title="Reset Code"
-                    />
-                    <Button
-                        size="small"
-                        icon={<PlayRegular />}
-                        appearance="primary"
-                        onClick={handleRun}
-                    >
-                        Run
-                    </Button>
+            <div className={styles.leftPane}>
+                <div className={styles.header}>
+                    <span className={styles.title}>{language.toUpperCase()} PLAYGROUND</span>
+                    <div className={styles.controls}>
+                        <Button
+                            size="small"
+                            icon={isEditing ? <CodeRegular /> : <EditRegular />}
+                            appearance="subtle"
+                            onClick={toggleEdit}
+                        >
+                            {isEditing ? "View" : "Edit"}
+                        </Button>
+                        <Button
+                            size="small"
+                            icon={<ArrowCounterclockwiseRegular />}
+                            appearance="subtle"
+                            onClick={handleReset}
+                            title="Reset Code"
+                        />
+                        <Button
+                            size="small"
+                            icon={<PlayRegular />}
+                            appearance="primary"
+                            onClick={handleRun}
+                        >
+                            Run
+                        </Button>
+                    </div>
                 </div>
-            </div>
 
-            <div className={styles.editorContainer} ref={editorContainerRef}>
-                {isEditing ? (
-                    <textarea
-                        className={styles.textarea}
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                        spellCheck={false}
-                        style={{ height: editorHeight }}
-                    />
-                ) : (
-                    <SyntaxHighlighter
-                        language={language}
-                        style={vscDarkPlus}
-                        customStyle={{
-                            margin: 0,
-                            padding: "16px",
-                            borderRadius: 0,
-                            fontSize: "14px",
-                            lineHeight: "1.5",
-                            minHeight: "200px",
-                            maxHeight: "350px",
-                        }}
-                    >
-                        {code}
-                    </SyntaxHighlighter>
-                )}
+                <div className={styles.editorContainer} ref={editorContainerRef}>
+                    {isEditing ? (
+                        <textarea
+                            className={styles.textarea}
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            spellCheck={false}
+                            style={{ height: editorHeight }}
+                        />
+                    ) : (
+                        <SyntaxHighlighter
+                            language={language}
+                            style={vscDarkPlus}
+                            customStyle={{
+                                margin: 0,
+                                padding: "16px",
+                                borderRadius: 0,
+                                fontSize: "14px",
+                                lineHeight: "1.5",
+                                minHeight: "200px",
+                                maxHeight: "350px",
+                            }}
+                        >
+                            {code}
+                        </SyntaxHighlighter>
+                    )}
+                </div>
             </div>
 
             {output.length > 0 && (
