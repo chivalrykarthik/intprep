@@ -303,3 +303,15 @@ Spell-checkers, autocorrect, and plagiarism detectors use **Edit Distance** — 
 - **"Is it possible to..."** → Could be DP or Greedy.
 - **You notice the same sub-problem being solved repeatedly** → Definitely DP (add memoization).
 - **Problem has choices at each step that affect future choices** → DP if choices overlap, Greedy if locally optimal = globally optimal.
+
+---
+
+## 9. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Minimum cost", "maximum profit", "number of ways", "longest/shortest sequence", "is it possible to", "optimal strategy" — all likely DP. If the problem has choices at each step and asks for the *best* outcome, DP is your first guess.
+2. **Start with the recurrence relation — always.** Before touching code, write the recurrence: `dp[i] = min(dp[i-coin] + 1) for each coin`. Say it out loud. This is the single most important step. If you can't define the recurrence, you can't solve the problem. Interviewers often care more about this than the code.
+3. **Top-Down vs. Bottom-Up — know the trade-offs.** Top-Down (memoization): natural recursive thinking, only computes needed subproblems, but O(N) stack space. Bottom-Up (tabulation): no recursion overhead, easier to optimize space, but requires you to figure out the iteration order. Implement whichever you're stronger at, mention the other.
+4. **Space optimization is the follow-up they'll ask.** If `dp[i]` only depends on `dp[i-1]`, you don't need an array — just two variables. If `dp[i][j]` only depends on the previous row, use a rolling array (two rows). Going from O(N²) → O(N) → O(1) is the progression they want to see. Volunteer this: *"I can optimize to O(1) space since I only need the previous two values."*
+5. **The 4 DP patterns cover 90% of problems.** (a) **Linear DP**: `dp[i]` depends on previous elements (Fibonacci, House Robber, LIS). (b) **Grid/2D DP**: two dimensions (LCS, Edit Distance, Unique Paths). (c) **Interval DP**: ranges `[i..j]` (Matrix Chain, Burst Balloons). (d) **State Machine DP**: multiple states with transitions (Stock Buy/Sell). Identify which pattern your problem fits.
+6. **Edge cases to mention proactively.** Empty input, single element (often the base case), negative numbers (min-cost problems might have negative edges), amount = 0 (return 0 or 1 depending on the problem), and integer overflow (DP values can grow large — use `BigInt` or modulo).
+7. **Don't jump to DP.** First, try brute-force recursion. Draw the recursion tree. If you see repeated subproblems (same `f(n)` computed multiple times), *then* add memoization. This "recursive → observe overlap → memoize → tabulate → optimize space" progression is the story interviewers want to hear. It shows you derive DP, not just memorize it.

@@ -231,3 +231,15 @@ AI explores moves by simulating a game tree. It dives deep into a move sequence 
 - In the worst case (a skewed tree, essentially a linked list), H = N, so **O(N)** recursion stack.
 - In a balanced tree, H = log N, so **O(log N)** space.
 - Compare this to BFS which takes O(W) (width). DFS is better for wide, shallow trees.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Root-to-leaf path", "path sum", "all paths", "maximum depth", "diameter", "lowest common ancestor", "serialize/deserialize" — all Tree DFS. Any time you need to explore full paths from root to leaves, use DFS.
+2. **Know all three traversal orders and when to use each.** **Pre-order** (root, left, right): serialize trees, copy trees. **In-order** (left, root, right): BST gives sorted output. **Post-order** (left, right, root): calculate subtree heights, delete trees bottom-up. Name the order you're using and why.
+3. **Return value vs. global variable — pick the right approach.** Some problems need values propagated UP (height, subtree sum) — use return values. Others need values propagated DOWN (prefix path, running sum) — pass parameters. Some need BOTH (diameter = max of left + right at any node) — use a global variable alongside return values.
+4. **The "recursive leap of faith."** Trust that `dfs(node.left)` correctly solves the left subtree. Focus on: (a) What does this function return? (b) How do I combine left/right results with the current node? (c) What's my base case? This mental model prevents getting lost in recursion.
+5. **Edge cases to mention proactively.** Empty tree (`null`), single node, completely left-skewed or right-skewed tree, negative values in path sum problems, and trees with duplicate values.
+6. **Iterative DFS with an explicit stack.** Recursive DFS risks stack overflow for deep trees (JS default stack is ~10K-15K frames). Iterative DFS using `const stack = [root]` avoids this. In production systems, always use iterative. Mention this conversion ability.
+7. **DFS is a subroutine in harder problems.** Lowest Common Ancestor, Binary Tree Maximum Path Sum, Flatten Binary Tree to Linked List, and Construct Binary Tree from Traversals all use DFS as the core engine. Frame your solution as "I'll use DFS because I need to process subtrees before combining results" — this shows you understand *why*, not just *how*.

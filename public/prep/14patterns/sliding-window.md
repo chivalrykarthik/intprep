@@ -198,3 +198,15 @@ Why do we care about Sliding Window? Because it turns a slow algorithm into a fa
 - We just keep a few variables (`currentSum`, `windowStart`, `maxSum`).
 - Constant space usage, regardless of how big the input array is.
 
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** When the problem says "contiguous subarray", "substring of length K", "maximum/minimum sum of subarray", or "smallest window containing X" — it's Sliding Window. Say it immediately: *"This is a sliding window problem."*
+2. **Fixed vs. Dynamic — know the difference instantly.** If K is given (window size is fixed), use the add-one-remove-one approach. If K is unknown (find the *smallest* or *longest* valid window), use the expand-right-shrink-left approach. Misidentifying this wastes 10+ minutes.
+3. **Use a HashMap for character/frequency windows.** Problems like "Longest Substring Without Repeating Characters" or "Minimum Window Substring" need a `Map<char, count>` inside the window. Track `distinct` or `matched` counts to avoid scanning the map each iteration.
+4. **Edge cases to mention proactively.** Empty array, `K > array.length`, all elements the same, negative numbers in sum problems (greedy shrinking doesn't work — you may need a deque). Mentioning these unprompted signals seniority.
+5. **Know the Deque optimization.** For "Sliding Window Maximum/Minimum", a plain sliding window doesn't work in O(N). You need a **Monotonic Deque** — a double-ended queue that maintains elements in decreasing order. This is an O(N) solution vs the O(N log K) heap approach.
+6. **Don't confuse with Two Pointers.** Sliding Window is a *specific case* of Two Pointers where both pointers move in the *same direction* and the window only grows or shrinks. Two Pointers can converge from opposite ends. If the interviewer asks, explain this distinction.
+7. **The "at most K distinct" template.** Many hard problems (Subarrays with K Different Integers, Longest Substring with At Most K Distinct Characters) use the same template: expand right, shrink left when constraint is violated. Master this one template and you solve 5+ LeetCode hards.
+

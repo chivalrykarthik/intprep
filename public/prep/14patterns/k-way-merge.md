@@ -374,3 +374,15 @@ In bioinformatics, merging multiple sorted sequences of gene reads to assemble a
 
 ### Space Complexity: O(K) 💾
 - The heap only needs to hold one representative from each list at a time.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "K sorted lists", "merge sorted arrays", "smallest range covering K lists", "Kth smallest in sorted matrix" — all K-way Merge. The combination of "K" + "sorted" + "merge" is the dead giveaway.
+2. **Always explain why the heap holds exactly K elements.** *"The heap stores one element from each of the K lists. When I pop the smallest, I push the next element from that same list. So the heap never exceeds size K."* This explanation shows you understand the invariant, not just the code.
+3. **Track which list each element came from.** Store `{ value, listIndex, itemIndex }` in the heap node. Without `listIndex`, you can't push the next element from the correct list. Without `itemIndex`, you can't advance to the next element. This is the implementation detail that separates clean code from buggy code.
+4. **Divide and Conquer is the alternative.** Instead of K-way merge with a heap (O(N log K)), you can merge lists pairwise like merge sort — merge list 0 with list 1, list 2 with list 3, etc., reducing K lists to K/2, then K/4, etc. Same O(N log K) complexity, no heap needed. Mention this to show breadth.
+5. **Edge cases to mention proactively.** Empty lists in the array (filter them out), single list (return it), all lists have only one element, lists of very different lengths. Also: what if the input is linked lists vs. arrays? (Linked lists can't random-access, so the heap approach is even more natural.)
+6. **The matrix variant is a common follow-up.** "Kth Smallest Element in a Sorted Matrix" — each row AND column is sorted. Treat rows as K sorted lists. Push the first element of each row, then advance within the row. This reduces a 2D problem to K-way merge. Alternatively, binary search on value range works too.
+7. **External sort for massive data.** K-way merge is the foundation of **external merge sort** — sorting data that doesn't fit in RAM. Split into sorted chunks, then K-way merge them from disk. If the interviewer asks about scalability, this is the answer. It demonstrates real-world distributed systems knowledge.

@@ -231,3 +231,15 @@ Search engines use BFS to crawl the web. They start at a seed page (e.g., Wikipe
 - In a balanced binary tree, the last level contains `N/2` nodes.
 - So the queue might need to store `O(N)` nodes.
 - Compare this to DFS, which takes `O(H)` (height) space. If the tree is wide but shallow, DFS uses less memory. If deep but narrow, BFS uses more.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Level order traversal", "level by level", "minimum depth", "right side view", "average of each level", "connect level-order siblings" — all Tree BFS. Any time the problem cares about *levels* or *layers*, use BFS.
+2. **The `levelSize = queue.length` trick is everything.** Without this, you can't distinguish between levels. At the start of each level, snapshot the queue size, then process exactly that many nodes. This is the single most important BFS implementation detail.
+3. **`Array.shift()` is O(N) in JavaScript.** In a real interview, use `queue.shift()` for simplicity, but *mention* that it's O(N) and that a production implementation would use a linked-list queue or circular buffer for true O(1) dequeue. This single comment demonstrates systems-level thinking.
+4. **Know the 5 classic BFS variants.** (a) Level Order Traversal. (b) Zigzag Level Order (alternate left-right). (c) Right Side View (take last node per level). (d) Level Averages. (e) Connect Level-Order Siblings (populate `next` pointers). All use the same template with tiny modifications.
+5. **BFS finds shortest path in unweighted trees/graphs.** If the problem asks for "minimum steps", "shortest path", or "minimum depth", BFS is almost always the answer. DFS can find *a* path but not necessarily the shortest without visiting all nodes.
+6. **Edge cases to mention proactively.** Empty tree (`root === null`), single node (one level with one element), completely skewed tree (every level has 1 node — BFS degenerates to DFS behavior), and perfect binary tree (last level has N/2 nodes — maximum queue size).
+7. **BFS vs. DFS — articulate the trade-off.** BFS uses O(width) space, DFS uses O(height) space. For a balanced tree: BFS = O(N/2), DFS = O(log N) — DFS wins. For a skewed tree: BFS = O(1), DFS = O(N) — BFS wins. Being able to articulate *when* each is better is a staff-level skill.

@@ -184,3 +184,15 @@ Databases use Bloom filters (bit arrays + hashes) for fast set membership. Huffm
 | Power of Two | O(1) | O(1) |
 | Hamming Weight | O(k), k=set bits | O(1) |
 | Subset via bitmask | O(2^N × N) | O(1) per subset |
+
+---
+
+## 9. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Without extra space", "O(1) space", "XOR", "single number among pairs", "power of 2", "count set bits", "bitmask" — all Bit Manipulation. When the constraint says "O(1) space" and the obvious solution uses a HashMap, think bits.
+2. **XOR is your best friend.** Know these three properties cold: `a ^ a = 0` (self-cancel), `a ^ 0 = a` (identity), `XOR is commutative and associative` (order doesn't matter). Single Number, Missing Number, and Two Single Numbers all rely on these. If you forget XOR properties, you can't solve any of them.
+3. **JavaScript bitwise operators work on 32-bit integers ONLY.** `|`, `&`, `^`, `~`, `<<`, `>>` convert numbers to 32-bit signed integers. Numbers > 2^31 - 1 will produce wrong results. For large numbers, use `BigInt`. Mention this limitation in the interview.
+4. **`n & (n-1)` — the power trick.** `n & (n-1)` drops the lowest set bit. Uses: (a) Check power of 2: `n > 0 && (n & (n-1)) === 0`. (b) Count set bits (Brian Kernighan's): loop `n &= n-1`, count iterations. Know both cold — they come up constantly.
+5. **Bit masking for subset generation.** Every subset of N elements maps to an N-bit mask. Mask `0b101` = pick element 0 and element 2. Iterate `0` to `2^N - 1`, extract bits with `mask & (1 << i)`. This is an alternative to recursive subset generation. Mention it to show depth.
+6. **Edge cases to mention proactively.** Negative numbers (two's complement — `~n = -n-1`), zero (`0 & anything = 0`, `0 ^ anything = anything`), sign bit (bit 31 is the sign in 32-bit integers), and numbers that don't fit in 32 bits.
+7. **Real-world bit applications to mention.** Feature flags (enable/disable features with `permissions |= FLAG`), IP subnet masking (`ip & mask`), Bloom filters (probabilistic set membership), and React's lane system (concurrent mode uses bit lanes for priority). These show you use bits in production, not just LeetCode.

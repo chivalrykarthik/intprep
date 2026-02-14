@@ -181,3 +181,15 @@ Why do we care about Two Pointers?
 
 ### Space Complexity: O(1) 💾
 - We only need two variables (`left`, `right`) regardless of the input size. Very memory efficient.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Sorted array", "pair that sums to", "remove duplicates in-place", "palindrome check", "container with most water" — all scream Two Pointers. Say it within 30 seconds of reading the problem.
+2. **Know the three variants.** (a) **Opposite ends** — converging pointers for pair-finding in sorted arrays. (b) **Same direction** — fast/slow or read/write for in-place modifications. (c) **Two arrays** — one pointer per array for merging/comparing. Name the variant you're using.
+3. **Always ask: "Is the array sorted?"** Two pointers on an unsorted array for pair-sum doesn't work. If unsorted, either sort first (O(N log N) + O(N) = O(N log N)) or use a HashMap (O(N) time, O(N) space). Explain this trade-off to the interviewer.
+4. **Three Sum is the classic follow-up.** Fix one element, then use Two Pointers on the remaining sorted subarray. O(N²) total. If the interviewer asks "Can you extend to 3 numbers?", you should have this ready instantly.
+5. **Edge cases to mention proactively.** Empty array, single element, all elements identical, integer overflow when summing (use `BigInt` or check bounds), negative numbers, and duplicate pairs (how to skip them when moving pointers).
+6. **The "why move the shorter wall" proof.** In Container With Most Water, you must be able to explain *why* moving the shorter pointer is optimal. Answer: the current area is limited by the shorter wall — moving the taller wall can only decrease width while the height is still bounded by the shorter wall. Moving the shorter wall is the only way to *potentially* increase area.
+7. **Don't confuse with Sliding Window.** Two Pointers can move in opposite directions (converging), whereas Sliding Window always moves both pointers in the same direction. If the interviewer asks "Why not Sliding Window?", explain that the window doesn't naturally shrink/grow — you need convergence.

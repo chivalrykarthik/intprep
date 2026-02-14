@@ -164,3 +164,15 @@ When you have a bug introduced sometime in the last 100 commits, you don't check
 
 ### Space Complexity: O(1) 💾
 - We only need 3 variables (`left`, `right`, `mid`).
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Sorted array", "rotated sorted array", "find minimum/peak", "search in sorted", "find the boundary" — all Modified Binary Search. Also watch for hidden binary search: "minimum speed to finish in H hours" (binary search on the answer space).
+2. **Pick a convention and stick to it.** `[left, right]` inclusive vs. `[left, right)` exclusive — both work, but mixing them causes off-by-one bugs. State your convention explicitly: *"I'll use inclusive bounds, so my condition is `left <= right`."* This prevents the #1 binary search bug.
+3. **The rotated array trick.** In a rotated sorted array, exactly one half is always sorted. Check which half is sorted (`nums[left] <= nums[mid]`?), then check if target falls in that sorted half. If yes, search there; otherwise, search the other half. Practice this until it's automatic.
+4. **Binary search on the answer space is the advanced pattern.** Problems like "Koko Eating Bananas", "Split Array Largest Sum", and "Capacity to Ship Packages" aren't searching an array — they're binary searching over possible *answers* and checking feasibility. The `check()` function is the key. Mention this variant proactively.
+5. **Edge cases to mention proactively.** Single element array, target at boundaries (first/last element), all elements identical, integer overflow in `mid = (left + right) / 2` (use `left + Math.floor((right - left) / 2)` instead), and empty array.
+6. **Know the "first/last occurrence" template.** Standard binary search finds *any* occurrence. To find the *first* occurrence: when you find target, set `result = mid` and keep searching left (`right = mid - 1`). For *last* occurrence: search right (`left = mid + 1`). This is a very common follow-up.
+7. **Recursive vs. Iterative — prefer iterative.** Iterative binary search uses O(1) space. Recursive uses O(log N) for the call stack. In production, iterative is always better. Code iterative, mention recursive exists. If asked about tail recursion, explain that JS/TS engines don't reliably optimize it.

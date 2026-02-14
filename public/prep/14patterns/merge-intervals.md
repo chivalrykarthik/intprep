@@ -181,3 +181,15 @@ Why sort first?
 
 ### Space Complexity: O(N) 💾
 - We create a new array to store the merged result. In the worst case (no overlaps), this is the same size as input, so **O(N)**.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Overlapping intervals", "merge meetings", "schedule conflicts", "free time", "insert interval" — all Merge Intervals. The moment you see `[start, end]` pairs, announce the pattern.
+2. **Always sort first — and say WHY.** Sorting by start time guarantees that if intervals overlap, they'll be adjacent. Without sorting, you'd need O(N²) pairwise comparisons. Sorting costs O(N log N) but enables a single O(N) pass. This is a key insight to articulate.
+3. **Know the overlap condition cold.** Two intervals `[a, b]` and `[c, d]` overlap if and only if `a <= d && c <= b` (assuming both are sorted). In the merge pass after sorting by start: `next.start <= current.end` means overlap. Draw this on the whiteboard.
+4. **Edge cases to mention proactively.** Touching intervals like `[1,2]` and `[2,3]` — do they overlap? (Usually yes, `<=` not `<`). Single interval. Already sorted input. Fully nested intervals like `[1,10]` and `[3,5]`.
+5. **Know the classic variants.** (a) **Meeting Rooms I** — can one person attend all? (Just check for any overlap.) (b) **Meeting Rooms II** — how many rooms needed? (Min-heap of end times or line sweep.) (c) **Insert Interval** — insert into sorted non-overlapping list and re-merge. Name these proactively.
+6. **Line sweep is the advanced technique.** For complex interval problems (employee free time, maximum overlapping events), use a **sweep line**: create events `(time, +1 for start, -1 for end)`, sort, and scan. This generalizes beyond simple merging and handles K-person problems.
+7. **Mutating input vs. creating new output.** In Scenario A, `currentInterval[1] = ...` mutates the reference that's already in `result`. This is a subtle JS reference trick — explain it to show deep understanding. Some interviewers prefer an explicit copy approach for clarity.

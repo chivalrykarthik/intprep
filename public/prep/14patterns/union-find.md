@@ -298,3 +298,15 @@ For any N you'll encounter in practice (even 10^18), α(N) ≤ 4.
 
 ### Space Complexity: O(N) 💾
 - Two arrays: `parent[N]` and `rank[N]`.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Connected components", "group items", "union/merge groups", "same network", "redundant connection", "accounts merge" — all Union-Find. Any problem involving dynamic grouping (groups form over time as edges are added) is a Union-Find candidate.
+2. **Always implement BOTH optimizations.** Path compression alone: O(log N) amortized. Union by rank alone: O(log N). **Both together**: O(α(N)) ≈ O(1). Never implement one without the other. Write both in the constructor: *"I'll use path compression and union by rank for near-constant time operations."*
+3. **Union-Find vs. BFS/DFS — know when to use which.** Union-Find: best when edges arrive dynamically (stream of connections) and you repeatedly query connectivity. BFS/DFS: best for one-time traversals (shortest path, all paths). If the problem says "process edges one by one and answer queries", Union-Find wins.
+4. **The `connected()` method is just `find(x) === find(y)`.** Don't overcomplicate it. And `count` (number of components) = start at N, decrement on each successful `union()`. Track this in the class — many problems ask for component count.
+5. **Edge cases to mention proactively.** Self-loops (union(x, x) — should return false, already same set), redundant edges (union two nodes already connected), single node, and the case where `count` drops to 1 (all nodes connected — "is the graph fully connected?" check).
+6. **Accounts Merge is the real-world showcase.** Each email is a node. Emails in the same account are unioned. After processing, `find()` groups emails into merged accounts. This is a great example to mention: *"I've seen this in production — deduplication systems use Union-Find for identity resolution across databases."*
+7. **Kruskal's MST is the advanced connection.** Kruskal's Minimum Spanning Tree = sort edges by weight + Union-Find to add edges without creating cycles. Total: O(E log E + E × α(V)) ≈ O(E log E). If asked about MST, implement Kruskal's using your Union-Find class. This combines graph theory + data structure knowledge.

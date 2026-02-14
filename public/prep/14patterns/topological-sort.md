@@ -214,3 +214,15 @@ Project management tools (Jira, Asana). If Task C depends on Task B, and Task B 
 
 ### Space Complexity: O(V + E) 💾
 - To store the Adjacency List and In-Degree array.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Prerequisites", "dependencies", "ordering", "scheduling tasks", "build order", "alien dictionary" — all Topological Sort. Any time the problem involves "X must come before Y", think directed acyclic graph (DAG) + topological ordering.
+2. **Know both approaches: Kahn's (BFS) vs DFS.** **Kahn's**: Use in-degree array + queue. Result is built forward. Cycle detection is built-in (if `sorted.length < V`, there's a cycle). **DFS**: Use visited/in-progress states. Result is built in reverse (post-order). Both are O(V+E). Kahn's is generally easier to code and explain.
+3. **Cycle detection is the #1 follow-up.** The interviewer will ask: "What if there's a circular dependency?" With Kahn's, if the final sorted list has fewer than V nodes, there's a cycle. With DFS, if you visit a node that's already "in-progress" (gray), there's a cycle. Have this answer ready.
+4. **Multiple valid orderings exist.** Topological sort is NOT unique. If the problem asks for *lexicographically smallest* ordering, replace the regular queue with a min-heap (priority queue). This is the "Alien Dictionary" variant.
+5. **Edge cases to mention proactively.** No dependencies (all nodes have in-degree 0 — any order works), self-loops (always a cycle), disconnected components (still need to process all nodes), and single node (trivially sorted).
+6. **Real-world connection: module bundlers.** Webpack, Rollup, and npm all use topological sort to determine build/install order. Mention this: *"This is exactly what Webpack does with import dependency graphs."* Interviewers love seeing you connect algorithms to production tools.
+7. **Course Schedule variants.** (a) **Can you finish?** → Cycle detection (return boolean). (b) **Return a valid order** → Return the sorted array. (c) **All possible orderings** → Backtracking with topological constraints. (d) **Minimum semesters** → Topological sort + level counting (BFS levels = parallel batches). Know all four.

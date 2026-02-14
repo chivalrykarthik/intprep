@@ -269,3 +269,15 @@ Weather simulations, fluid dynamics, and molecular modeling use 2D/3D matrices. 
 - **"Rotate/transform in-place"** → Decompose into transpose + reverse/flip.
 - **"Search in sorted matrix"** → Binary search with index conversion.
 - **"Flood fill / connected regions"** → BFS/DFS on grid (see Graph BFS/DFS guide).
+
+---
+
+## 9. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Spiral order", "rotate image", "search sorted matrix", "set matrix zeroes", "diagonal traversal", "transpose" — all Matrix Patterns. Any problem with a 2D grid and non-trivial traversal order is this pattern.
+2. **Four-boundary tracking is the spiral template.** Use `top`, `bottom`, `left`, `right` variables. Traverse right along top → down along right → left along bottom → up along left. After each pass, shrink the corresponding boundary. This template works for spiral, layer-by-layer, and zigzag traversals.
+3. **"Transpose + Reverse = 90° Rotation" — memorize this.** Clockwise 90°: transpose then reverse each row. Counter-clockwise 90°: transpose then reverse each column (or reverse each row then transpose). 180°: reverse each row, then reverse the row order. These compositions are elegant and O(1) space.
+4. **Virtual 1D index for sorted matrix search.** If the matrix is sorted row-by-row (each row starts after the previous row ends), treat it as a 1D sorted array: `row = mid / cols`, `col = mid % cols`. Binary search in O(log(M×N)). If rows AND columns are independently sorted (LeetCode 240), use the **staircase search** from the top-right corner: O(M+N).
+5. **Edge cases to mention proactively.** Single row or single column (degenerate to 1D problem), 1×1 matrix, non-square matrix (M ≠ N — rotation only works on square matrices), and empty matrix.
+6. **Set Matrix Zeroes — the O(1) space trick.** Use the first row and first column as markers. Scan the matrix; if `matrix[i][j] === 0`, set `matrix[i][0] = 0` and `matrix[0][j] = 0`. Then do a second pass to zero out marked rows/columns. Handle the first row/column separately. This is a classic "use the input itself as extra storage" technique.
+7. **Cache-friendly traversal matters in production.** Row-major traversal (`for i → for j`) is cache-friendly in JS/C/C++. Column-major traversal (`for j → for i`) causes cache misses. In interviews, mentioning cache locality shows systems-level awareness: *"For the rotation, I'm careful to iterate in row-major order for cache efficiency."*

@@ -164,3 +164,15 @@ Why is this faster than normal sorting?
 
 ### Space Complexity: O(1) 💾
 - We sort the array in-place. No extra `HashMap` or `Set` needed.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Numbers in the range 1 to N", "missing number", "find duplicate", "first missing positive", "array of length N with values in [0, N]" — all Cyclic Sort territory. The moment you see a bounded range, think placement.
+2. **Don't confuse with general sorting.** Cyclic Sort works ONLY when values map to indices (value `x` → index `x-1` or `x`). If values are arbitrary, use Merge/Quick Sort. If you can place every number "home" in O(1) with a known address, it's Cyclic Sort.
+3. **Watch the index mapping carefully.** 0-indexed range `[0, N]`: value `x` goes to index `x`. 1-indexed range `[1, N]`: value `x` goes to index `x-1`. Getting this wrong leads to infinite loops. State your mapping explicitly before coding.
+4. **First Missing Positive is the hardest variant.** Given an unsorted array with any integers, find the smallest missing positive integer in O(N) time, O(1) space. The trick: ignore negatives and values > N, then use Cyclic Sort on the positives. This is a common Google/Meta question.
+5. **Edge cases to mention proactively.** Value N in a 0-indexed range (has no valid position), negative numbers in the input, zeros, duplicates (what happens when `nums[i] === nums[correctIdx]`), and empty array.
+6. **Explain the O(N) time proof.** The inner `while` loop looks like O(N²) but it's not — every swap places at least one element in its correct position, and once placed, it's never moved again. Total swaps ≤ N. This amortized argument is important to articulate.
+7. **Compare with XOR/Math approaches.** Missing Number can also be solved with `XOR(0..N) ^ XOR(array)` or `sum(0..N) - sum(array)`. These are O(N)/O(1) but only find ONE missing number. Cyclic Sort generalizes — it can find ALL missing numbers, ALL duplicates, and the duplicate-and-missing pair. Name these alternatives to show breadth.

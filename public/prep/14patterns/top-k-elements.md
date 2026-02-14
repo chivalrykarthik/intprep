@@ -275,3 +275,15 @@ Finding the K nearest drivers to your location. Instead of calculating distance 
 
 ### Space Complexity: O(K) 💾
 - We only store K elements in memory at any time (plus map storage for frequency problems).
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Top K", "Kth largest", "Kth smallest", "K most frequent", "K closest points", "K nearest" — all Top K Elements. The presence of K in the problem statement is the strongest signal.
+2. **Min-heap of size K for "top K largest" — explain the counter-intuitive choice.** You want the K *largest*, but you use a *min*-heap. Why? The min-heap's root is the *smallest among the K largest*. Any new element bigger than the root replaces it, maintaining the K largest. If you use a max-heap, you'd need to store all N elements.
+3. **Know the three approaches and their trade-offs.** (a) **Sort**: O(N log N) time, O(1) space — simple but slow. (b) **Min-Heap of size K**: O(N log K) time, O(K) space — the standard answer. (c) **QuickSelect**: O(N) average / O(N²) worst time, O(1) space — the optimal answer for single-query. Name all three and explain when each is best.
+4. **Bucket Sort for frequency problems is O(N).** In "Top K Frequent Elements", instead of heaping by frequency, create buckets where index = frequency. Bucket `freq[3]` holds elements that appear 3 times. Walk buckets from high to low. This is O(N) vs O(N log K). Mention it as the "optimal but less intuitive" approach.
+5. **Edge cases to mention proactively.** K = 0 (return empty), K > N (return all elements), all elements equal (Kth largest is any of them), ties in frequency (how to break them?), and very large K (heap approach degenerates — just sort).
+6. **`nthElement` / `std::nth_element` equivalent.** In C++ there's a standard library function for this. In JS/TS, you need to implement QuickSelect manually. Be ready to implement the Lomuto or Hoare partition scheme and handle the randomized pivot (pick random index, swap with first element).
+7. **Stream context changes everything.** If data arrives over time (stream), you can't sort it all. A min-heap of size K is O(log K) per new element, seeing N elements total = O(N log K). This is the only approach that works in a streaming context. If the interviewer says "the data is streaming", immediately switch to heap.

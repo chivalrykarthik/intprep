@@ -175,3 +175,15 @@ Analyzing what items are bought together. "People who bought Bread also bought [
 
 ### Space Complexity: O(N * 2^N) 💾
 - To store the result.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "All subsets", "power set", "all combinations of size K", "all subsequences" — these are Subsets problems. The output size is exponential (2^N), so don't waste time looking for a polynomial solution — there isn't one.
+2. **Know the two approaches: Iterative vs. Backtracking.** Iterative (cascading) builds subsets by adding each element to all existing subsets. Backtracking (include/exclude decisions) explores a binary decision tree. Both are O(N × 2^N). Use whichever you're more comfortable with, but be able to explain both.
+3. **Duplicate handling is the classic follow-up.** "What if nums has duplicates?" → Sort first, then skip elements where `nums[i] === nums[i-1]` at the same recursion level. This prevents duplicate subsets. State this optimization before the interviewer asks.
+4. **Subsets vs. Permutations vs. Combinations — know the difference.** Subsets: order doesn't matter, no repetition (2^N). Permutations: order matters (N!). Combinations of size K: order doesn't matter, pick exactly K (C(N,K)). If confused, ask clarifying questions about whether order matters and whether K is fixed.
+5. **Bit manipulation alternative.** Every subset maps to an N-bit bitmask. For `[a, b, c]`, mask `101` = `{a, c}`. Iterate from 0 to `2^N - 1`, extracting set bits. This is often shorter code and avoids recursion. Mention it to show depth.
+6. **Edge cases to mention proactively.** Empty input → `[[]]` (the empty set is always a valid subset). Single element → `[[], [x]]`. All elements the same → handle duplicates. Input too large (N > 20 means 2^N > 1M) → flag potential TLE.
+7. **This pattern is the foundation for Backtracking.** Subsets is essentially Backtracking without constraints. Once you master this, N-Queens, Sudoku, and Combination Sum are just Subsets + pruning. Frame it this way in the interview to show structural thinking.

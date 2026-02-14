@@ -207,3 +207,15 @@ Why do we care about Fast & Slow Pointers?
 ### Space Complexity: O(1) 💾
 - **Brute Force:** O(N). You have to store *every single visited node* in a hash set to check for duplicates. For a list of 1 million items, that's massive overhead.
 - **Fast & Slow:** **O(1)**. You only need two pointers (`slow`, `fast`). It uses almost zero memory regardless of the list size. This is the superpower.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Cycle detection", "linked list loop", "circular array", "find the middle node", "happy number" — these all use Fast & Slow Pointers. The moment you see "cycle" or "middle", announce the pattern.
+2. **Know Floyd's Phase 2 — finding the cycle START.** After detecting the cycle (slow === fast), reset one pointer to head. Move both at speed 1. Where they meet again is the **cycle entry point**. This is a common follow-up. Be ready to explain the math: if the non-loop portion has length `a` and the loop has length `c`, both pointers travel `a` more steps to meet at the start.
+3. **Middle of linked list — the free trick.** When `fast` reaches the end, `slow` is at the middle. For even-length lists, `slow` points to the *second* middle node. This is used as a subroutine in Merge Sort of Linked Lists and Palindrome Linked List — mention these connections.
+4. **Edge cases to mention proactively.** Empty list (`head === null`), single node (no cycle possible), two nodes with/without cycle, and the tail pointing to the head (cycle at position 0).
+5. **This pattern works beyond linked lists.** Any problem where you repeatedly apply a function (`f(x) = next state`) and need to detect repetition is a Floyd's problem. Happy Number, Circular Array Loop, and even detecting cycles in functional graphs all use this.
+6. **Explain why fast catches slow.** The relative speed between fast and slow is 1 step per iteration. So in a cycle of length C, fast "gains" 1 position per step, guaranteeing intersection within C iterations. This proves O(N) time.
+7. **Compare with HashSet approach.** The HashSet approach also detects cycles in O(N) time but uses O(N) space. Fast & Slow achieves O(1) space. In an interview, implement Fast & Slow but *mention* the HashSet approach as the simpler alternative — this shows you weighed trade-offs.

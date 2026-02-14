@@ -269,3 +269,15 @@ Video games (like Dota 2 or LoL) need to create balanced teams from a queue of p
 
 ### Space Complexity: O(N) 💾
 - We store every number in one of the two heaps.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Find the median", "streaming data", "balance between two halves", "sliding window median" — all Two Heaps. The moment you see "median" in any context, Two Heaps should be your first instinct.
+2. **Explain the intuition before coding.** *"I'll split numbers into two halves: a max-heap for the smaller half and a min-heap for the larger half. The median is the top of the max-heap (odd count) or the average of both tops (even count). Insertion maintains the split."* This 3-sentence explanation wins the interviewer over before you write a line of code.
+3. **The rebalancing logic is where bugs happen.** Rule: `maxHeap.size() - minHeap.size() ∈ {0, 1}`. After every insertion, check: if `maxHeap` has 2 more elements, move its top to `minHeap`, and vice versa. Get this wrong and medians are wrong. Practice until it's muscle memory.
+4. **JavaScript has no built-in heap.** Unlike Java (`PriorityQueue`) or Python (`heapq`), JS/TS has NO heap. You must implement one (or use a sorted array for small inputs). In interviews, say: *"I'll implement a MinHeap class first — it takes 2 minutes."* Then write the standard `bubbleUp`/`bubbleDown` implementation.
+5. **Sliding Window Median is the hard follow-up.** This requires Two Heaps + lazy deletion (mark elements as deleted but only remove them when they surface at the heap top). It's O(N log K) amortized. Mention this variant proactively to show depth.
+6. **Edge cases to mention proactively.** Single number (median is itself), two numbers (average), all same numbers, very large/small values (number precision), and the order of add vs. findMedian calls.
+7. **Alternative approaches to mention.** Sorted array with binary insertion: O(N) insertion, O(1) median — better for small streams. Self-balancing BST (AVL/Red-Black): O(log N) for both, but complex to implement. Two Heaps is the sweet spot: O(log N) insertion, O(1) median, reasonable complexity. Name all three to show you considered trade-offs.

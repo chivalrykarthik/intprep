@@ -313,3 +313,15 @@ Bioinformatics tools use suffix tries to find patterns in DNA sequences. Given a
 - Each character in each word creates a node (worst case, no shared prefixes).
 - **Optimization:** In practice, many words share prefixes ("app", "apple", "application" share "app"), so actual space is much less.
 - **Further optimization:** Compressed Tries (Radix Trees) merge single-child chains into single nodes, dramatically reducing space.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Prefix search", "autocomplete", "word dictionary", "word search board", "longest common prefix", "spell check" — all Trie problems. When the problem involves prefixes or dictionaries, Trie should be your first instinct over HashMap.
+2. **Map vs. Array[26] for children — know the trade-off.** `Map<string, TrieNode>`: flexible (supports any character set — Unicode, numbers, etc.), slightly more memory per node. `Array(26)`: faster (direct indexing), less memory, but limited to lowercase English letters. In interviews, use Map for clarity, mention Array as an optimization.
+3. **Trie vs. HashMap — articulate when Trie wins.** HashMap: O(L) exact lookup, O(N) prefix search (scan all keys). Trie: O(L) for both. Trie wins when you need prefix operations, autocomplete, or lexicographic ordering. HashMap wins for simple key-value lookups. State this comparison proactively.
+4. **Deletion is the tricky operation.** You can't just delete the leaf — shared prefixes might be broken. Walk to the word's end, unmark `isEndOfWord`. Then clean up ancestor nodes that have no children and aren't end-of-word markers. This is rarely asked to implement but understanding it shows depth.
+5. **Word Search II (Trie + Backtracking) is the hard mode.** Build a Trie from the dictionary, then DFS on the board using the Trie for pruning. Without Trie: O(W × M × N × 4^L) — search board for each word independently. With Trie: search all words simultaneously, pruning branches that aren't prefixes. This is the canonical Trie interview problem.
+6. **Edge cases to mention proactively.** Empty string insertion/search (root node itself is end-of-word), single character words, a word that's a prefix of another ("app" + "apple"), and very long words (stack depth = word length for recursive implementations).
+7. **Compressed Tries (Radix Trees) for production.** In a standard Trie, a chain like `a → p → p → l → e` uses 5 nodes. A Radix Tree compresses this to one node with edge label `"apple"`. This reduces memory by 2-10x for real dictionaries. Mention this when discussing scalability: *"For a production autocomplete system, I'd use a Radix Tree to reduce node count."*

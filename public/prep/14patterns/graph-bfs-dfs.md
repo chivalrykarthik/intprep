@@ -248,3 +248,15 @@ JVM and V8's garbage collectors use graph traversal (mark-and-sweep). Starting f
 | **Memory** | O(width) | O(depth) |
 | **When graph is wide** | ❌ High memory | ✅ Use DFS |
 | **When graph is deep** | ✅ Use BFS | ❌ Stack overflow risk |
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Connected components", "shortest path", "number of islands", "clone graph", "reachability", "flood fill" — all Graph BFS/DFS. Grid problems (`m × n` with `'0'` and `'1'`) are graph problems in disguise.
+2. **Always track visited — explain WHY.** Unlike trees, graphs can have cycles. Without a visited set, you'll infinite-loop. Use either a `Set<node>`, a boolean array, or mutate the input (mark visited cells as `'0'`). State this explicitly: *"I need a visited set because this is a graph, not a tree."*
+3. **Adjacency list vs. Adjacency matrix — know the trade-off.** Adjacency list: O(V+E) space, O(degree) to check neighbors — use for sparse graphs. Adjacency matrix: O(V²) space, O(1) to check specific edge — use for dense graphs. In interviews, adjacency list is almost always preferred.
+4. **Grid problems = implicit graph.** A grid is a graph where each cell has up to 4 neighbors (up/down/left/right). Use a `directions` array: `[[1,0],[-1,0],[0,1],[0,-1]]`. For diagonals, add `[[1,1],[1,-1],[-1,1],[-1,-1]]`. This pattern is reusable across all grid problems.
+5. **BFS for shortest path, DFS for exploration.** BFS guarantees shortest path in unweighted graphs (each edge = weight 1). DFS is better for "explore all paths", "check if path exists", "detect cycles", and "topological sort". State your choice and justify it.
+6. **Edge cases to mention proactively.** Disconnected graph (need to iterate all nodes as starting points), self-loops, empty graph, single node, and 2D grids with all `'1'`s or all `'0'`s.
+7. **Bidirectional BFS for shortest path.** When finding shortest path between two specific nodes, start BFS from BOTH source and target simultaneously. They meet in the middle, reducing search space from O(b^d) to O(b^(d/2)) where b = branching factor, d = depth. Mention this for staff-level brownie points: *"For known source and target, I'd use bidirectional BFS to halve the search depth."*

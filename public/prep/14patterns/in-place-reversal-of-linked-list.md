@@ -216,3 +216,15 @@ Although often a stack or doubly linked list, the concept of managing `back` and
 
 ### Space Complexity: O(1) 💾
 - We essentially use 3 variables (`prev`, `curr`, `next`) regardless of whether the list has 10 items or 10 million items.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Reverse a linked list", "reverse between positions", "reverse in groups of K", "palindrome linked list" — all In-Place Reversal. This is one of the most frequently tested patterns.
+2. **Draw the pointer diagram.** Before writing code, draw 3 nodes with arrows. Walk through `prev`, `curr`, `nextTemp` assignments step by step. Interviewers love visual thinkers, and pointer bugs are nearly impossible to catch without a diagram.
+3. **The dummy node is your best friend.** Whenever the head might change (e.g., `left = 1` in Reverse Between), prepend a dummy node: `const dummy = new ListNode(0, head)`. Return `dummy.next`. This eliminates an entire class of edge-case bugs and shows professional-grade coding.
+4. **Know Reverse in Groups of K.** Given a linked list, reverse the nodes in groups of K. If remaining nodes < K, leave them as-is. This combines counting (check if K nodes remain), reversing (the 3-pointer technique), and stitching (connecting reversed segments). It's a common Amazon/Google question.
+5. **Edge cases to mention proactively.** Empty list, single node (return as-is), `left === right` (no reversal needed), `left = 1` (head changes — need dummy node), and the entire list reversed (`left = 1, right = length`).
+6. **Recursive vs. Iterative — know both.** Recursive reversal is elegant (`reverse(head.next)` then fix pointers) but uses O(N) stack space. Iterative is O(1) space. In an interview, implement iterative, but mention recursive as an alternative. If asked about stack overflow risk, explain that iterative is production-grade.
+7. **This is a subroutine in harder problems.** Palindrome Linked List (reverse second half, compare), Reorder List (split at middle, reverse second half, interleave), and Add Two Numbers II (reverse both, add, reverse result) all use list reversal as a building block. Mention these connections to show pattern mastery.

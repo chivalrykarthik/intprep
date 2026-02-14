@@ -57,6 +57,10 @@
         "path": "/prep/14patterns/monotonic-stack.md"
       },
       {
+        "title": "⭐ Pattern Recognition — Master Quick Reference",
+        "path": "/prep/14patterns/pattern-recognition.md"
+      },
+      {
         "title": "Sliding Window",
         "path": "/prep/14patterns/sliding-window.md"
       },
@@ -228,12 +232,12 @@
         "path": "/prep/DSA/graphs.md"
       },
       {
-        "title": "Heaps And Priority Queues",
-        "path": "/prep/DSA/heaps-priority-queues.md"
-      },
-      {
         "title": "Hash Tables",
         "path": "/prep/DSA/hash-tables.md"
+      },
+      {
+        "title": "Heaps Priority Queues",
+        "path": "/prep/DSA/heaps-priority-queues.md"
       },
       {
         "title": "Linked Lists",

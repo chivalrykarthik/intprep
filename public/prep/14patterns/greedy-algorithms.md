@@ -278,3 +278,15 @@ In systems like Kubernetes pod scheduling or job queues, tasks have deadlines an
 1. **Exchange Argument:** Assume there's a better solution. Show you can "exchange" a non-greedy choice with the greedy one without worsening the result.
 2. **Proof by Contradiction:** Assume greedy gives a suboptimal answer. Derive a contradiction.
 3. **Counter-example Test:** Try to construct an input where greedy fails. If you can't after serious effort, and the exchange argument holds, greedy is likely correct.
+
+---
+
+## 9. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Maximum number of non-overlapping", "minimum number of", "schedule to maximize", "jump game", "assign cookies" — all potentially Greedy. But ONLY if local optimization provably leads to global optimum. Always verify before committing.
+2. **Try to disprove it first.** Before implementing Greedy, spend 30 seconds constructing a counter-example. If `coins = [1, 3, 4]` and `amount = 6`, Greedy gives `4+1+1 = 3 coins`, but optimal is `3+3 = 2 coins`. If you find a counter-example, switch to DP. If you can't, Greedy is likely correct.
+3. **Sorting is almost always the first step.** Activity Selection → sort by end time. Fractional Knapsack → sort by value/weight ratio. Job Scheduling → sort by profit or deadline. If you're doing Greedy and haven't sorted, you're probably missing something. State your sort key explicitly.
+4. **Know the Exchange Argument proof.** *"Assume there's an optimal solution that makes a different choice at step K. I can swap that choice with the greedy choice without worsening the result. Therefore the greedy solution is at least as good."* This is the standard proof technique. Being able to sketch it in 2 minutes is a staff-level skill.
+5. **Greedy vs. DP — the classic trade-off.** Greedy: O(N log N) typically, but not always correct. DP: O(N²) or O(N × M) typically, but always correct for well-defined recurrences. If unsure, start with DP (guaranteed correct), then ask: *"Can I simplify this to Greedy?"*
+6. **Edge cases to mention proactively.** Empty input, single element, all elements equal (many tie-breaking scenarios), elements already sorted (degenerates to simpler case), and very large inputs (Greedy's O(N log N) shines here vs DP's O(N²)).
+7. **The "Exchange Argument" for Activity Selection.** *"Why sort by end time, not start time or duration?"* Answer: Finishing earliest leaves the maximum room for future activities. Sorting by start time or duration can be counter-exampled. Draw the counter-example on the whiteboard: short duration in the middle overlapping both long activities.

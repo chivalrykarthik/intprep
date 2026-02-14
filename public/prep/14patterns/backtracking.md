@@ -249,3 +249,15 @@ Backtracking problems have inherently exponential complexity. The value comes fr
 - **Constraint propagation:** When you place a number in Sudoku, immediately eliminate that number from all related cells' possibilities.
 - **Ordering heuristics:** Try the *most constrained* choices first (e.g., in Sudoku, fill the cell with the fewest possible numbers first). This finds dead-ends faster.
 - **Symmetry breaking:** If the problem has symmetrical solutions (e.g., rotations of N-Queens), you can skip duplicate branches.
+
+---
+
+## 9. Interview Tips 💡
+
+1. **Recognize the trigger words.** "All permutations", "all combinations", "all valid configurations", "generate all", "N-Queens", "Sudoku solver", "word search" — all Backtracking. Any time the problem asks for *all* solutions or *any valid* arrangement with constraints, Backtracking is the pattern.
+2. **State the template out loud first.** *"I'll use the Choose-Explore-Unchoose framework."* Then write the skeleton: base case → loop over choices → if valid: choose, recurse, un-choose. This template covers 90% of Backtracking problems. Starting with the structure before filling in details impresses interviewers.
+3. **Pruning is what makes you senior.** A junior dev writes brute-force backtracking. A senior dev adds pruning conditions that eliminate invalid branches *early*. For N-Queens: check column + diagonals before placing. For Sudoku: maintain candidate sets per cell. Always explain your pruning strategy upfront.
+4. **Backtracking vs. DP — know the relationship.** Backtracking explores all possibilities (exponential). If you notice **overlapping subproblems** (same state reached via different paths), add memoization → it becomes DP. Frame it as: *"Backtracking is the exhaustive search; adding a cache turns it into DP."*
+5. **Edge cases to mention proactively.** Empty input (return `[[]]` for subsets, `[]` for permutations), single element, duplicate elements (sort + skip `nums[i] === nums[i-1]` at same level), very large N (flag that output is exponential — mention time constraints).
+6. **Copy the state before pushing to results.** `results.push([...current])`, not `results.push(current)`. This is the #1 backtracking bug. Since you're mutating `current` in-place (push/pop), pushing the reference means all results point to the same empty array. Always spread or slice.
+7. **Practice the "big three."** (a) **Permutations** — N! outputs, no pruning. (b) **N-Queens** — constraint satisfaction, heavy pruning. (c) **Sudoku** — the ultimate backtracking problem with constraint propagation. If you can solve all three from memory in under 20 minutes each, you've mastered this pattern.

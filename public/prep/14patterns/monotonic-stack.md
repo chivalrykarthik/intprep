@@ -195,3 +195,15 @@ Why is this O(N) and not O(N²)?
 ### Space Complexity: O(N) 💾
 - In the worst case (monotonically increasing array), the stack holds all N elements.
 - In practice, it's often much less.
+
+---
+
+## 8. Interview Tips 💡
+
+1. **Recognize the trigger words.** "Next greater element", "next smaller element", "daily temperatures", "stock span", "histogram rectangle", "trapping rain water" — all Monotonic Stack. Any problem asking "for each element, find the nearest X" is likely this pattern.
+2. **Increasing vs. Decreasing — pick correctly.** Monotonic *increasing* stack (bottom-to-top: small→large): finds **next greater** element. Monotonic *decreasing* stack (bottom-to-top: large→small): finds **next smaller** element. If you get this backwards, your entire solution is inverted. State your choice explicitly.
+3. **Store indices, not values.** Always push *indices* onto the stack, not values. You can always look up `arr[index]` to get the value, but you can't derive the index from the value. You need indices to calculate distances (e.g., "how many days until warmer").
+4. **Explain the O(N) amortized argument.** The nested `while` loop looks like O(N²), but each element is pushed *exactly once* and popped *at most once*. Total operations = 2N = O(N). This amortized analysis is a common interview talking point — articulate it confidently.
+5. **Largest Rectangle in Histogram is the killer problem.** It combines monotonic stack with area calculation. When you pop a bar, the width extends from the new stack top to the current index. Adding a sentinel `0` at the end flushes all remaining bars. Practice this until you can do it in your sleep.
+6. **Edge cases to mention proactively.** All elements equal (nothing to pop — stack grows to N), strictly increasing input (stack grows, then flushes at the end), strictly decreasing input (every element pops all previous), single element, and empty array.
+7. **Trapping Rain Water has three approaches.** (a) **Two pointers**: O(N) time, O(1) space — optimal. (b) **Monotonic stack**: O(N) time, O(N) space — computes water layer by layer. (c) **Prefix max arrays**: O(N) time, O(N) space — simplest to understand. Know all three and explain their trade-offs. The two-pointer approach is the most impressive in interviews.
