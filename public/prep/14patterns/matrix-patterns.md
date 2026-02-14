@@ -62,6 +62,7 @@ Matrix problems are about **index manipulation**. The key challenges:
  * @spaceComplexity O(1) - Only boundary variables (output is O(M × N)).
  */
 function spiralOrder(matrix: number[][]): number[] {
+    console.log(`\n--- spiralOrder ---`);
     const result: number[] = [];
     if (matrix.length === 0) return result;
 
@@ -69,26 +70,30 @@ function spiralOrder(matrix: number[][]): number[] {
     let bottom = matrix.length - 1;
     let left = 0;
     let right = matrix[0].length - 1;
+    let round = 0;
 
     while (top <= bottom && left <= right) {
+        round++;
+        console.log(`  Round ${round}: top=${top}, bottom=${bottom}, left=${left}, right=${right}`);
+
         // → Traverse right along top row
         for (let col = left; col <= right; col++) {
             result.push(matrix[top][col]);
         }
-        top++; // Shrink top boundary
+        top++;
 
         // ↓ Traverse down along right column
         for (let row = top; row <= bottom; row++) {
             result.push(matrix[row][right]);
         }
-        right--; // Shrink right boundary
+        right--;
 
         // ← Traverse left along bottom row (if still valid)
         if (top <= bottom) {
             for (let col = right; col >= left; col--) {
                 result.push(matrix[bottom][col]);
             }
-            bottom--; // Shrink bottom boundary
+            bottom--;
         }
 
         // ↑ Traverse up along left column (if still valid)
@@ -96,10 +101,12 @@ function spiralOrder(matrix: number[][]): number[] {
             for (let row = bottom; row >= top; row--) {
                 result.push(matrix[row][left]);
             }
-            left++; // Shrink left boundary
+            left++;
         }
+        console.log(`  After round ${round}: [${result}]`);
     }
 
+    console.log(`  Result: [${result}]`);
     return result;
 }
 
@@ -144,20 +151,23 @@ console.log("Spiral Order:", spiralOrder(matrix));
  * @spaceComplexity O(1) - In-place swaps only.
  */
 function rotate(matrix: number[][]): void {
+    console.log(`\n--- rotate ---`);
+    console.log(`Input: ${JSON.stringify(matrix)}`);
     const n = matrix.length;
 
     // Step 1: Transpose (swap across diagonal)
     for (let i = 0; i < n; i++) {
         for (let j = i + 1; j < n; j++) {
-            // Swap matrix[i][j] and matrix[j][i]
             [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
         }
     }
+    console.log(`  After transpose: ${JSON.stringify(matrix)}`);
 
     // Step 2: Reverse each row
     for (let i = 0; i < n; i++) {
         matrix[i].reverse();
     }
+    console.log(`  After reverse rows: ${JSON.stringify(matrix)}`);
 }
 
 // Example Usage:
@@ -200,6 +210,8 @@ console.log("After 90° rotation:", JSON.stringify(image));
  * @spaceComplexity O(1) - No extra space.
  */
 function searchMatrix(matrix: number[][], target: number): boolean {
+    console.log(`\n--- searchMatrix ---`);
+    console.log(`Input: target = ${target}`);
     const rows = matrix.length;
     const cols = matrix[0].length;
 
@@ -213,12 +225,17 @@ function searchMatrix(matrix: number[][], target: number): boolean {
         const row = Math.floor(mid / cols);
         const col = mid % cols;
         const value = matrix[row][col];
+        console.log(`  left=${left}, right=${right}, mid=${mid} → [${row}][${col}]=${value}`);
 
-        if (value === target) return true;
+        if (value === target) {
+            console.log(`  ✅ Found target ${target} at [${row}][${col}]`);
+            return true;
+        }
         else if (value < target) left = mid + 1;
         else right = mid - 1;
     }
 
+    console.log(`  ❌ Target ${target} not found`);
     return false;
 }
 

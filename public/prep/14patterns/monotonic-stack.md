@@ -71,26 +71,29 @@ Click "Next" to see how the stack processes elements!
  * @spaceComplexity O(N) - Stack can hold up to N elements.
  */
 function dailyTemperatures(temperatures: number[]): number[] {
+    console.log(`\n--- dailyTemperatures ---`);
+    console.log(`Input: temperatures = [${temperatures}]`);
     const n = temperatures.length;
     const answer = new Array(n).fill(0);
     const stack: number[] = []; // Stores INDICES (not values)
 
     for (let i = 0; i < n; i++) {
         // Pop all days that are cooler than today
-        // (today IS the "next warmer day" for them)
         while (
             stack.length > 0 &&
             temperatures[i] > temperatures[stack[stack.length - 1]]
         ) {
             const prevDay = stack.pop()!;
             answer[prevDay] = i - prevDay; // Days waited
+            console.log(`  Day ${i}(${temperatures[i]}°): popped day ${prevDay}(${temperatures[prevDay]}°) → wait=${answer[prevDay]}`);
         }
 
         // Push today's index onto the stack
         stack.push(i);
+        console.log(`  Pushed day ${i}(${temperatures[i]}°), stack=[${stack.map(s => `${s}(${temperatures[s]}°)`)}]`);
     }
 
-    // Any remaining indices in stack have no warmer future day (answer stays 0)
+    console.log(`  Result: [${answer}]`);
     return answer;
 }
 
@@ -131,6 +134,8 @@ console.log("Wait times:", dailyTemperatures(temps));
  * @spaceComplexity O(N) - Stack storage.
  */
 function largestRectangleArea(heights: number[]): number {
+    console.log(`\n--- largestRectangleArea ---`);
+    console.log(`Input: heights = [${heights}]`);
     const stack: number[] = []; // Stores indices, monotonically increasing heights
     let maxArea = 0;
 
@@ -145,12 +150,15 @@ function largestRectangleArea(heights: number[]): number {
             // Width: from the bar after the new stack top, to current index
             const width = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;
 
-            maxArea = Math.max(maxArea, height * width);
+            const area = height * width;
+            console.log(`  i=${i}: popped height=${height}, width=${width}, area=${area}${area > maxArea ? ' ← new max!' : ''}`);
+            maxArea = Math.max(maxArea, area);
         }
 
         stack.push(i);
     }
 
+    console.log(`  Result: ${maxArea}`);
     return maxArea;
 }
 

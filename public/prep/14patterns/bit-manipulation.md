@@ -62,10 +62,14 @@ Imagine a control room with **8 light switches** in a row. Each switch is either
  * @spaceComplexity O(1) - No extra data structures.
  */
 function singleNumber(nums: number[]): number {
+    console.log(`\n--- singleNumber ---`);
+    console.log(`Input: nums = [${nums}]`);
     let result = 0;
     for (const num of nums) {
         result ^= num;
+        console.log(`  XOR with ${num} → result = ${result}`);
     }
+    console.log(`  Result: ${result}`);
     return result;
 }
 
@@ -101,10 +105,14 @@ console.log("Single Number:", singleNumber([4, 1, 2, 1, 2]));
  * @spaceComplexity O(N) - Output array.
  */
 function countBits(n: number): number[] {
+    console.log(`\n--- countBits ---`);
+    console.log(`Input: n = ${n}`);
     const ans = new Array(n + 1).fill(0);
     for (let i = 1; i <= n; i++) {
         ans[i] = ans[i >> 1] + (i & 1);
+        console.log(`  i=${i} (${i.toString(2)}): ans[${i>>1}]=${ans[i>>1]} + ${i&1} = ${ans[i]}`);
     }
+    console.log(`  Result: [${ans}]`);
     return ans;
 }
 

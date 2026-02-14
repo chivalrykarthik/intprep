@@ -117,15 +117,20 @@ class MinHeap {
  * Finds the Kth largest element using a Min Heap.
  */
 function findKthLargest(nums: number[], k: number): number {
+     console.log(`\n--- findKthLargest ---`);
+     console.log(`Input: nums = [${nums}], k = ${k}`);
      const minHeap = new MinHeap();
 
      for (const num of nums) {
          minHeap.enqueue(num);
+         console.log(`  Enqueued ${num}, heap size = ${minHeap.size()}`);
          if (minHeap.size() > k) {
-             minHeap.dequeue();
+             const removed = minHeap.dequeue();
+             console.log(`  Heap size > ${k}, dequeued ${removed}`);
          }
      }
 
+     console.log(`  Result (Kth largest): ${minHeap.peek()}`);
      return minHeap.peek(); 
 }
 
@@ -221,15 +226,18 @@ class MinHeap<T> {
  * Finds top K frequent elements.
  */
 function topKFrequent(nums: number[], k: number): number[] {
+    console.log(`\n--- topKFrequent ---`);
+    console.log(`Input: nums = [${nums}], k = ${k}`);
     const frequencyMap = new Map<number, number>();
 
     // 1. Count frequencies: O(N)
     for (const num of nums) {
         frequencyMap.set(num, (frequencyMap.get(num) || 0) + 1);
     }
+    console.log(`  Frequency map:`, Object.fromEntries(frequencyMap));
 
     // 2. Use Min Heap to keep top K. 
-    // Heap stores [num, frequency], ordered by frequency.
+    // Heap stores [num, frequency] pairs, sorted by frequency.
     const minHeap = new MinHeap<[number, number]>((a, b) => a[1] - b[1]);
 
     for (const [num, count] of frequencyMap) {

@@ -62,28 +62,34 @@ Click "Next" to see the numbers swap to their homes!
  * @spaceComplexity O(1) - In-place modification.
  */
 function missingNumber(nums: number[]): number {
+  console.log(`\n--- missingNumber ---`);
+  console.log(`Input: nums = [${nums}]`);
   let i = 0;
   const n = nums.length;
 
   while (i < n) {
-      // Correct index for value 'j' is 'j' itself (since 0-indexed range)
       const correctIdx = nums[i]; 
 
-      // Only swap if the number is < n (since n can't fit in index n-1)
-      // AND it's not already in the right place
       if (nums[i] < n && nums[i] !== nums[correctIdx]) {
-          // Swap
+          console.log(`  i=${i}: swapping nums[${i}]=${nums[i]} with nums[${correctIdx}]=${nums[correctIdx]}`);
           [nums[i], nums[correctIdx]] = [nums[correctIdx], nums[i]];
+          console.log(`    Array after swap: [${nums}]`);
       } else {
+          console.log(`  i=${i}: nums[${i}]=${nums[i]} is in place (or out of range), moving on`);
           i++;
       }
   }
 
+  console.log(`  Sorted array: [${nums}]`);
   // Find the first index that doesn't match its value
   for (let j = 0; j < n; j++) {
-      if (nums[j] !== j) return j;
+      if (nums[j] !== j) {
+          console.log(`  Missing number found at index ${j}: ${j}`);
+          return j;
+      }
   }
 
+  console.log(`  Missing number is ${n} (all indices filled)`);
   return n;
 }
 
@@ -110,21 +116,22 @@ console.log("Missing Number:", missingNumber(inputNums));
  * Finds the duplicate number.
  */
 function findDuplicate(nums: number[]): number {
+    console.log(`\n--- findDuplicate ---`);
+    console.log(`Input: nums = [${nums}]`);
     let i = 0;
     while (i < nums.length) {
-        // Value x belongs at index x-1
         const correctIdx = nums[i] - 1;
 
         if (nums[i] !== nums[correctIdx]) {
-             // Swap
+             console.log(`  i=${i}: swapping nums[${i}]=${nums[i]} with nums[${correctIdx}]=${nums[correctIdx]}`);
              [nums[i], nums[correctIdx]] = [nums[correctIdx], nums[i]];
+             console.log(`    Array after swap: [${nums}]`);
         } else {
-            // If we found a number that is already in its correct spot...
-            // BUT we are currently looking at a different spot (i !== correctIdx),
-            // then nums[i] is the duplicate!
             if (i !== correctIdx) {
+                console.log(`  i=${i}: nums[${i}]=${nums[i]} already at correct spot but i≠correctIdx → DUPLICATE found!`);
                 return nums[i];
             }
+            console.log(`  i=${i}: nums[${i}]=${nums[i]} is in correct place, moving on`);
             i++;
         }
     }

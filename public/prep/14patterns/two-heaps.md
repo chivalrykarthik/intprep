@@ -141,6 +141,7 @@ class MedianFinder {
     }
 
     addNum(num: number): void {
+        console.log(`  addNum(${num})`);
         // 1. Add to Max Heap (Small half)
         this.maxHeap.enqueue(num);
 
@@ -151,14 +152,18 @@ class MedianFinder {
         if (this.maxHeap.size() < this.minHeap.size()) {
             this.maxHeap.enqueue(this.minHeap.dequeue()!);
         }
+        console.log(`    maxHeap size=${this.maxHeap.size()}, minHeap size=${this.minHeap.size()}`);
     }
 
     findMedian(): number {
+        let median: number;
         if (this.maxHeap.size() > this.minHeap.size()) {
-            return this.maxHeap.peek();
+            median = this.maxHeap.peek();
         } else {
-            return (this.maxHeap.peek() + this.minHeap.peek()) / 2;
+            median = (this.maxHeap.peek() + this.minHeap.peek()) / 2;
         }
+        console.log(`    Median = ${median}`);
+        return median;
     }
 }
 
@@ -205,6 +210,8 @@ for (const num of stream) {
  * @spaceComplexity O(K) - For the window copy.
  */
 function medianSlidingWindow(nums: number[], k: number): number[] {
+    console.log(`\n--- medianSlidingWindow ---`);
+    console.log(`Input: nums = [${nums}], k = ${k}`);
     const result: number[] = [];
     
     for (let i = 0; i <= nums.length - k; i++) {
@@ -220,9 +227,11 @@ function medianSlidingWindow(nums: number[], k: number): number[] {
             ? window[mid]
             : (window[mid - 1] + window[mid]) / 2;
         
+        console.log(`  Window [${i}..${i+k-1}]: sorted=[${window}], median=${median}`);
         result.push(median);
     }
     
+    console.log(`  Result: [${result}]`);
     return result; 
 }
 

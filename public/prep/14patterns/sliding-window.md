@@ -62,6 +62,9 @@ Click "Next" to see the window slide!
  * @spaceComplexity O(1) - We only store a few variables (no extra arrays).
  */
 function findLoudestStretch(decibels: number[], k: number): number {
+  console.log(`\n--- findLoudestStretch ---`);
+  console.log(`Input: decibels = [${decibels}], k = ${k}`);
+
   // Input validation
   if (!decibels || decibels.length < k || k <= 0) {
     console.warn("Invalid input: Array is too short or k is invalid.");
@@ -74,8 +77,10 @@ function findLoudestStretch(decibels: number[], k: number): number {
   // 1. Initialize the first window
   for (let i = 0; i < k; i++) {
     currentLoudness += decibels[i];
+    console.log(`  [Init Window] i=${i}, adding ${decibels[i]}, currentLoudness = ${currentLoudness}`);
   }
   maxLoudness = currentLoudness;
+  console.log(`  First window sum = ${maxLoudness}`);
 
   // 2. Slide the window across the rest of the array
   for (let i = k; i < decibels.length; i++) {
@@ -84,10 +89,12 @@ function findLoudestStretch(decibels: number[], k: number): number {
 
     // Optimization: Adjust sum instead of recalculating
     currentLoudness = currentLoudness - finishedSong + newSong;
+    console.log(`  [Slide] i=${i}: removed ${finishedSong}, added ${newSong} → currentLoudness = ${currentLoudness}, maxLoudness = ${Math.max(maxLoudness, currentLoudness)}`);
     
     maxLoudness = Math.max(maxLoudness, currentLoudness);
   }
 
+  console.log(`  Result: ${maxLoudness}`);
   return maxLoudness;
 }
 
@@ -122,6 +129,9 @@ console.log(`Loudest ${kSongs}-song stretch sum:`, findLoudestStretch(songs, kSo
  * @spaceComplexity O(1) - Constant extra space used.
  */
 function lazyCaterpillar(targetFullness: number, leaves: number[]): number {
+  console.log(`\n--- lazyCaterpillar ---`);
+  console.log(`Input: targetFullness = ${targetFullness}, leaves = [${leaves}]`);
+
   if (!leaves || leaves.length === 0) return 0;
   
   let minLeavesEaten = Infinity;
@@ -130,20 +140,25 @@ function lazyCaterpillar(targetFullness: number, leaves: number[]): number {
 
   // `windowEnd` extends the window to the right (eating)
   for (let windowEnd = 0; windowEnd < leaves.length; windowEnd++) {
-    currentFullness += leaves[windowEnd]; 
+    currentFullness += leaves[windowEnd];
+    console.log(`  [Expand] windowEnd=${windowEnd}, ate leaf ${leaves[windowEnd]} → currentFullness = ${currentFullness}`);
 
     // Contract the window from the left as long as valid (spitting out)
     while (currentFullness >= targetFullness) {
       const currentWindowSize = windowEnd - windowStart + 1;
       minLeavesEaten = Math.min(minLeavesEaten, currentWindowSize);
+      console.log(`    [Shrink] windowStart=${windowStart}, windowSize=${currentWindowSize}, minLeavesEaten=${minLeavesEaten}`);
       
       // Remove element at windowStart to try and find a smaller valid window
       currentFullness -= leaves[windowStart];
+      console.log(`    Removed leaf ${leaves[windowStart]} → currentFullness = ${currentFullness}`);
       windowStart++; 
     }
   }
 
-  return minLeavesEaten === Infinity ? 0 : minLeavesEaten;
+  const result = minLeavesEaten === Infinity ? 0 : minLeavesEaten;
+  console.log(`  Result: ${result}`);
+  return result;
 }
 
 // Example Usage:

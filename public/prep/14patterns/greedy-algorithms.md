@@ -74,13 +74,17 @@ Click "Next" to see how we greedily select non-overlapping activities!
  * @spaceComplexity O(1) - Only a few tracking variables (ignoring sort's internal space).
  */
 function activitySelection(activities: [number, number][]): number {
+    console.log(`\n--- activitySelection ---`);
+    console.log(`Input: activities = ${JSON.stringify(activities)}`);
     if (activities.length === 0) return 0;
 
     // 1. Sort by END time (this is the greedy key!)
     activities.sort((a, b) => a[1] - b[1]);
+    console.log(`  After sort by end time: ${JSON.stringify(activities)}`);
 
     let count = 1; // We always take the first activity (earliest end)
     let lastEndTime = activities[0][1];
+    console.log(`  Selected activity [${activities[0]}], count=1`);
 
     // 2. Greedily select compatible activities
     for (let i = 1; i < activities.length; i++) {
@@ -89,11 +93,14 @@ function activitySelection(activities: [number, number][]): number {
         // If this activity starts AFTER the last selected one ends
         if (start >= lastEndTime) {
             count++;
-            lastEndTime = end; // Update the "last booked" end time
+            lastEndTime = end;
+            console.log(`  ✅ Selected [${start},${end}], count=${count}`);
+        } else {
+            console.log(`  ❌ Skipped [${start},${end}] (overlaps with last end=${lastEndTime})`);
         }
-        // Otherwise, skip this activity (it overlaps)
     }
 
+    console.log(`  Result: ${count}`);
     return count;
 }
 
@@ -134,17 +141,26 @@ console.log("Max meetings possible:", activitySelection(meetings)); // 4
  * @spaceComplexity O(1) - Only one tracking variable.
  */
 function canJump(nums: number[]): boolean {
+    console.log(`\n--- canJump ---`);
+    console.log(`Input: nums = [${nums}]`);
     let maxReach = 0; // The farthest index we can currently reach
 
     for (let i = 0; i < nums.length; i++) {
         // If current index is beyond our reach, we're stuck
-        if (i > maxReach) return false;
+        if (i > maxReach) {
+            console.log(`  i=${i}: STUCK! i > maxReach(${maxReach})`);
+            return false;
+        }
 
         // Update farthest reachable index
         maxReach = Math.max(maxReach, i + nums[i]);
+        console.log(`  i=${i}: jump=${nums[i]}, maxReach=${maxReach}`);
 
         // Early exit: if we can already reach the end
-        if (maxReach >= nums.length - 1) return true;
+        if (maxReach >= nums.length - 1) {
+            console.log(`  ✅ Can reach the end!`);
+            return true;
+        }
     }
 
     return true;
@@ -190,8 +206,11 @@ function fractionalKnapsack(
     items: { weight: number; value: number }[],
     capacity: number
 ): number {
+    console.log(`\n--- fractionalKnapsack ---`);
+    console.log(`Input: ${JSON.stringify(items)}, capacity=${capacity}`);
     // Sort by value/weight ratio (highest first)
     items.sort((a, b) => (b.value / b.weight) - (a.value / a.weight));
+    console.log(`  Sorted by ratio: ${items.map(i => `{w:${i.weight},v:${i.value},r:${(i.value/i.weight).toFixed(1)}}`).join(', ')}`);
 
     let totalValue = 0;
     let remainingCapacity = capacity;
@@ -203,15 +222,19 @@ function fractionalKnapsack(
             // Take the whole item
             totalValue += item.value;
             remainingCapacity -= item.weight;
+            console.log(`  Take ALL of {w:${item.weight},v:${item.value}} → totalValue=${totalValue}, remaining=${remainingCapacity}`);
         } else {
             // Take a fraction of it
             const fraction = remainingCapacity / item.weight;
             totalValue += item.value * fraction;
+            console.log(`  Take ${(fraction*100).toFixed(0)}% of {w:${item.weight},v:${item.value}} → totalValue=${totalValue.toFixed(2)}`);
             remainingCapacity = 0;
         }
     }
 
-    return Math.round(totalValue * 100) / 100; // Round to 2 decimal places
+    const result = Math.round(totalValue * 100) / 100;
+    console.log(`  Result: ${result}`);
+    return result;
 }
 
 // Example Usage:

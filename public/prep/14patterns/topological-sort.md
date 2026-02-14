@@ -69,6 +69,8 @@ Click "Next" to unlock courses and graduate!
  * @spaceComplexity O(V + E) - Adjacency list + Indegree array.
  */
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+    console.log(`\n--- canFinish ---`);
+    console.log(`Input: numCourses = ${numCourses}, prerequisites = ${JSON.stringify(prerequisites)}`);
     const inDegree = new Array(numCourses).fill(0);
     const adj = new Map<number, number[]>();
 
@@ -79,12 +81,14 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
         adj.get(pre)!.push(course);
         inDegree[course]++;
     }
+    console.log(`  In-degrees: [${inDegree}]`);
 
     // 2. Add sources (0 dependencies) to queue
     const queue: number[] = [];
     for (let i = 0; i < numCourses; i++) {
         if (inDegree[i] === 0) queue.push(i);
     }
+    console.log(`  Initial queue (in-degree 0): [${queue}]`);
 
     let completedCourses = 0;
 
@@ -92,18 +96,23 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
     while (queue.length > 0) {
         const pre = queue.shift()!;
         completedCourses++;
+        console.log(`  Processing course ${pre}, completed so far: ${completedCourses}`);
 
         const neighbors = adj.get(pre) || [];
         for (const neighbor of neighbors) {
             inDegree[neighbor]--;
+            console.log(`    Decreased in-degree of course ${neighbor} to ${inDegree[neighbor]}`);
             // If prerequisites fulfilled, unlock
             if (inDegree[neighbor] === 0) {
+                console.log(`    Course ${neighbor} unlocked → added to queue`);
                 queue.push(neighbor);
             }
         }
     }
 
-    return completedCourses === numCourses;
+    const result = completedCourses === numCourses;
+    console.log(`  Completed ${completedCourses}/${numCourses} → ${result ? '✅ Can finish!' : '❌ Cycle detected!'}`);
+    return result;
 }
 
 // Example Usage:
@@ -135,6 +144,8 @@ console.log("Can Finish?", canFinish(2, cyclePrereqs));
  * Derives order using Topological Sort.
  */
 function alienOrder(words: string[]): string {
+    console.log(`\n--- alienOrder ---`);
+    console.log(`Input: words = [${words}]`);
     const adj = new Map<string, string[]>();
     const inDegree = new Map<string, number>();
     
@@ -145,6 +156,7 @@ function alienOrder(words: string[]): string {
             adj.set(char, []);
         }
     }
+    console.log(`  Unique chars: [${[...inDegree.keys()]}]`);
 
     // Build edges by comparing adjacent words
     for (let i = 0; i < words.length - 1; i++) {
@@ -152,11 +164,15 @@ function alienOrder(words: string[]): string {
         const w2 = words[i + 1];
         
         // Check for prefix edge case (abc vs ab) - invalid if w2 is prefix of w1
-        if (w1.length > w2.length && w1.startsWith(w2)) return "";
+        if (w1.length > w2.length && w1.startsWith(w2)) {
+            console.log(`  ❌ Invalid: "${w1}" is longer but has prefix "${w2}"`);
+            return "";
+        }
 
         for (let j = 0; j < Math.min(w1.length, w2.length); j++) {
             if (w1[j] !== w2[j]) {
                 // w1[j] comes BEFORE w2[j]
+                console.log(`  Edge: '${w1[j]}' → '${w2[j]}' (from "${w1}" vs "${w2}")`);
                 adj.get(w1[j])!.push(w2[j]);
                 inDegree.set(w2[j], inDegree.get(w2[j])! + 1);
                 break; // Only the first difference matters
@@ -169,11 +185,13 @@ function alienOrder(words: string[]): string {
     for (const [char, deg] of inDegree) {
         if (deg === 0) queue.push(char);
     }
+    console.log(`  Initial queue (in-degree 0): [${queue}]`);
 
     let result = "";
     while (queue.length > 0) {
         const char = queue.shift()!;
         result += char;
+        console.log(`  Processing '${char}', result so far: "${result}"`);
 
         for (const neighbor of adj.get(char)!) {
             inDegree.set(neighbor, inDegree.get(neighbor)! - 1);
@@ -181,6 +199,7 @@ function alienOrder(words: string[]): string {
         }
     }
 
+    console.log(`  Result: "${result}"`);
     return result;
 }
 

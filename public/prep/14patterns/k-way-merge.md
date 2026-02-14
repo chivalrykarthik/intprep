@@ -145,6 +145,8 @@ class MinHeap<T> {
  * Merges K sorted lists using a Min Heap.
  */
 function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
+    console.log(`\n--- mergeKLists ---`);
+    console.log(`Input: ${lists.length} lists`);
     // Min Heap to store nodes, ordered by val
     const minHeap = new MinHeap<ListNode>((a, b) => a.val - b.val);
 
@@ -155,11 +157,14 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
 
     const dummy = new ListNode(0);
     let curr = dummy;
+    let step = 0;
 
     // Process Heap
     while (!minHeap.isEmpty()) {
         const smallestNode = minHeap.dequeue();
         if (!smallestNode) break;
+        step++;
+        console.log(`  Step ${step}: picked ${smallestNode.val}, heap size=${minHeap.size()}`);
         
         // Add to result
         curr.next = smallestNode;
@@ -296,6 +301,8 @@ class MinHeap<T> {
  * Finds smallest range using K-way merge + sliding max tracking.
  */
 function smallestRange(nums: number[][]): number[] {
+    console.log(`\n--- smallestRange ---`);
+    console.log(`Input: ${nums.length} lists`);
     interface HeapItem {
         val: number;
         listIdx: number;
@@ -311,6 +318,7 @@ function smallestRange(nums: number[][]): number[] {
         minHeap.enqueue({ val, listIdx: i, itemIdx: 0 });
         maxVal = Math.max(maxVal, val);
     }
+    console.log(`  Initial max = ${maxVal}`);
 
     let start = 0, end = Infinity;
 
@@ -319,11 +327,13 @@ function smallestRange(nums: number[][]): number[] {
         if (!item) break;
         
         const { val: minVal, listIdx, itemIdx } = item;
+        console.log(`  Popped min=${minVal} from list ${listIdx}, max=${maxVal}, range=[${minVal},${maxVal}]`);
 
         // Check if current range is smaller
         if (maxVal - minVal < end - start) {
             start = minVal;
             end = maxVal;
+            console.log(`    ✅ New best range: [${start},${end}] (size=${end-start})`);
         }
 
         // Push next element from the same list
@@ -332,11 +342,12 @@ function smallestRange(nums: number[][]): number[] {
             minHeap.enqueue({ val: nextVal, listIdx, itemIdx: itemIdx + 1 });
             maxVal = Math.max(maxVal, nextVal);
         } else {
-            // One list is exhausted
+            console.log(`    List ${listIdx} exhausted`);
             break;
         }
     }
 
+    console.log(`  Result: [${start},${end}]`);
     return [start, end];
 }
 

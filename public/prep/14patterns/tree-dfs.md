@@ -84,19 +84,22 @@ class TreeNode {
  * @timeComplexity O(N) - We might visit every node.
  * @spaceComplexity O(H) - Recursion stack depth equals tree height (H).
  */
-function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
-  if (!root) return false;
+function hasPathSum(root: TreeNode | null, targetSum: number, depth: number = 0): boolean {
+  const indent = '  '.repeat(depth + 1);
+  if (!root) { console.log(`${indent}null node → return false`); return false; }
 
   // Subtract current value from the target
   const remainingWeight = targetSum - root.val;
+  console.log(`${indent}Node ${root.val}, remaining = ${remainingWeight}`);
 
   // Check if it's a leaf node AND sum matches
   if (!root.left && !root.right && remainingWeight === 0) {
+      console.log(`${indent}✅ Leaf node! Path sum matches!`);
       return true;
   }
 
   // Recursively check left or right subtrees
-  return hasPathSum(root.left, remainingWeight) || hasPathSum(root.right, remainingWeight);
+  return hasPathSum(root.left, remainingWeight, depth + 1) || hasPathSum(root.right, remainingWeight, depth + 1);
 }
 
 // Example Usage:
@@ -151,34 +154,40 @@ class TreeNode {
  * @returns Total count of valid paths
  */
 function pathSum(root: TreeNode | null, k: number): number {
+    console.log(`\n--- pathSum ---`);
+    console.log(`Input: k = ${k}`);
     let count = 0;
     const map = new Map<number, number>();
     map.set(0, 1); // Base case: one path with sum 0 (empty)
 
-    function dfs(node: TreeNode | null, currSum: number) {
+    function dfs(node: TreeNode | null, currSum: number, depth: number = 0) {
+        const indent = '  '.repeat(depth + 1);
         if (!node) return;
 
         currSum += node.val;
+        console.log(`${indent}Node ${node.val}, currSum = ${currSum}`);
 
         // Check if there is a prefix sum such that currSum - oldSum = k
         if (map.has(currSum - k)) {
-            count += map.get(currSum - k)!;
+            const paths = map.get(currSum - k)!;
+            count += paths;
+            console.log(`${indent}Found ${paths} path(s)! (looking for prefix ${currSum - k}), total count = ${count}`);
         }
 
         // Add current sum to map for children
         map.set(currSum, (map.get(currSum) || 0) + 1);
 
-        dfs(node.left, currSum);
-        dfs(node.right, currSum);
+        dfs(node.left, currSum, depth + 1);
+        dfs(node.right, currSum, depth + 1);
 
         // Backtrack: Remove current sum from map so cross-branch paths aren't counted
         map.set(currSum, map.get(currSum)! - 1);
     }
 
     dfs(root, 0);
+    console.log(`  Total paths found: ${count}`);
     return count;
 }
-
 // Example Usage:
 //      10
 //     /  \

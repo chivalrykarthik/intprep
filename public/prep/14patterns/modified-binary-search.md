@@ -61,24 +61,30 @@ Click "Next" to see the search space shrink!
  * @spaceComplexity O(1) - Iterative approach uses constant space.
  */
 function search(nums: number[], target: number): number {
+  console.log(`\n--- search (Binary Search) ---`);
+  console.log(`Input: nums = [${nums}], target = ${target}`);
   let left = 0;
   let right = nums.length - 1;
 
   while (left <= right) {
-      // Avoid overflow with large numbers compared to (left + right) / 2
       const mid = Math.floor(left + (right - left) / 2);
+      console.log(`  left=${left}, right=${right}, mid=${mid}, nums[mid]=${nums[mid]}`);
       
       if (nums[mid] === target) {
+          console.log(`  ✅ Found target ${target} at index ${mid}`);
           return mid;
       }
       
       if (nums[mid] < target) {
-          left = mid + 1; // Target is in right half
+          console.log(`  nums[mid] < target → search right half`);
+          left = mid + 1;
       } else {
-          right = mid - 1; // Target is in left half
+          console.log(`  nums[mid] > target → search left half`);
+          right = mid - 1;
       }
   }
 
+  console.log(`  ❌ Target ${target} not found`);
   return -1;
 }
 
@@ -107,30 +113,43 @@ console.log(`Index of ${targetVal}:`, search(sortedArr, targetVal));
  * The key is to find which half is SORTED, then decide if target is there.
  */
 function searchRotated(nums: number[], target: number): number {
+    console.log(`\n--- searchRotated ---`);
+    console.log(`Input: nums = [${nums}], target = ${target}`);
     let left = 0;
     let right = nums.length - 1;
 
     while (left <= right) {
         const mid = Math.floor(left + (right - left) / 2);
-        if (nums[mid] === target) return mid;
+        console.log(`  left=${left}, right=${right}, mid=${mid}, nums[mid]=${nums[mid]}`);
+        if (nums[mid] === target) {
+            console.log(`  ✅ Found target ${target} at index ${mid}`);
+            return mid;
+        }
 
         // Check if Left Half is sorted
         if (nums[left] <= nums[mid]) {
+            console.log(`  Left half [${left}..${mid}] is sorted`);
             if (nums[left] <= target && target < nums[mid]) {
-                right = mid - 1; // Target is in this sorted left half
+                console.log(`  Target in sorted left half → right = mid-1`);
+                right = mid - 1;
             } else {
-                left = mid + 1; // Target is in the other half
+                console.log(`  Target NOT in left half → left = mid+1`);
+                left = mid + 1;
             }
         } 
         // Otherwise, Right Half must be sorted
         else {
+            console.log(`  Right half [${mid}..${right}] is sorted`);
             if (nums[mid] < target && target <= nums[right]) {
-                left = mid + 1; // Target is in this sorted right half
+                console.log(`  Target in sorted right half → left = mid+1`);
+                left = mid + 1;
             } else {
-                right = mid - 1; // Target is in the other half
+                console.log(`  Target NOT in right half → right = mid-1`);
+                right = mid - 1;
             }
         }
     }
+    console.log(`  ❌ Target ${target} not found`);
     return -1;
 }
 

@@ -77,11 +77,15 @@ class ListNode {
  * @spaceComplexity O(1) - No extra data structures used.
  */
 function reverseList(head: ListNode | null): ListNode | null {
+  console.log(`\n--- reverseList ---`);
   let prev: ListNode | null = null;
   let curr: ListNode | null = head;
+  let step = 0;
 
   while (curr !== null) {
       const nextTemp = curr.next; // 1. Save next
+      step++;
+      console.log(`  Step ${step}: curr=${curr.val}, prev=${prev?.val ?? 'null'}, next=${nextTemp?.val ?? 'null'}`);
       
       curr.next = prev;           // 2. Reverse link
       
@@ -89,6 +93,7 @@ function reverseList(head: ListNode | null): ListNode | null {
       curr = nextTemp;
   }
 
+  console.log(`  New head: ${prev?.val}`);
   return prev; // New head
 }
 
@@ -143,29 +148,31 @@ class ListNode {
  * Reverses a sub-list from position left to right.
  */
 function reverseBetween(head: ListNode | null, left: number, right: number): ListNode | null {
+    console.log(`\n--- reverseBetween ---`);
+    console.log(`Input: left=${left}, right=${right}`);
     if (!head || left === right) return head;
 
-    // Use a dummy node to handle edge case where head changes (i.e. left = 1)
+    // Use a dummy node to handle edge case where head changes
     const dummy = new ListNode(0, head);
-    let prev = dummy; // Checkpoint before the sublist
+    let prev = dummy;
 
     // 1. Move prev to just before the sublist
     for (let i = 0; i < left - 1; i++) {
         prev = prev.next!;
     }
+    console.log(`  prev positioned at node ${prev.val}`);
 
-    // `curr` starts at the beginning of the sublist to be reversed
     let curr = prev.next; 
+    console.log(`  curr (start of sublist) = ${curr?.val}`);
 
     // 2. Reverse the sublist
-    // We reverse 'right - left' nodes.
-    // In each step, we move the 'next' node to the front of the sublist.
     for (let i = 0; i < right - left; i++) {
         const nextNode = curr!.next;
+        console.log(`  Step ${i + 1}: moving node ${nextNode?.val} to front of sublist`);
         
-        curr!.next = nextNode!.next;    // Point curr to skip nextNode
-        nextNode!.next = prev.next;     // Insert nextNode at the front (after prev)
-        prev.next = nextNode;           // Update prev to point to new front
+        curr!.next = nextNode!.next;
+        nextNode!.next = prev.next;
+        prev.next = nextNode;
     }
 
     return dummy.next;

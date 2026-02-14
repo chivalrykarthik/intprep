@@ -97,13 +97,17 @@ function climbStairsMemo(n: number, memo: Map<number, number> = new Map()): numb
     if (n <= 1) return 1;
 
     // Check notebook (memo)
-    if (memo.has(n)) return memo.get(n)!;
+    if (memo.has(n)) {
+        console.log(`  Memo hit for n=${n}: ${memo.get(n)}`);
+        return memo.get(n)!;
+    }
 
     // Recurrence: ways(n) = ways(n-1) + ways(n-2)
     const result = climbStairsMemo(n - 1, memo) + climbStairsMemo(n - 2, memo);
 
     // Write to notebook
     memo.set(n, result);
+    console.log(`  Computed n=${n}: ${result}`);
     return result;
 }
 
@@ -119,6 +123,8 @@ function climbStairsMemo(n: number, memo: Map<number, number> = new Map()): numb
  * @spaceComplexity O(1) - Only two variables.
  */
 function climbStairsTab(n: number): number {
+    console.log(`\n--- climbStairsTab ---`);
+    console.log(`Input: n = ${n}`);
     if (n <= 1) return 1;
 
     let prev2 = 1; // ways(0)
@@ -126,10 +132,12 @@ function climbStairsTab(n: number): number {
 
     for (let i = 2; i <= n; i++) {
         const curr = prev1 + prev2;
+        console.log(`  i=${i}: prev2=${prev2} + prev1=${prev1} = ${curr}`);
         prev2 = prev1;
         prev1 = curr;
     }
 
+    console.log(`  Result: ${prev1}`);
     return prev1;
 }
 
@@ -166,8 +174,8 @@ console.log("Bottom-Up (n=40):", climbStairsTab(40));  // 165580141
  * @spaceComplexity O(amount) - DP array of size amount+1.
  */
 function coinChange(coins: number[], amount: number): number {
-    // dp[i] = minimum coins needed to make amount i
-    // Initialize with Infinity (impossible until proven otherwise)
+    console.log(`\n--- coinChange ---`);
+    console.log(`Input: coins = [${coins}], amount = ${amount}`);
     const dp = new Array(amount + 1).fill(Infinity);
 
     // Base case: 0 coins needed for amount 0
@@ -176,14 +184,19 @@ function coinChange(coins: number[], amount: number): number {
     // Build up from 1 to amount
     for (let i = 1; i <= amount; i++) {
         for (const coin of coins) {
-            // If this coin fits AND using it leads to a valid solution
             if (coin <= i && dp[i - coin] !== Infinity) {
+                const prev = dp[i];
                 dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                if (dp[i] !== prev) {
+                    console.log(`  dp[${i}] = ${dp[i]} (using coin ${coin}, dp[${i-coin}]+1=${dp[i-coin]+1})`);
+                }
             }
         }
     }
 
-    return dp[amount] === Infinity ? -1 : dp[amount];
+    const result = dp[amount] === Infinity ? -1 : dp[amount];
+    console.log(`  Result: ${result}`);
+    return result;
 }
 
 // Example Usage:
@@ -226,6 +239,8 @@ console.log("Coins [2], Amount 3:", coinChange([2], 3)); // -1
  * @spaceComplexity O(M * N) - 2D DP table. Can be optimized to O(min(M, N)) with rolling array.
  */
 function longestCommonSubsequence(text1: string, text2: string): number {
+    console.log(`\n--- longestCommonSubsequence ---`);
+    console.log(`Input: text1 = "${text1}", text2 = "${text2}"`);
     const m = text1.length;
     const n = text2.length;
 
@@ -240,6 +255,7 @@ function longestCommonSubsequence(text1: string, text2: string): number {
             if (text1[i - 1] === text2[j - 1]) {
                 // Characters match → extend the LCS by 1
                 dp[i][j] = dp[i - 1][j - 1] + 1;
+                console.log(`  dp[${i}][${j}]: '${text1[i-1]}' == '${text2[j-1]}' → ${dp[i][j]} (match!)`);
             } else {
                 // Characters don't match → take best of skipping either character
                 dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
@@ -247,6 +263,7 @@ function longestCommonSubsequence(text1: string, text2: string): number {
         }
     }
 
+    console.log(`  Result: ${dp[m][n]}`);
     return dp[m][n];
 }
 

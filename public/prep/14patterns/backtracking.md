@@ -83,32 +83,39 @@ Click "Next" to see how subsets are generated through backtracking!
  * @spaceComplexity O(N) - Recursion stack depth is N. (Output storage is O(N * N!) but not counted as auxiliary.)
  */
 function permute(nums: number[]): number[][] {
+    console.log(`\n--- permute ---`);
+    console.log(`Input: nums = [${nums}]`);
     const results: number[][] = [];
 
-    function backtrack(current: number[], remaining: number[]): void {
+    function backtrack(current: number[], remaining: number[], depth: number = 0): void {
+        const indent = '  '.repeat(depth + 1);
         // Base Case: No more numbers to place
         if (remaining.length === 0) {
-            results.push([...current]); // Copy! Don't push the reference.
+            console.log(`${indent}✅ Complete permutation: [${current}]`);
+            results.push([...current]); // Copy!
             return;
         }
 
         for (let i = 0; i < remaining.length; i++) {
             // 1. Choose: Pick remaining[i]
             current.push(remaining[i]);
+            console.log(`${indent}Choose ${remaining[i]} → current=[${current}], remaining=[${remaining.filter((_,j)=>j!==i)}]`);
 
             // 2. Explore: Recurse with reduced remaining set
             const nextRemaining = [
                 ...remaining.slice(0, i),
                 ...remaining.slice(i + 1)
             ];
-            backtrack(current, nextRemaining);
+            backtrack(current, nextRemaining, depth + 1);
 
             // 3. Un-choose (Backtrack): Remove the last choice
-            current.pop();
+            const removed = current.pop();
+            console.log(`${indent}Un-choose ${removed} → current=[${current}]`);
         }
     }
 
     backtrack([], nums);
+    console.log(`  Total permutations: ${results.length}`);
     return results;
 }
 
@@ -145,6 +152,8 @@ console.log("All Permutations:", permute(nums));
  * @spaceComplexity O(N) - Recursion depth is N (one queen per row). Board state is O(N²).
  */
 function solveNQueens(n: number): string[][] {
+    console.log(`\n--- solveNQueens ---`);
+    console.log(`Input: n = ${n}`);
     const results: string[][] = [];
     // Create board filled with '.'
     const board: string[][] = Array.from({ length: n }, () =>
@@ -174,6 +183,7 @@ function solveNQueens(n: number): string[][] {
     function backtrack(row: number): void {
         // Base Case: All queens placed successfully
         if (row === n) {
+            console.log(`  ✅ Solution found!`);
             results.push(board.map(r => r.join('')));
             return;
         }
@@ -181,9 +191,11 @@ function solveNQueens(n: number): string[][] {
         // Try each column in the current row
         for (let col = 0; col < n; col++) {
             if (isValid(row, col)) {
+                console.log(`  Row ${row}: placing Q at col ${col}`);
                 board[row][col] = 'Q';      // 1. Choose
                 backtrack(row + 1);          // 2. Explore
                 board[row][col] = '.';       // 3. Un-choose (Backtrack)
+                console.log(`  Row ${row}: removing Q from col ${col}`);
             }
         }
     }

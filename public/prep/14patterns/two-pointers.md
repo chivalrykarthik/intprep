@@ -68,23 +68,30 @@ Click "Next" to see the pointers move!
  * @spaceComplexity O(1) - We only store two integer variables.
  */
 function twoSumSorted(numbers: number[], target: number): number[] {
+  console.log(`\n--- twoSumSorted ---`);
+  console.log(`Input: numbers = [${numbers}], target = ${target}`);
   let left = 0;
   let right = numbers.length - 1;
 
   while (left < right) {
     const currentSum = numbers[left] + numbers[right];
+    console.log(`  left=${left}(${numbers[left]}), right=${right}(${numbers[right]}), currentSum=${currentSum}`);
 
     if (currentSum === target) {
+      console.log(`  ✅ Found! Indices [${left + 1}, ${right + 1}]`);
       return [left + 1, right + 1]; // 1-based index
     } else if (currentSum < target) {
+      console.log(`  Sum too small → moving left pointer right`);
       // Need a bigger sum, move left pointer up
       left++;
     } else {
+      console.log(`  Sum too big → moving right pointer left`);
       // Need a smaller sum, move right pointer down
       right--;
     }
   }
 
+  console.log(`  No pair found`);
   return [];
 }
 
@@ -119,6 +126,8 @@ console.log("Indices found:", twoSumSorted(numbers, targetSum));
  * @spaceComplexity O(1) - Only constant extra space used.
  */
 function maxArea(height: number[]): number {
+  console.log(`\n--- maxArea ---`);
+  console.log(`Input: height = [${height}]`);
   let left = 0;
   let right = height.length - 1;
   let maxWater = 0;
@@ -130,17 +139,19 @@ function maxArea(height: number[]): number {
     const area = width * currentHeight;
 
     maxWater = Math.max(maxWater, area);
+    console.log(`  left=${left}(h=${height[left]}), right=${right}(h=${height[right]}), width=${width}, area=${area}, maxWater=${maxWater}`);
 
-    // Initial Thought: Which pointer do we move?
-    // We want to try and find a taller wall to compensate for lesser width.
-    // So we assume the shorter wall is the bottleneck and discard it.
+    // Move the pointer with the shorter wall
     if (height[left] < height[right]) {
+      console.log(`  Left wall shorter → move left++`);
       left++;
     } else {
+      console.log(`  Right wall shorter/equal → move right--`);
       right--;
     }
   }
 
+  console.log(`  Result: ${maxWater}`);
   return maxWater;
 };
 

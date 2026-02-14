@@ -103,8 +103,12 @@ class UnionFind {
      */
     find(x: number): number {
         if (this.parent[x] !== x) {
+            const oldParent = this.parent[x];
             // Path compression: recursively find root, then point directly to it
             this.parent[x] = this.find(this.parent[x]);
+            if (oldParent !== this.parent[x]) {
+                console.log(`    Path compression: ${x}'s parent ${oldParent} → ${this.parent[x]}`);
+            }
         }
         return this.parent[x];
     }
@@ -120,19 +124,26 @@ class UnionFind {
         const rootX = this.find(x);
         const rootY = this.find(y);
 
-        if (rootX === rootY) return false; // Already in the same set
+        if (rootX === rootY) {
+            console.log(`  union(${x},${y}): already connected (root=${rootX})`);
+            return false;
+        }
 
         // Union by rank: attach smaller tree under larger
         if (this.rank[rootX] < this.rank[rootY]) {
             this.parent[rootX] = rootY;
+            console.log(`  union(${x},${y}): ${rootX} → ${rootY} (rank)`);
         } else if (this.rank[rootX] > this.rank[rootY]) {
             this.parent[rootY] = rootX;
+            console.log(`  union(${x},${y}): ${rootY} → ${rootX} (rank)`);
         } else {
             this.parent[rootY] = rootX;
             this.rank[rootX]++; // Only increment when equal
+            console.log(`  union(${x},${y}): ${rootY} → ${rootX} (equal rank, new rank=${this.rank[rootX]})`);
         }
 
         this.count--; // One fewer component
+        console.log(`  Components remaining: ${this.count}`);
         return true;
     }
 
@@ -155,12 +166,15 @@ class UnionFind {
  * @spaceComplexity O(N) for the parent and rank arrays.
  */
 function countComponents(n: number, edges: number[][]): number {
+    console.log(`\n--- countComponents ---`);
+    console.log(`Input: n=${n}, edges=${JSON.stringify(edges)}`);
     const uf = new UnionFind(n);
 
     for (const [u, v] of edges) {
         uf.union(u, v);
     }
 
+    console.log(`  Result: ${uf.count} components`);
     return uf.count;
 }
 
@@ -200,6 +214,8 @@ console.log("Connected Components:", countComponents(n, edges));
  * @spaceComplexity O(N) for Union-Find + mappings.
  */
 function accountsMerge(accounts: string[][]): string[][] {
+    console.log(`\n--- accountsMerge ---`);
+    console.log(`Input: ${accounts.length} accounts`);
     const emailToId = new Map<string, number>();
     const emailToName = new Map<string, string>();
     let id = 0;
@@ -209,6 +225,7 @@ function accountsMerge(accounts: string[][]): string[][] {
         const name = account[0];
         for (let i = 1; i < account.length; i++) {
             if (!emailToId.has(account[i])) {
+                console.log(`  Assigned ID ${id} to ${account[i]}`);
                 emailToId.set(account[i], id++);
             }
             emailToName.set(account[i], name);
@@ -221,6 +238,7 @@ function accountsMerge(accounts: string[][]): string[][] {
     for (const account of accounts) {
         const firstEmailId = emailToId.get(account[1])!;
         for (let i = 2; i < account.length; i++) {
+            console.log(`  Unioning ${account[1]} (id=${firstEmailId}) with ${account[i]} (id=${emailToId.get(account[i])})`);
             uf.union(firstEmailId, emailToId.get(account[i])!);
         }
     }
@@ -232,6 +250,7 @@ function accountsMerge(accounts: string[][]): string[][] {
         if (!groups.has(root)) groups.set(root, []);
         groups.get(root)!.push(email);
     }
+    console.log(`  ${groups.size} groups formed`);
 
     // 4. Build result
     const result: string[][] = [];
@@ -239,6 +258,7 @@ function accountsMerge(accounts: string[][]): string[][] {
         emails.sort(); // Sort emails alphabetically
         const name = emailToName.get(emails[0])!;
         result.push([name, ...emails]);
+        console.log(`  Group: ${name} → [${emails}]`);
     }
 
     return result;

@@ -89,30 +89,34 @@ class TreeNode {
  */
 function levelOrder(root: TreeNode | null): number[][] {
   const result: number[][] = [];
-  if (!root) return result;
+  if (!root) { console.log(`  Empty tree`); return result; }
+  console.log(`\n--- levelOrder ---`);
 
   const queue: TreeNode[] = [root];
+  let level = 0;
 
   while (queue.length > 0) {
       const levelSize = queue.length;
       const currentLevel: number[] = [];
+      console.log(`  Level ${level}: processing ${levelSize} node(s)`);
 
       // Process all nodes at this current level
       for (let i = 0; i < levelSize; i++) {
-          // ⚠️ Note: Array.shift() is O(N) in JS (re-indexes entire array).
-          // For production code, use a proper Queue (linked list or circular buffer).
-          // Here it's fine for interview demonstrations.
           const currentNode = queue.shift()!; // Dequeue
           currentLevel.push(currentNode.val);
+          console.log(`    Visited node ${currentNode.val}`);
 
           // Enqueue children
           if (currentNode.left) queue.push(currentNode.left);
           if (currentNode.right) queue.push(currentNode.right);
       }
 
+      console.log(`  Level ${level} result: [${currentLevel}]`);
       result.push(currentLevel);
+      level++;
   }
 
+  console.log(`  Final result: ${JSON.stringify(result)}`);
   return result;
 }
 
@@ -161,14 +165,17 @@ class TreeNode {
  */
 function zigzagLevelOrder(root: TreeNode | null): number[][] {
     const result: number[][] = [];
-    if (!root) return result;
+    if (!root) { console.log(`  Empty tree`); return result; }
+    console.log(`\n--- zigzagLevelOrder ---`);
 
     const queue: TreeNode[] = [root];
     let leftToRight = true;
+    let level = 0;
 
     while (queue.length > 0) {
         const levelSize = queue.length;
         const currentLevel: number[] = new Array(levelSize);
+        console.log(`  Level ${level}: direction = ${leftToRight ? 'L→R' : 'R→L'}, ${levelSize} node(s)`);
 
         for (let i = 0; i < levelSize; i++) {
             const node = queue.shift()!;
@@ -176,15 +183,19 @@ function zigzagLevelOrder(root: TreeNode | null): number[][] {
             // Calculate index based on direction
             const index = leftToRight ? i : (levelSize - 1 - i);
             currentLevel[index] = node.val;
+            console.log(`    node ${node.val} placed at index ${index}`);
 
             if (node.left) queue.push(node.left);
             if (node.right) queue.push(node.right);
         }
 
+        console.log(`  Level ${level} result: [${currentLevel}]`);
         result.push(currentLevel);
         leftToRight = !leftToRight; // Flip direction
+        level++;
     }
 
+    console.log(`  Final result: ${JSON.stringify(result)}`);
     return result;
 }
 

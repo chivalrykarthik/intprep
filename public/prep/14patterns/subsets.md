@@ -68,26 +68,24 @@ Click "Next" to see the list of subsets double in size!
  * @spaceComplexity O(N * 2^N) - To store all subsets.
  */
 function subsets(nums: number[]): number[][] {
+  console.log(`\n--- subsets ---`);
+  console.log(`Input: nums = [${nums}]`);
   const result: number[][] = [];
   result.push([]); // Start with empty set
 
   for (const currentNumber of nums) {
-      // Take the current snapshot of the list size
-      // Because we are appending to the list while iterating
       const n = result.length;
+      console.log(`  Processing number: ${currentNumber}, current result size: ${n}`);
 
       for (let i = 0; i < n; i++) {
-          // 1. Create a copy of the existing subset
           const setCopy = [...result[i]]; 
-          
-          // 2. Add the current number
           setCopy.push(currentNumber);
-          
-          // 3. Add to result
+          console.log(`    Cloned [${result[i]}] + ${currentNumber} → [${setCopy}]`);
           result.push(setCopy);
       }
   }
 
+  console.log(`  Result: ${JSON.stringify(result)}`);
   return result;
 }
 
@@ -115,8 +113,10 @@ If you pick "The first Apple" or "The second Apple", the result is the same: jus
  * Generates subsets handling duplicates.
  */
 function subsetsWithDup(nums: number[]): number[][] {
-    // 1. Sort to handle duplicates by seeing neighbors
+    console.log(`\n--- subsetsWithDup ---`);
+    console.log(`Input: nums = [${nums}]`);
     nums.sort((a, b) => a - b);
+    console.log(`  After sort: [${nums}]`);
     
     const subsets: number[][] = [];
     subsets.push([]);
@@ -127,10 +127,11 @@ function subsetsWithDup(nums: number[]): number[][] {
     for (let i = 0; i < nums.length; i++) {
         startIndex = 0;
 
-        // If duplicate (and not the first element), 
-        // only add to the subsets created in the LAST step
         if (i > 0 && nums[i] === nums[i - 1]) {
             startIndex = endIndex + 1;
+            console.log(`  i=${i}: nums[${i}]=${nums[i]} is DUPLICATE → startIndex=${startIndex} (only add to last step's subsets)`);
+        } else {
+            console.log(`  i=${i}: nums[${i}]=${nums[i]} is NEW → startIndex=0 (add to all subsets)`);
         }
 
         endIndex = subsets.length - 1;
@@ -138,10 +139,12 @@ function subsetsWithDup(nums: number[]): number[][] {
         for (let j = startIndex; j <= endIndex; j++) {
             const setCopy = [...subsets[j]];
             setCopy.push(nums[i]);
+            console.log(`    Cloned [${subsets[j]}] + ${nums[i]} → [${setCopy}]`);
             subsets.push(setCopy);
         }
     }
     
+    console.log(`  Result: ${JSON.stringify(subsets)}`);
     return subsets;
 }
 

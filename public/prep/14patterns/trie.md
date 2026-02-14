@@ -117,11 +117,13 @@ class Trie {
      * @param word - The word to insert.
      */
     insert(word: string): void {
+        console.log(`  insert("${word}")`);
         let current = this.root;
 
         for (const char of word) {
             // If this character path doesn't exist, create it
             if (!current.children.has(char)) {
+                console.log(`    Creating node for '${char}'`);
                 current.children.set(char, new TrieNode());
             }
             current = current.children.get(char)!;
@@ -129,6 +131,7 @@ class Trie {
 
         // Mark the last node as end of a complete word
         current.isEndOfWord = true;
+        console.log(`    Marked '${word}' as complete`);
     }
 
     /**
@@ -137,7 +140,9 @@ class Trie {
      */
     search(word: string): boolean {
         const node = this.findNode(word);
-        return node !== null && node.isEndOfWord;
+        const found = node !== null && node.isEndOfWord;
+        console.log(`  search("${word}"): ${found}`);
+        return found;
     }
 
     /**
@@ -145,7 +150,9 @@ class Trie {
      * @param prefix - The prefix to check.
      */
     startsWith(prefix: string): boolean {
-        return this.findNode(prefix) !== null;
+        const found = this.findNode(prefix) !== null;
+        console.log(`  startsWith("${prefix}"): ${found}`);
+        return found;
     }
 
     /**
@@ -208,6 +215,8 @@ console.log("startsWith('b'):", trie.startsWith("b"));     // false
  * @spaceComplexity O(W * L) for the Trie — W words of average length L.
  */
 function findWords(board: string[][], words: string[]): string[] {
+    console.log(`\n--- findWords ---`);
+    console.log(`Input: words = [${words}]`);
     // 1. Build Trie from dictionary
     const root: Record<string, any> = {};
 
@@ -235,6 +244,7 @@ function findWords(board: string[][], words: string[]): string[] {
 
         // Found a complete word!
         if (nextNode.word) {
+            console.log(`  ✅ Found word: "${nextNode.word}" at (${r},${c})`);
             result.push(nextNode.word);
             delete nextNode.word; // Avoid duplicates
         }
@@ -258,6 +268,7 @@ function findWords(board: string[][], words: string[]): string[] {
         }
     }
 
+    console.log(`  Result: [${result}]`);
     return result;
 }
 

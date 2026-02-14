@@ -78,6 +78,7 @@ graph.set(3, [1]);        // Node 3 connects to 1
  * @spaceComplexity O(min(M, N)) - BFS queue size in worst case.
  */
 function numIslands(grid: string[][]): number {
+    console.log(`\n--- numIslands ---`);
     if (grid.length === 0) return 0;
 
     const rows = grid.length;
@@ -89,6 +90,7 @@ function numIslands(grid: string[][]): number {
     function bfs(startR: number, startC: number): void {
         const queue: [number, number][] = [[startR, startC]];
         grid[startR][startC] = '0'; // Mark visited by sinking
+        console.log(`    BFS starting at (${startR},${startC})`);
 
         while (queue.length > 0) {
             const [r, c] = queue.shift()!;
@@ -98,6 +100,7 @@ function numIslands(grid: string[][]): number {
                 const nc = c + dc;
 
                 if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] === '1') {
+                    console.log(`    Expanding to (${nr},${nc})`);
                     grid[nr][nc] = '0'; // Mark visited
                     queue.push([nr, nc]);
                 }
@@ -109,11 +112,13 @@ function numIslands(grid: string[][]): number {
         for (let c = 0; c < cols; c++) {
             if (grid[r][c] === '1') {
                 islands++;
+                console.log(`  Found island #${islands} at (${r},${c})`);
                 bfs(r, c); // Flood fill this island
             }
         }
     }
 
+    console.log(`  Total islands: ${islands}`);
     return islands;
 }
 
@@ -164,17 +169,22 @@ class GraphNode {
  * @spaceComplexity O(V) - HashMap + recursion stack.
  */
 function cloneGraph(node: GraphNode | null): GraphNode | null {
-    if (!node) return null;
+    console.log(`\n--- cloneGraph ---`);
+    if (!node) { console.log(`  Null graph`); return null; }
 
     const cloned = new Map<GraphNode, GraphNode>();
 
     function dfs(original: GraphNode): GraphNode {
         // Already cloned? Return the clone.
-        if (cloned.has(original)) return cloned.get(original)!;
+        if (cloned.has(original)) {
+            console.log(`  Node ${original.val} already cloned, reusing`);
+            return cloned.get(original)!;
+        }
 
         // Create clone (without neighbors yet)
         const copy = new GraphNode(original.val);
         cloned.set(original, copy);
+        console.log(`  Cloning node ${original.val}, neighbors: [${original.neighbors.map(n => n.val)}]`);
 
         // Recursively clone all neighbors
         for (const neighbor of original.neighbors) {

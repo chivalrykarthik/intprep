@@ -72,23 +72,29 @@ class ListNode {
  * @spaceComplexity O(1) - We only use two variables.
  */
 function hasCycle(head: ListNode | null): boolean {
-  if (!head || !head.next) return false;
+  console.log(`\n--- hasCycle ---`);
+  if (!head || !head.next) { console.log(`  List is empty or single node → no cycle`); return false; }
 
   let slow: ListNode | null = head;
   let fast: ListNode | null = head;
+  let step = 0;
 
   // While the fast runner still has track ahead of it
   while (fast && fast.next) {
       slow = slow!.next;        // Move 1 step
       fast = fast.next.next;    // Move 2 steps
+      step++;
+      console.log(`  Step ${step}: slow=${slow?.val}, fast=${fast?.val ?? 'null'}`);
 
       // If they meet, there is a cycle
       if (slow === fast) {
+          console.log(`  ✅ Cycle detected! slow and fast met at value ${slow?.val}`);
           return true;
       }
   }
 
   // Fast reached the end, so no cycle
+  console.log(`  ❌ No cycle — fast reached the end`);
   return false;
 }
 
@@ -160,17 +166,23 @@ function sumSquares(n: number): number {
  * @spaceComplexity O(1) - Using Floyd's Cycle Detection instead of a HashSet.
  */
 function isHappy(n: number): boolean {
+    console.log(`\n--- isHappy ---`);
+    console.log(`Input: n = ${n}`);
     let slow = n;
     let fast = n;
+    let step = 0;
 
     do {
         // Slow moves 1 step (applies transformation once)
         slow = sumSquares(slow);
         // Fast moves 2 steps (applies transformation twice)
         fast = sumSquares(sumSquares(fast));
+        step++;
+        console.log(`  Step ${step}: slow=${slow}, fast=${fast}`);
     } while (slow !== fast);
 
     // If they met at 1, it's happy. If they met elsewhere, it's a cycle (unhappy).
+    console.log(`  Met at ${slow} → ${slow === 1 ? '✅ Happy number!' : '❌ Not happy (cycle detected)'}`);
     return slow === 1;
 }
 

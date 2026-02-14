@@ -63,35 +63,40 @@ Click "Next" to see the intervals merge!
  * @spaceComplexity O(N) - To store the output array.
  */
 function merge(intervals: number[][]): number[][] {
+  console.log(`\n--- merge ---`);
+  console.log(`Input: intervals = ${JSON.stringify(intervals)}`);
   if (intervals.length <= 1) return intervals;
 
   // 1. Sort by Start Time (Crucial Step)
-  // We use a comparative sort: a[0] - b[0]
   intervals.sort((a, b) => a[0] - b[0]);
+  console.log(`  After sort: ${JSON.stringify(intervals)}`);
 
   const result: number[][] = [];
   
   // Initialize with the first interval
   let currentInterval = intervals[0];
   result.push(currentInterval);
+  console.log(`  Starting with interval: [${currentInterval}]`);
 
   for (let i = 1; i < intervals.length; i++) {
     const nextInterval = intervals[i];
     const [currentStart, currentEnd] = currentInterval;
     const [nextStart, nextEnd] = nextInterval;
+    console.log(`  i=${i}: current=[${currentStart},${currentEnd}], next=[${nextStart},${nextEnd}]`);
 
     if (nextStart <= currentEnd) {
       // OVERLAP DETECTED! Merge them.
-      // The new end is the max of both ends.
-      // result reference updates automatically since currentInterval is a reference
       currentInterval[1] = Math.max(currentEnd, nextEnd);
+      console.log(`    ✅ Overlap! Merged to [${currentInterval[0]},${currentInterval[1]}]`);
     } else {
       // NO OVERLAP. Move to next.
+      console.log(`    ❌ No overlap. Starting new interval [${nextStart},${nextEnd}]`);
       currentInterval = nextInterval;
       result.push(currentInterval);
     }
   }
 
+  console.log(`  Result: ${JSON.stringify(result)}`);
   return result;
 }
 
@@ -118,32 +123,38 @@ console.log("Merged Intervals:", merge(meetingTimes));
  * Inserts a new interval and merges overlaps.
  */
 function insert(intervals: number[][], newInterval: number[]): number[][] {
+    console.log(`\n--- insert ---`);
+    console.log(`Input: intervals = ${JSON.stringify(intervals)}, newInterval = [${newInterval}]`);
     const result: number[][] = [];
     let i = 0;
     const n = intervals.length;
 
     // 1. Add all intervals that come strictly BEFORE the new one
-    // (Interval ends before new one starts)
     while (i < n && intervals[i][1] < newInterval[0]) {
+        console.log(`  [Before] Adding [${intervals[i]}] (ends before new starts)`);
         result.push(intervals[i]);
         i++;
     }
 
     // 2. Merge all overlapping intervals
-    // (Interval starts before new one ends)
     while (i < n && intervals[i][0] <= newInterval[1]) {
+        console.log(`  [Merge] Overlapping with [${intervals[i]}] → merging into newInterval`);
         newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
         newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+        console.log(`    newInterval is now [${newInterval}]`);
         i++;
     }
     result.push(newInterval);
+    console.log(`  [Insert] Merged interval: [${newInterval}]`);
 
     // 3. Add the rest
     while (i < n) {
+        console.log(`  [After] Adding [${intervals[i]}]`);
         result.push(intervals[i]);
         i++;
     }
 
+    console.log(`  Result: ${JSON.stringify(result)}`);
     return result;
 }
 
