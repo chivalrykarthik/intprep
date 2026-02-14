@@ -21,14 +21,12 @@ const useStyles = makeStyles({
         overflow: "hidden",
         boxShadow: tokens.shadow4,
         alignItems: "stretch",
-        maxHeight: "450px",
     },
     leftPane: {
         display: "flex",
         flexDirection: "column",
         flex: 1,
         minWidth: "50%",
-        maxHeight: "450px",
     },
     header: {
         display: "flex",
@@ -46,23 +44,19 @@ const useStyles = makeStyles({
     },
     editorContainer: {
         position: "relative",
-        minHeight: "100px",
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        overflow: "auto",
-        maxHeight: "calc(450px - 41px)",
     },
     textarea: {
         width: "100%",
-        height: "100%",
         minHeight: "200px",
         padding: "16px",
         fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
         fontSize: "14px",
         lineHeight: "1.5",
         border: "none",
-        resize: "none",
+        resize: "vertical",
         backgroundColor: tokens.colorNeutralBackground1,
         color: tokens.colorNeutralForeground1,
         outline: "none",
@@ -77,7 +71,6 @@ const useStyles = makeStyles({
         fontSize: "13px",
         width: "40%",
         minWidth: "300px",
-        maxHeight: "450px",
         overflowY: "auto",
         whiteSpace: "pre-wrap",
         display: "flex",
@@ -111,13 +104,22 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
     const [isEditing, setIsEditing] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [editorHeight, setEditorHeight] = useState<number | undefined>(undefined);
+    const [leftPaneHeight, setLeftPaneHeight] = useState<number | undefined>(undefined);
     const editorContainerRef = useRef<HTMLDivElement>(null);
+    const leftPaneRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setCode(initialCode.replace(/\n$/, ""));
         setOutput([]);
         setHasError(false);
     }, [initialCode]);
+
+    // Measure left pane height whenever output changes
+    useEffect(() => {
+        if (leftPaneRef.current) {
+            setLeftPaneHeight(leftPaneRef.current.offsetHeight);
+        }
+    }, [output, code, isEditing]);
 
     const handleRun = () => {
         setHasError(false);
@@ -205,7 +207,7 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
 
     return (
         <div className={styles.container}>
-            <div className={styles.leftPane}>
+            <div className={styles.leftPane} ref={leftPaneRef}>
                 <div className={styles.header}>
                     <span className={styles.title}>{language.toUpperCase()} PLAYGROUND</span>
                     <div className={styles.controls}>
@@ -254,8 +256,6 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
                                 borderRadius: 0,
                                 fontSize: "14px",
                                 lineHeight: "1.5",
-                                minHeight: "200px",
-                                maxHeight: "350px",
                             }}
                         >
                             {code}
@@ -265,7 +265,10 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
             </div>
 
             {output.length > 0 && (
-                <div className={styles.outputContainer}>
+                <div
+                    className={styles.outputContainer}
+                    style={{ height: leftPaneHeight ? `${leftPaneHeight}px` : 'auto' }}
+                >
                     <span className={styles.outputLabel}>Console Output</span>
                     <div className={hasError ? styles.error : ""}>
                         {output.join("\n")}
