@@ -253,7 +253,10 @@ Server Capacity (assuming 500 RPS/server):
 
 ### Interview Tips 💡
 
-1. **Always mention trade-offs:** "Horizontal scaling adds complexity but removes single points of failure."
-2. **Know the numbers:** Memorize rough estimates—1 server handles ~1K-10K RPS depending on workload.
-3. **Start simple, then scale:** "We'd start with a monolith, then extract services as we scale."
-4. **Discuss data consistency:** "With distributed systems, we trade consistency for availability (CAP theorem)."
+1. **Always mention trade-offs:** "Horizontal scaling adds complexity but removes single points of failure. Vertical scaling is simpler but has a hard ceiling."
+2. **Know the numbers:** Memorize rough estimates—1 server handles ~1K-10K RPS depending on workload. A single PostgreSQL instance handles ~5K QPS; Redis handles ~100K QPS.
+3. **Start simple, then scale:** "We'd start with a modular monolith, add a load balancer, then shard the database. Microservices are the last step, not the first."
+4. **Discuss data consistency:** "With distributed systems, we trade consistency for availability (CAP theorem). For payments: CP. For feeds: AP."
+5. **Statelessness is key:** "Application servers should be stateless — all session data in Redis — so any server can handle any request. This is a prerequisite for horizontal scaling."
+6. **Database is usually the bottleneck:** "I'd scale the app tier first (stateless, easy). Then add read replicas. Then cache with Redis. Sharding the database is the last resort due to cross-shard query complexity."
+7. **Auto-scaling strategy:** "We use CPU/memory-based auto-scaling for compute, but predictive scaling for known traffic patterns like Black Friday or morning peaks."

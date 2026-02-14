@@ -479,3 +479,4 @@ With API Gateway (More Processing):
 4. **API Gateway is a reverse proxy:** "It's a reverse proxy with auth, rate limiting, and routing."
 5. **Service mesh:** "For microservices, Envoy sidecar proxies handle mTLS, retries, and observability."
 6. **Security:** "The reverse proxy is our first line of defense — WAF, DDoS, IP filtering."
+7. **Request buffering:** "NGINX buffers slow client uploads (10MB over 30 seconds) and forwards them to the backend in one fast burst (~50ms). This frees backend worker threads from slow clients — a massive scalability win."

@@ -353,8 +353,10 @@ With Virtual Nodes (V = 150):
 
 ### Interview Tips 💡
 
-1. **Draw the ring:** Visually explain clockwise lookup.
-2. **Know the redistribution benefit:** "Only K/N keys move when adding a node."
-3. **Mention virtual nodes:** "We use 100-200 vnodes for uniform distribution."
-4. **Real-world examples:** "This is how Cassandra and DynamoDB work."
-5. **Discuss alternatives:** "Rendezvous hashing is another approach with similar benefits."
+1. **Draw the ring:** Visually explain clockwise lookup. "Each key hashes to a point on the ring and is assigned to the first node found going clockwise."
+2. **Know the redistribution benefit:** "Only K/N keys move when adding a node, compared to modulo hashing where nearly all keys move. This is the key insight."
+3. **Mention virtual nodes:** "We use 100-200 vnodes per physical node for uniform distribution. Without vnodes, data skew can cause 60%+ load on a single node."
+4. **Real-world examples:** "This is how Cassandra distributes data, DynamoDB partitions, and Memcached clients route requests. It's fundamental infrastructure."
+5. **Discuss alternatives:** "Rendezvous hashing (highest random weight) is another approach — each key calculates a weight for every node and picks the highest. It's simpler but requires knowing all nodes for every lookup."
+6. **Handle node failures:** "When a node goes down, its keys automatically shift to the next node on the ring. This is why consistent hashing enables zero-downtime scaling — add or remove nodes without total redistributions."
+7. **Bounded load variant:** "Google's 2017 paper introduced 'consistent hashing with bounded loads' — it adds a load cap so no node gets more than (1 + ε) average load. This solves the hot-spot problem that virtual nodes alone can't fully fix."

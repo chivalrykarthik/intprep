@@ -513,3 +513,4 @@ Key Concepts:
 4. **Mention idempotency:** "At-least-once delivery requires idempotent consumers."
 5. **Backpressure:** "Rate limit consumers or use circuit breakers for downstream services."
 6. **Monitoring:** "Track queue depth, processing latency, DLQ size."
+7. **Kafka vs SQS vs RabbitMQ:** "Kafka for high-throughput event streaming and replay. SQS for simple decoupling with zero ops. RabbitMQ for complex routing (topic, fanout, headers). Pick based on whether you need a log (Kafka) or a queue (SQS/RabbitMQ)."

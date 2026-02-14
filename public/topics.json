@@ -1,7 +1,7 @@
 [
   {
     "id": "14patterns",
-    "title": "14patterns",
+    "title": "14 Patterns",
     "path": "/prep/14patterns",
     "items": [
       {
@@ -21,11 +21,11 @@
         "path": "/prep/14patterns/dynamic-programming.md"
       },
       {
-        "title": "Fast And Slow Pointers",
+        "title": "Fast & Slow Pointers",
         "path": "/prep/14patterns/fast-and-slow-pointers.md"
       },
       {
-        "title": "Graph Bfs Dfs",
+        "title": "Graph BFS & DFS",
         "path": "/prep/14patterns/graph-bfs-dfs.md"
       },
       {
@@ -33,11 +33,11 @@
         "path": "/prep/14patterns/greedy-algorithms.md"
       },
       {
-        "title": "In Place Reversal Of Linked List",
+        "title": "In-Place Reversal of Linked List",
         "path": "/prep/14patterns/in-place-reversal-of-linked-list.md"
       },
       {
-        "title": "K Way Merge",
+        "title": "K-Way Merge",
         "path": "/prep/14patterns/k-way-merge.md"
       },
       {
@@ -69,7 +69,7 @@
         "path": "/prep/14patterns/subsets.md"
       },
       {
-        "title": "Top K Elements",
+        "title": "Top-K Elements",
         "path": "/prep/14patterns/top-k-elements.md"
       },
       {
@@ -77,11 +77,11 @@
         "path": "/prep/14patterns/topological-sort.md"
       },
       {
-        "title": "Tree Bfs",
+        "title": "Tree BFS",
         "path": "/prep/14patterns/tree-bfs.md"
       },
       {
-        "title": "Tree Dfs",
+        "title": "Tree DFS",
         "path": "/prep/14patterns/tree-dfs.md"
       },
       {
@@ -97,14 +97,14 @@
         "path": "/prep/14patterns/two-pointers.md"
       },
       {
-        "title": "Union Find",
+        "title": "Union-Find",
         "path": "/prep/14patterns/union-find.md"
       }
     ]
   },
   {
     "id": "algorithm",
-    "title": "Algorithm",
+    "title": "Algorithms",
     "path": "/prep/algorithm",
     "items": [
       {
@@ -112,15 +112,15 @@
         "path": "/prep/algorithm/binary-search.md"
       },
       {
-        "title": "Breadth First Search",
+        "title": "Breadth-First Search (BFS)",
         "path": "/prep/algorithm/breadth-first-search.md"
       },
       {
-        "title": "Depth First Search",
+        "title": "Depth-First Search (DFS)",
         "path": "/prep/algorithm/depth-first-search.md"
       },
       {
-        "title": "Dijkstras Algorithm",
+        "title": "Dijkstra's Algorithm",
         "path": "/prep/algorithm/dijkstras-algorithm.md"
       },
       {
@@ -151,7 +151,7 @@
     "path": "/prep/backend",
     "items": [
       {
-        "title": "Authentication Authorization",
+        "title": "Authentication & Authorization",
         "path": "/prep/backend/authentication-authorization.md"
       },
       {
@@ -174,15 +174,15 @@
         "path": "/prep/behavioral/conflict-resolution.md"
       },
       {
-        "title": "Failure Learning",
+        "title": "Failure & Learning",
         "path": "/prep/behavioral/failure-learning.md"
       },
       {
-        "title": "Leadership Mentoring",
+        "title": "Leadership & Mentoring",
         "path": "/prep/behavioral/leadership-mentoring.md"
       },
       {
-        "title": "Star Method",
+        "title": "STAR Method",
         "path": "/prep/behavioral/star-method.md"
       }
     ]
@@ -193,11 +193,11 @@
     "path": "/prep/cloud",
     "items": [
       {
-        "title": "Aws Fundamentals",
+        "title": "AWS Fundamentals",
         "path": "/prep/cloud/aws-fundamentals.md"
       },
       {
-        "title": "Cicd Pipelines",
+        "title": "CI/CD Pipelines",
         "path": "/prep/cloud/cicd-pipelines.md"
       },
       {
@@ -236,7 +236,7 @@
         "path": "/prep/DSA/hash-tables.md"
       },
       {
-        "title": "Heaps Priority Queues",
+        "title": "Heaps & Priority Queues",
         "path": "/prep/DSA/heaps-priority-queues.md"
       },
       {
@@ -244,7 +244,7 @@
         "path": "/prep/DSA/linked-lists.md"
       },
       {
-        "title": "Stacks And Queues",
+        "title": "Stacks & Queues",
         "path": "/prep/DSA/stacks-and-queues.md"
       },
       {
@@ -304,7 +304,7 @@
     "path": "/prep/roadmap",
     "items": [
       {
-        "title": "15 Yoe Study Plan",
+        "title": "15 YoE Study Plan",
         "path": "/prep/roadmap/15-yoe-study-plan.md"
       }
     ]
@@ -315,11 +315,15 @@
     "path": "/prep/system-design",
     "items": [
       {
-        "title": "Api Design",
+        "title": "⭐ System Design Interview Framework",
+        "path": "/prep/system-design/system-design-framework.md"
+      },
+      {
+        "title": "API Design",
         "path": "/prep/system-design/api-design.md"
       },
       {
-        "title": "Back Of Envelope Estimation",
+        "title": "Back-of-Envelope Estimation",
         "path": "/prep/system-design/back-of-envelope-estimation.md"
       },
       {
@@ -327,11 +331,11 @@
         "path": "/prep/system-design/caching-strategies.md"
       },
       {
-        "title": "Cap Theorem",
+        "title": "CAP Theorem",
         "path": "/prep/system-design/cap-theorem.md"
       },
       {
-        "title": "Cdn",
+        "title": "CDN (Content Delivery Network)",
         "path": "/prep/system-design/cdn.md"
       },
       {
@@ -339,12 +343,16 @@
         "path": "/prep/system-design/consistent-hashing.md"
       },
       {
-        "title": "Cqrs Event Sourcing",
+        "title": "CQRS & Event Sourcing",
         "path": "/prep/system-design/cqrs-event-sourcing.md"
       },
       {
         "title": "Database Design",
         "path": "/prep/system-design/database-design.md"
+      },
+      {
+        "title": "Database Replication",
+        "path": "/prep/system-design/database-replication.md"
       },
       {
         "title": "Design Google Docs",
@@ -355,6 +363,14 @@
         "path": "/prep/system-design/design-notification-system.md"
       },
       {
+        "title": "Design Payment System",
+        "path": "/prep/system-design/design-payment-system.md"
+      },
+      {
+        "title": "Design Search Autocomplete",
+        "path": "/prep/system-design/design-search-autocomplete.md"
+      },
+      {
         "title": "Design Twitter Feed",
         "path": "/prep/system-design/design-twitter-feed.md"
       },
@@ -363,12 +379,16 @@
         "path": "/prep/system-design/design-uber.md"
       },
       {
-        "title": "Design Url Shortener",
+        "title": "Design URL Shortener",
         "path": "/prep/system-design/design-url-shortener.md"
       },
       {
-        "title": "Design Whatsapp",
+        "title": "Design WhatsApp",
         "path": "/prep/system-design/design-whatsapp.md"
+      },
+      {
+        "title": "Design YouTube",
+        "path": "/prep/system-design/design-youtube.md"
       },
       {
         "title": "Distributed Transactions",
@@ -391,6 +411,10 @@
         "path": "/prep/system-design/microservices-architecture.md"
       },
       {
+        "title": "Observability",
+        "path": "/prep/system-design/observability.md"
+      },
+      {
         "title": "Proxies",
         "path": "/prep/system-design/proxies.md"
       },
@@ -403,7 +427,7 @@
         "path": "/prep/system-design/scalability-basics.md"
       },
       {
-        "title": "Sharding Partitioning",
+        "title": "Sharding & Partitioning",
         "path": "/prep/system-design/sharding-partitioning.md"
       }
     ]

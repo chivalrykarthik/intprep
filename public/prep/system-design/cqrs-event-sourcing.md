@@ -240,6 +240,10 @@ The "Read" side is always slightly behind the "Write" side (Eventual Consistency
 *   **Solution:** Optimistic UI (fake the update on client) or "Read-Your-Writes" consistency (force read from primary for 2 seconds after write).
 
 ### Interview Tips 💡
-1.  **Don't force it:** "CQRS is complex. I would only use handled high-conflict domains or if we need deep audit logs."
-2.  **Schema Evolution:** "What if event structure changes? We need 'Upcasters' to transform old events to new format on the fly."
-3.  **Gdpr Deletion:** "How to delete PII in Event Sourcing? Crypto-shredding (throw away the encryption key for that user's events)."
+1.  **Don't force it:** "CQRS is complex. I would only use it for high-conflict domains or if we need deep audit logs. For a simple CRUD app, it's massive overkill."
+2.  **Schema Evolution:** "What if event structure changes? We need 'Upcasters' to transform old events to new format on the fly. This is one of the most underestimated challenges of Event Sourcing."
+3.  **GDPR Deletion:** "How to delete PII in Event Sourcing? Crypto-shredding — encrypt user-specific event data with a per-user key. To 'delete', throw away the key. Events remain but are unreadable."
+4.  **Snapshotting is essential:** "If an account has 1M events, replaying them is too slow. We save a snapshot every N events. Current state = latest snapshot + events since snapshot."
+5.  **Eventual consistency UX:** "The read side is always behind the write side. Handle this with optimistic UI ('show the change before confirmation') or read-your-writes consistency ('force read from primary for 2 seconds after write')."
+6.  **CQRS without Event Sourcing:** "They are independent patterns. You can split read/write models without storing events. Many teams use CQRS with a regular SQL database by maintaining a separate read-optimized table."
+7.  **Projection rebuilds:** "A major advantage of Event Sourcing is replaying events to build entirely new read models. If business wants a new dashboard, we create a new projector — no database migration needed."

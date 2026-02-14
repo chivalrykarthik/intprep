@@ -349,3 +349,4 @@ QPS: 100B / 86400 ≈ 1.16 million messages/second
 4. **Sanity check:** "10 TB/year sounds reasonable for a social media app."
 5. **Know reference points:** "Twitter processes 500M tweets/day."
 6. **Round aggressively:** 86,400 → 100,000 is fine for estimates.
+7. **Apply the 80/20 rule:** "20% of data generates 80% of traffic. For caching: cache the hot 20% and you handle 80% of requests. This gives you cache size estimates: `daily_requests × 0.2 × avg_response_size`."

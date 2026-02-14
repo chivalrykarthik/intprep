@@ -232,8 +232,13 @@ Moving data from 10 shards to 20 shards while the site is LIVE.
 *   **Hierarchical Sharding:** Use logical shards (1000) mapped to physical servers (10). Move logical shards, not rows.
 
 ### Interview Tips 💡
-1.  **Don't start with Sharding:** "I would scale vertically first, then Read Replicas, then Cache. Sharding is the last resort due to complexity."
-2.  **Choose the Shard Key:** This is the most critical decision.
-    *   *By UserID:* Good for "Show my data". Bad for "Show all posts".
+1.  **Don't start with Sharding:** "I would scale vertically first, then Read Replicas, then Cache. Sharding is the last resort due to complexity. Most systems never need it — a well-tuned PostgreSQL handles 10K+ QPS."
+2.  **Choose the Shard Key:** This is the most critical decision. State it clearly: "The shard key determines data locality, query efficiency, and load distribution."
+    *   *By UserID:* Good for "Show my data". Bad for "Show all posts" (scatter-gather).
     *   *By Time:* Good for logs. Bad for load balancing (all writes hit the 'Today' shard).
-3.  **Global Secondary Indexes:** "If I shard by UserID, how do I lookup by Email? I need a separate Lookup Table (Index) mapped to UserIDs."
+    *   *By Geography:* Good for latency. Bad for users who travel or global queries.
+3.  **Global Secondary Indexes:** "If I shard by UserID, how do I lookup by Email? I need a separate Lookup Table (Index) mapped to UserIDs. This is essentially a second sharding scheme."
+4.  **Cross-Shard Joins are Deadly:** "Once you shard, JOINs across shards require scatter-gather — querying all shards and merging in the app layer. Denormalization or app-side joins are the workarounds."
+5.  **Hot Shard Mitigation:** "For celebrity users or viral content, append a random salt to the shard key to spread writes across multiple shards. Reads become scatter-gather, but writes don't melt a single shard."
+6.  **Logical vs Physical Sharding:** "I'd create 1,000 logical shards mapped to 10 physical servers. When we need to scale, we move logical shards to new servers — no row-level data migration needed."
+7.  **Distributed ID Generation:** "AUTO_INCREMENT breaks across shards. I'd use Snowflake IDs (timestamp + datacenter + machine + sequence) for globally unique, sortable IDs without coordination."

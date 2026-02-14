@@ -548,3 +548,4 @@ Consider Microservices IF:
 4. **Know the patterns:** Circuit breaker, bulkhead, retry, service discovery.
 5. **Database per service:** "Each service owns its data - no shared databases."
 6. **Observability:** "We need distributed tracing and centralized logging."
+7. **Define service boundaries wisely:** "Use Domain-Driven Design bounded contexts to split services. Wrong boundaries cause excessive inter-service communication. A good rule: if two services always change together, they should be one service."

@@ -406,8 +406,10 @@ With 95% hit cache: 5.95ms (16x faster!)
 
 ### Interview Tips 💡
 
-1. **Always mention TTL:** "We set a 5-minute TTL for user profiles to balance freshness and performance."
-2. **Discuss cache invalidation:** "Cache invalidation is one of the two hard problems in CS. We use event-driven invalidation."
-3. **Know the thundering herd:** "If cache expires, thousands of requests hit DB simultaneously. We use locking or staggered TTLs."
-4. **Consider cache warming:** "On deploy, we pre-populate the cache with hot data."
-5. **Multi-tier caching:** "We use L1 (local) → L2 (Redis) → L3 (CDN) for optimal performance."
+1. **Always mention TTL:** "We set a 5-minute TTL for user profiles to balance freshness and performance. Shorter TTL = fresher data but more DB load."
+2. **Discuss cache invalidation:** "Cache invalidation is one of the two hard problems in CS. We use event-driven invalidation — when the DB row changes, publish an event that invalidates the cache key."
+3. **Know the thundering herd:** "If cache expires, thousands of requests hit DB simultaneously. We use mutex locking (only 1 request recomputes, others wait) or staggered TTLs with jitter to prevent synchronized expiration."
+4. **Consider cache warming:** "On deploy, we pre-populate the cache with hot data from the previous instance. Cold cache after deployment is a common cause of outages."
+5. **Multi-tier caching:** "We use L1 (in-process, ~microseconds) → L2 (Redis, ~1ms) → L3 (CDN, ~5ms) → DB (~50ms) for optimal latency at each layer."
+6. **Cache-Aside is the default:** "In most systems, I'd use Cache-Aside (lazy loading). Write-Through and Write-Behind are for specific use cases — Write-Through when consistency is critical, Write-Behind when you can tolerate data loss."
+7. **Know your eviction policies:** "LRU is the safe default. LFU is better when access patterns are stable (popular items stay popular). For time-sensitive data, TTL-based eviction is mandatory."

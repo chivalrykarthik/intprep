@@ -264,6 +264,10 @@ They shard data into ranges (ranges of 64MB).
     *   **YES** (Linearizable Reads): Leader must verify it is *still* leader (contact quorum) before telling follower it's safe to return data. (Expensive).
 
 ### Interview Tips 💡
-1.  **Odd Nodes:** "Why 5 nodes?" "To tolerate 2 failures."
-2.  **Difference from 2PC:** "2PC is for transaction across DBs; Raft is for making copies of ONE DB consistent."
-3.  **Split Brain:** Always explain how Majority Vote prevents two leaders. "You can't have two majorities."
+1.  **Odd Nodes:** "Why 5 nodes?" "To tolerate 2 failures. With 4 nodes, you still only tolerate 1 failure (need 3 for majority), so the extra node adds cost without benefit."
+2.  **Difference from 2PC:** "2PC is for coordinating transactions across different DBs; Raft is for replicating ONE state machine across nodes. Completely different problems."
+3.  **Split Brain:** Always explain how Majority Vote prevents two leaders. "You can't have two majorities in the same cluster. If the network splits 2-3, only the group of 3 can elect a leader."
+4.  **Lease-Based Leadership:** "Instead of permanent leaders, use time-bounded leases. The leader must renew its lease periodically. If it fails to renew, followers can elect a new leader. This prevents zombie leaders."
+5.  **Performance Impact:** "Raft adds latency to writes (consensus round-trip), but reads can be served by followers if you accept stale data. For linearizable reads, the leader must confirm it's still the leader."
+6.  **ZooKeeper vs etcd:** "ZooKeeper (ZAB protocol) is battle-tested but Java-heavy and operationally complex. etcd (Raft) is simpler, Go-based, and the default for Kubernetes. For new projects, I'd choose etcd."
+7.  **When NOT to use:** "Don't build your own consensus. Use etcd, ZooKeeper, or Consul. Rolling your own Raft is a multi-year project with subtle bugs. Even Google's Chubby paper says 'this is harder than it looks.'"

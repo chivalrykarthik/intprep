@@ -666,3 +666,4 @@ Channel Provider Costs (approximate):
 4. **Mention rate limiting:** "We must prevent notification fatigue — max 5 push per hour, 3 emails per day."
 5. **Discuss reliability:** "At-least-once delivery with idempotency keys for deduplication."
 6. **Template system:** "Notifications are rendered from templates with localization support. Same event, different language."
+7. **Analytics and A/B testing:** "Track delivery rates, open rates, and click-through rates per channel. Use these metrics for A/B testing notification copy, timing, and channel selection. A notification system without analytics is flying blind."

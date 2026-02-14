@@ -471,3 +471,4 @@ In a distributed database, you can only guarantee 2 of 3:
 4. **Plan for growth:** "We'll shard by user_id when we hit 10M users."
 5. **Mention backups:** "Daily snapshots + point-in-time recovery with WAL."
 6. **Know the numbers:** "PostgreSQL handles ~5K QPS; Redis handles ~100K QPS."
+7. **Read replicas and connection pooling:** "For read-heavy workloads, add read replicas (up to 5 in AWS RDS). Always use connection pooling (PgBouncer) — without it, each new connection costs ~10ms and consumes a process slot."

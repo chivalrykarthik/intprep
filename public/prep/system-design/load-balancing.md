@@ -348,8 +348,10 @@ Trade-off:
 
 ### Interview Tips 💡
 
-1. **Always draw the architecture:** Show where the LB sits in the system.
-2. **Discuss failure scenarios:** "If the LB fails, we have a standby in active-passive mode."
-3. **Know sticky sessions trade-offs:** "Sticky sessions break horizontal scaling but are needed for stateful apps."
-4. **Mention health checks:** "We configure health endpoints (/health) that return 200 OK."
-5. **Consider global load balancing:** "For multi-region, we use DNS-based global load balancing."
+1. **Always draw the architecture:** Show where the LB sits in the system. "We place an L7 load balancer (NGINX/ALB) in front of application servers, and an L4 load balancer (NLB) for TCP-level services."
+2. **Discuss failure scenarios:** "If the LB fails, we have a standby in active-passive mode with automatic failover. The LB itself must not be a single point of failure."
+3. **Know sticky sessions trade-offs:** "Sticky sessions break horizontal scaling but are needed for stateful apps like WebSocket. Modern approach: externalize state to Redis so any server can handle any request."
+4. **Mention health checks:** "We configure health endpoints (/health) that return 200 OK. Active health checks every 10 seconds; passive health checks detect failures from live traffic."
+5. **Consider global load balancing:** "For multi-region, we use DNS-based global load balancing (Route53, Cloudflare) with latency-based or geo-based routing to direct users to the nearest region."
+6. **L4 vs L7 matters:** "L4 (transport layer) is faster and cheaper — it just routes TCP packets. L7 (application layer) can inspect HTTP headers, do path-based routing, and terminate SSL. Use L4 for raw throughput, L7 for smart routing."
+7. **Consistent hashing for stateful services:** "For cache servers or WebSocket gateways, use consistent hashing in the LB so the same user always hits the same backend. This improves cache locality without true sticky sessions."

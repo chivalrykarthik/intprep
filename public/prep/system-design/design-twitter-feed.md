@@ -548,3 +548,4 @@ Bandwidth:
 4. **Cache design:** "Redis Sorted Sets are perfect for feeds — O(1) insert, O(K) range query."
 5. **Real-time updates:** "Use WebSocket or SSE for real-time feed updates without polling."
 6. **Scale numbers:** "At 500M DAU with 200 avg followers, we're looking at 600K cache writes/sec during fan-out."
+7. **Edge cases — unfollow/mute/block:** "When a user unfollows someone, we need to remove their posts from the feed cache. Mute and block require feed-time filtering. These are deceptively complex — block must be bidirectional and affect recommendations too."

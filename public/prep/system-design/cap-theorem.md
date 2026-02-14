@@ -451,3 +451,4 @@ The speed difference is 10-100x!
 4. **Mention tunable consistency:** "Cassandra lets you choose per-query: `QUORUM` for important reads, `ONE` for fast reads."
 5. **Reference the Dynamo paper:** "Amazon's 2007 Dynamo paper defined AP for shopping carts and inspired an entire generation of databases."
 6. **Quorum formula:** "R + W > N guarantees overlap between read and write sets, ensuring strong consistency."
+7. **Real systems are hybrid:** "Most production systems use different consistency models for different data. E.g., in an e-commerce app: CP for inventory/payments (PostgreSQL), AP for product catalog/reviews (DynamoDB), and tunable for search (Elasticsearch). Show the interviewer you think in terms of per-component trade-offs, not one-size-fits-all."

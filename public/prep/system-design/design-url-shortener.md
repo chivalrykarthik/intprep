@@ -560,3 +560,4 @@ Every link in marketing emails is shortened for:
 4. **Mention 301 vs 302:** "302 for analytics, 301 for SEO and reduced server load."
 5. **Scale discussion:** "At 10B reads/month, we need database sharding and CDN-level caching."
 6. **Security:** "Validate URLs to prevent open redirect attacks. Scan for malware."
+7. **Custom aliases and abuse prevention:** "Allow premium users to set custom aliases (e.g., `short.ly/my-brand`). Implement abuse prevention — block known phishing domains, add a preview page for suspicious URLs, and rate-limit creation per IP/user."

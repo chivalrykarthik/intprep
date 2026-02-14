@@ -316,8 +316,10 @@ const rateLimitHeaders = {
 
 ### Interview Tips 💡
 
-1. **Know the algorithms:** Token Bucket for APIs, Sliding Window for precision.
-2. **Discuss distributed rate limiting:** Use Redis for shared state across servers.
-3. **Mention headers:** Always communicate limits to clients.
-4. **Consider tiers:** Different limits for free vs premium users.
-5. **Graceful degradation:** Queue requests instead of hard rejection for critical paths.
+1. **Know the algorithms:** "Token Bucket for APIs (allows bursts), Sliding Window for precision (exact count). Fixed Window is simplest but has edge-case spikes at window boundaries."
+2. **Discuss distributed rate limiting:** "Use Redis INCR with TTL for shared state across servers. A single Redis instance handles 100K+ operations/sec, more than enough for rate limiting."
+3. **Mention response headers:** "Always communicate limits to clients via headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`. Return 429 with `Retry-After` header."
+4. **Consider tiers:** "Different limits for free vs premium users. Authenticated requests get higher limits than anonymous. Internal service-to-service calls may bypass rate limits entirely."
+5. **Graceful degradation:** "Queue requests instead of hard rejection for critical paths. For non-critical paths, return 429 immediately. For batch operations, use a leaky bucket to smooth out traffic."
+6. **Rate limit at multiple layers:** "API Gateway for per-user/IP limits, application layer for business logic limits (e.g., 5 password attempts), and infrastructure layer (NGINX) for DDoS protection. Defense in depth."
+7. **Avoid race conditions:** "Redis MULTI/EXEC or Lua scripts for atomic check-and-increment. Without atomicity, two requests arriving simultaneously could both pass the limit check."

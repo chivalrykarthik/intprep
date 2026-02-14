@@ -507,3 +507,4 @@ function streamOrderUpdates(orderId: string): void {
 4. **Discuss versioning early:** "We'll use /v1/ and support backward compatibility."
 5. **Mention rate limiting:** "100 requests per minute per API key."
 6. **Security first:** "All endpoints require authentication except /health."
+7. **Pagination strategy:** "Use cursor-based pagination (not offset) for large datasets. Offset pagination gets slower as pages increase. Cursor-based is O(1) with a `WHERE id > :cursor LIMIT 20` query."

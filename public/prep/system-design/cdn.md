@@ -452,3 +452,4 @@ With CDN:
 4. **Mention CDN Shield:** "The origin shield reduces origin load by consolidating cache misses."
 5. **Edge compute:** "For personalization at the edge we use CloudFlare Workers or Lambda@Edge."
 6. **Security:** "CDN provides DDoS absorption, WAF, and TLS termination at the edge."
+7. **Cost optimization:** "CDN egress is cheaper than origin egress. A well-configured CDN with high cache hit ratios (>95%) dramatically reduces bandwidth costs. Use the `Vary` header carefully — a wrong `Vary` header can destroy cache efficiency."

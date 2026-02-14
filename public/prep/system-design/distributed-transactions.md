@@ -266,7 +266,10 @@ Sagas lack **Isolation**.
 | **Saga (Orch)** | High | Medium | Eventual | High |
 
 ### Interview Tips 💡
-1.  **Default to Saga:** In 99% of System Design interviews, Saga is the correct answer for microservices.
-2.  **Mention Compensation:** Always explain what happens when it *fails*. "If payment fails, we issue a refund command."
-3.  **Idempotency:** "Since we use message queues, messages might be delivered twice. Our consumers must be idempotent."
-4.  **The "Outbox Pattern":** How do you atomically update DB *and* publish an event? "We write the event to an 'Outbox' table in the same DB transaction, then a background worker pushes it to Kafka."
+1.  **Default to Saga:** In 99% of System Design interviews, Saga is the correct answer for microservices. "2PC is rarely used in modern systems due to blocking and scalability issues."
+2.  **Mention Compensation:** Always explain what happens when it *fails*. "If payment fails, we issue a refund command. Every step in a Saga must have a well-defined compensating action."
+3.  **Idempotency:** "Since we use message queues, messages might be delivered twice. Our consumers must be idempotent. I use a processed_events table with unique event IDs to deduplicate."
+4.  **The "Outbox Pattern":** "How do you atomically update DB *and* publish an event? You can't use two separate commits (DB + Kafka). We write the event to an 'Outbox' table in the same DB transaction, then a background worker (or CDC via Debezium) pushes it to Kafka."
+5.  **Orchestration vs Choreography:** "Choreography (events) is simpler but hard to debug with 10+ services — no single place to see the flow. Orchestration (central coordinator) is easier to reason about but creates a single point of failure. I'd start with choreography for \u003c5 services, orchestration beyond that."
+6.  **Timeout and Deadlines:** "Every saga step needs a timeout. If the inventory service doesn't respond in 30 seconds, we assume failure and trigger compensation. Without timeouts, a saga can hang indefinitely."
+7.  **Observability is critical:** "Distributed transactions are invisible to traditional debugging. We need correlation IDs across all services, distributed tracing (Jaeger/Zipkin), and a saga status dashboard to track in-flight sagas."
