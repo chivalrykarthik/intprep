@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from "./theme";
 import { Home } from "./pages/Home";
 import { TopicDetail } from "./pages/TopicDetail";
 import { ContentReader } from "./pages/ContentReader";
+import { BackOfEnvelopeEstimation } from "./pages/BackOfEnvelopeEstimation";
 
 const useStyles = makeStyles({
   appContainer: {
@@ -71,6 +72,7 @@ function Layout({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
           <Route path="/" element={<Home />} />
           <Route path="/topic/:topicId" element={<TopicDetail />} />
           <Route path="/read/:topicId/:fileId" element={<ContentReader />} />
+          <Route path="/estimation" element={<BackOfEnvelopeEstimation />} />
         </Routes>
       </main>
     </div>
