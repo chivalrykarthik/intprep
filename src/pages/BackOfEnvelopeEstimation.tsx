@@ -897,9 +897,9 @@ export const BackOfEnvelopeEstimation = () => {
                             <option value="messaging">Messaging / Chat</option>
                             <option value="saas">SaaS / General</option>
                         </Select>
-                        <Body1 size={200} style={{ color: tokens.colorNeutralForeground3 }}>
+                        <Text style={{ color: tokens.colorNeutralForeground3, fontSize: 12 }}>
                             Auto-adjusts DAU%, read:write ratio, and media defaults
-                        </Body1>
+                        </Text>
                     </Card>
 
                     {/* Text & Ratios */}
