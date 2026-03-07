@@ -146,6 +146,8 @@ function dijkstra(
   graph: Map<string, [string, number][]>,
   source: string
 ): Map<string, number> {
+  console.log(`\n--- dijkstra ---`);
+  console.log(`Input: source = '${source}'`);
   const dist = new Map<string, number>();
   const visited = new Set<string>();
   const heap = new MinHeap<string>();
@@ -163,19 +165,21 @@ function dijkstra(
     // Skip if already visited (we may have stale entries in the heap)
     if (visited.has(current)) continue;
     visited.add(current);
+    console.log(`  Visit '${current}' (dist=${currentDist})`);
 
     // Relax all neighbors
     for (const [neighbor, weight] of graph.get(current) || []) {
       const newDist = currentDist + weight;
 
       if (newDist < (dist.get(neighbor) ?? Infinity)) {
+        console.log(`    Relax '${neighbor}': ${dist.get(neighbor)} → ${newDist} (via '${current}')`);
         dist.set(neighbor, newDist);
         heap.push(neighbor, newDist);
-        // Note: We don't remove old entries. Visited check handles duplicates.
       }
     }
   }
 
+  console.log(`  Final distances:`, Object.fromEntries(dist));
   return dist;
 }
 
@@ -228,6 +232,8 @@ for (const [node, dist] of distances) {
  * @spaceComplexity O(V + E)
  */
 function networkDelayTime(times: number[][], n: number, k: number): number {
+  console.log(`\n--- networkDelayTime ---`);
+  console.log(`Input: n = ${n}, source = ${k}`);
   // Build adjacency list
   const graph = new Map<number, [number, number][]>();
   for (let i = 1; i <= n; i++) graph.set(i, []);
@@ -244,6 +250,7 @@ function networkDelayTime(times: number[][], n: number, k: number): number {
     const { value: node, priority: d } = heap.pop()!;
     if (dist.has(node)) continue; // Already finalized
     dist.set(node, d);
+    console.log(`  Finalized node ${node}, dist = ${d}`);
 
     for (const [neighbor, weight] of graph.get(node) || []) {
       if (!dist.has(neighbor)) {
@@ -253,11 +260,15 @@ function networkDelayTime(times: number[][], n: number, k: number): number {
   }
 
   // If we didn't reach all nodes, return -1
-  if (dist.size < n) return -1;
+  if (dist.size < n) {
+    console.log(`  ❌ Only reached ${dist.size}/${n} nodes`);
+    return -1;
+  }
 
   // The answer is the MAX of all shortest distances
-  // (the last node to receive the signal)
-  return Math.max(...dist.values());
+  const result = Math.max(...dist.values());
+  console.log(`  ✅ All nodes reached. Max delay: ${result}`);
+  return result;
 }
 
 // Usage Example

@@ -87,16 +87,19 @@ class ListNode {
  * @spaceComplexity O(1) - Only three pointers used.
  */
 function reverseList(head: ListNode | null): ListNode | null {
+  console.log(`\n--- reverseList ---`);
   let prev: ListNode | null = null;
   let current: ListNode | null = head;
   
   while (current !== null) {
     const nextTemp = current.next; // Store next
     current.next = prev;           // Reverse pointer
+    console.log(`  Reverse: ${current.val}.next = ${prev?.val ?? 'null'}`);
     prev = current;                // Move prev forward
     current = nextTemp;            // Move current forward
   }
   
+  console.log(`  ✅ New head: ${prev?.val}`);
   return prev; // New head
 }
 
@@ -112,6 +115,7 @@ function reverseListRecursive(head: ListNode | null): ListNode | null {
   const newHead = reverseListRecursive(head.next);
   head.next.next = head; // Point next node back to current
   head.next = null;      // Remove forward pointer
+  console.log(`  Recursive reverse: ${head.val} now points backward`);
   
   return newHead;
 }
@@ -167,20 +171,26 @@ console.log("Reversed:", printList(reverseList(list)));
  * @spaceComplexity O(1) - Only two pointers.
  */
 function hasCycle(head: ListNode | null): boolean {
+  console.log(`\n--- hasCycle ---`);
   if (!head || !head.next) return false;
   
   let slow: ListNode | null = head;
   let fast: ListNode | null = head;
+  let step = 0;
   
   while (fast && fast.next) {
     slow = slow!.next;       // Move 1 step
     fast = fast.next.next;   // Move 2 steps
+    step++;
+    console.log(`  Step ${step}: slow=${slow?.val}, fast=${fast?.val ?? 'null'}`);
     
     if (slow === fast) {
+      console.log(`  ✅ Cycle detected! slow=fast=${slow?.val}`);
       return true; // They met = cycle exists
     }
   }
   
+  console.log(`  No cycle`);
   return false; // Fast reached end = no cycle
 }
 
@@ -190,6 +200,7 @@ function hasCycle(head: ListNode | null): boolean {
  * @returns The node where the cycle begins, or null
  */
 function detectCycleStart(head: ListNode | null): ListNode | null {
+  console.log(`\n--- detectCycleStart ---`);
   if (!head || !head.next) return null;
   
   let slow: ListNode | null = head;
@@ -201,6 +212,7 @@ function detectCycleStart(head: ListNode | null): ListNode | null {
     fast = fast.next.next;
     
     if (slow === fast) {
+      console.log(`  Phase 1: Cycle detected, slow=fast=${slow?.val}`);
       // Phase 2: Find cycle start
       // Reset slow to head, move both at same speed
       slow = head;
@@ -208,10 +220,12 @@ function detectCycleStart(head: ListNode | null): ListNode | null {
         slow = slow!.next;
         fast = fast!.next;
       }
+      console.log(`  Phase 2: Cycle starts at node ${slow?.val}`);
       return slow;
     }
   }
   
+  console.log(`  No cycle found`);
   return null;
 }
 
@@ -264,14 +278,17 @@ function mergeTwoLists(
   list1: ListNode | null,
   list2: ListNode | null
 ): ListNode | null {
+  console.log(`\n--- mergeTwoLists ---`);
   const dummy = new ListNode(0); // Dummy head simplifies insertion
   let current = dummy;
 
   while (list1 && list2) {
     if (list1.val <= list2.val) {
+      console.log(`  Pick ${list1.val} from list1`);
       current.next = list1;
       list1 = list1.next;
     } else {
+      console.log(`  Pick ${list2.val} from list2`);
       current.next = list2;
       list2 = list2.next;
     }
@@ -280,6 +297,7 @@ function mergeTwoLists(
 
   // Attach remaining nodes (one list may be longer)
   current.next = list1 ?? list2;
+  if (current.next) console.log(`  Attach remaining: ${current.next.val}...`);
 
   return dummy.next; // Skip the dummy
 }
@@ -340,10 +358,14 @@ class LRUCache {
   }
 
   get(key: number): number {
-    if (!this.cache.has(key)) return -1;
+    if (!this.cache.has(key)) {
+      console.log(`  LRU get(${key}): MISS`);
+      return -1;
+    }
 
     const node = this.cache.get(key)!;
     this.moveToFront(node); // Mark as recently used
+    console.log(`  LRU get(${key}): HIT, value=${node.value}`);
     return node.value;
   }
 
@@ -352,15 +374,18 @@ class LRUCache {
       const node = this.cache.get(key)!;
       node.value = value;
       this.moveToFront(node);
+      console.log(`  LRU put(${key}, ${value}): UPDATE existing`);
     } else {
       const newNode = new DListNode(key, value);
       this.cache.set(key, newNode);
       this.addToFront(newNode);
+      console.log(`  LRU put(${key}, ${value}): INSERT new, size=${this.cache.size}`);
 
       if (this.cache.size > this.capacity) {
         const lru = this.tail.prev!; // Node before dummy tail
         this.removeNode(lru);
         this.cache.delete(lru.key);  // CRITICAL: also remove from map
+        console.log(`  LRU EVICT key=${lru.key}`);
       }
     }
   }

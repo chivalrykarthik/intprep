@@ -109,6 +109,7 @@ class TreeNode {
  * @spaceComplexity O(H) where H = height
  */
 function inorderTraversal(root: TreeNode | null): number[] {
+  console.log(`\n--- inorderTraversal ---`);
   const result: number[] = [];
   
   function traverse(node: TreeNode | null): void {
@@ -116,10 +117,12 @@ function inorderTraversal(root: TreeNode | null): number[] {
     
     traverse(node.left);    // L
     result.push(node.val);  // Root
+    console.log(`  Visit: ${node.val}, result so far: [${result}]`);
     traverse(node.right);   // R
   }
   
   traverse(root);
+  console.log(`  ✅ Inorder: [${result}]`);
   return result;
 }
 
@@ -129,17 +132,20 @@ function inorderTraversal(root: TreeNode | null): number[] {
  * Use: Copy/serialize a tree, prefix expressions
  */
 function preorderTraversal(root: TreeNode | null): number[] {
+  console.log(`\n--- preorderTraversal ---`);
   const result: number[] = [];
   
   function traverse(node: TreeNode | null): void {
     if (!node) return;
     
     result.push(node.val);  // Root
+    console.log(`  Visit: ${node.val}, result so far: [${result}]`);
     traverse(node.left);    // L
     traverse(node.right);   // R
   }
   
   traverse(root);
+  console.log(`  ✅ Preorder: [${result}]`);
   return result;
 }
 
@@ -149,6 +155,7 @@ function preorderTraversal(root: TreeNode | null): number[] {
  * Use: Delete a tree (children before parent), postfix expressions
  */
 function postorderTraversal(root: TreeNode | null): number[] {
+  console.log(`\n--- postorderTraversal ---`);
   const result: number[] = [];
   
   function traverse(node: TreeNode | null): void {
@@ -157,9 +164,11 @@ function postorderTraversal(root: TreeNode | null): number[] {
     traverse(node.left);    // L
     traverse(node.right);   // R
     result.push(node.val);  // Root
+    console.log(`  Visit: ${node.val}, result so far: [${result}]`);
   }
   
   traverse(root);
+  console.log(`  ✅ Postorder: [${result}]`);
   return result;
 }
 
@@ -169,10 +178,12 @@ function postorderTraversal(root: TreeNode | null): number[] {
  * Use: Find shortest path, level-by-level processing
  */
 function levelOrderTraversal(root: TreeNode | null): number[][] {
+  console.log(`\n--- levelOrderTraversal ---`);
   if (!root) return [];
   
   const result: number[][] = [];
   const queue: TreeNode[] = [root];
+  let level = 0;
   
   while (queue.length > 0) {
     const levelSize = queue.length;
@@ -186,9 +197,12 @@ function levelOrderTraversal(root: TreeNode | null): number[][] {
       if (node.right) queue.push(node.right);
     }
     
+    console.log(`  Level ${level}: [${currentLevel}]`);
+    level++;
     result.push(currentLevel);
   }
   
+  console.log(`  ✅ Level order: [${result.map(l => `[${l}]`).join(', ')}]`);
   return result;
 }
 ```
@@ -227,8 +241,10 @@ function maxDepth(root: TreeNode | null): number {
   
   const leftDepth = maxDepth(root.left);
   const rightDepth = maxDepth(root.right);
+  const depth = 1 + Math.max(leftDepth, rightDepth);
+  console.log(`  maxDepth(${root.val}): left=${leftDepth}, right=${rightDepth} → ${depth}`);
   
-  return 1 + Math.max(leftDepth, rightDepth);
+  return depth;
 }
 
 /**
@@ -243,6 +259,7 @@ function maxDepth(root: TreeNode | null): number {
 function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root) return null;
   
+  console.log(`  invertTree(${root.val}): swapping left=${root.left?.val ?? 'null'} ↔ right=${root.right?.val ?? 'null'}`);
   // Swap children
   [root.left, root.right] = [root.right, root.left];
   
@@ -264,8 +281,12 @@ function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
   if (!p && !q) return true;
   
   // One null, one not = different
-  if (!p || !q) return false;
+  if (!p || !q) {
+    console.log(`  isSameTree: mismatch — p=${p?.val ?? 'null'}, q=${q?.val ?? 'null'}`);
+    return false;
+  }
   
+  console.log(`  isSameTree: comparing p=${p.val}, q=${q.val} → ${p.val === q.val ? 'match' : 'MISMATCH'}`);
   // Values must match and subtrees must match
   return (
     p.val === q.val &&
@@ -284,6 +305,7 @@ function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
  * @spaceComplexity O(H)
  */
 function isValidBST(root: TreeNode | null): boolean {
+  console.log(`\n--- isValidBST ---`);
   function validate(
     node: TreeNode | null,
     min: number,
@@ -293,8 +315,10 @@ function isValidBST(root: TreeNode | null): boolean {
     
     // Current node must be within bounds
     if (node.val <= min || node.val >= max) {
+      console.log(`  ❌ Node ${node.val} out of bounds (${min}, ${max})`);
       return false;
     }
+    console.log(`  ✅ Node ${node.val} in bounds (${min}, ${max})`);
     
     // Left subtree: all values must be < current
     // Right subtree: all values must be > current
@@ -323,14 +347,20 @@ function lowestCommonAncestor(
   if (!root) return null;
   
   // If current node is p or q, it might be the LCA
-  if (root === p || root === q) return root;
+  if (root === p || root === q) {
+    console.log(`  Found target node ${root.val}`);
+    return root;
+  }
   
   // Search in left and right subtrees
   const left = lowestCommonAncestor(root.left, p, q);
   const right = lowestCommonAncestor(root.right, p, q);
   
   // If both sides found something, current node is LCA
-  if (left && right) return root;
+  if (left && right) {
+    console.log(`  🎯 LCA found: node ${root.val} (left found ${left.val}, right found ${right.val})`);
+    return root;
+  }
   
   // Otherwise, return whichever side found something
   return left ?? right;

@@ -113,6 +113,8 @@ In coding interviews, Topological Sort is used for:
  * @spaceComplexity O(V + E) — Adjacency list + in-degree array
  */
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+  console.log(`\n--- canFinish ---`);
+  console.log(`Input: ${numCourses} courses, ${prerequisites.length} prerequisites`);
   // 1. Build adjacency list and in-degree array
   const graph: number[][] = Array.from({ length: numCourses }, () => []);
   const inDegree = new Array(numCourses).fill(0);
@@ -121,12 +123,14 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
     graph[prereq].push(course); // prereq → course
     inDegree[course]++;
   }
+  console.log(`  In-degrees: [${inDegree}]`);
 
   // 2. Add all nodes with in-degree 0 to queue
   const queue: number[] = [];
   for (let i = 0; i < numCourses; i++) {
     if (inDegree[i] === 0) queue.push(i);
   }
+  console.log(`  Initial queue (in-degree 0): [${queue}]`);
 
   // 3. BFS — process nodes level by level
   let processed = 0;
@@ -134,17 +138,21 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
   while (queue.length > 0) {
     const node = queue.shift()!;
     processed++;
+    console.log(`  Process course ${node}, completed: ${processed}`);
 
     for (const neighbor of graph[node]) {
       inDegree[neighbor]--;
       if (inDegree[neighbor] === 0) {
+        console.log(`    Course ${neighbor} unlocked`);
         queue.push(neighbor);
       }
     }
   }
 
   // 4. If all nodes processed → no cycle
-  return processed === numCourses;
+  const result = processed === numCourses;
+  console.log(`  ${processed}/${numCourses} processed → ${result ? '✅ Can finish!' : '❌ Cycle!'}`);
+  return result;
 }
 
 // Example 1: No cycle
@@ -181,6 +189,8 @@ console.log(canFinish(2, [[0,1], [1,0]])); // false
  * @spaceComplexity O(V + E)
  */
 function findBuildOrder(numTasks: number, deps: number[][]): number[] {
+  console.log(`\n--- findBuildOrder ---`);
+  console.log(`Input: ${numTasks} tasks, ${deps.length} dependencies`);
   const graph: number[][] = Array.from({ length: numTasks }, () => []);
   const inDegree = new Array(numTasks).fill(0);
 
@@ -193,12 +203,14 @@ function findBuildOrder(numTasks: number, deps: number[][]): number[] {
   for (let i = 0; i < numTasks; i++) {
     if (inDegree[i] === 0) queue.push(i);
   }
+  console.log(`  Initial queue: [${queue}]`);
 
   const order: number[] = [];
 
   while (queue.length > 0) {
     const node = queue.shift()!;
     order.push(node);
+    console.log(`  Process task ${node}, order: [${order}]`);
 
     for (const neighbor of graph[node]) {
       inDegree[neighbor]--;
@@ -209,7 +221,9 @@ function findBuildOrder(numTasks: number, deps: number[][]): number[] {
   }
 
   // Cycle check: if not all nodes processed, cycle exists
-  return order.length === numTasks ? order : [];
+  const result = order.length === numTasks ? order : [];
+  console.log(`  Result: [${result}]${order.length < numTasks ? ' (cycle detected!)' : ''}`);
+  return result;
 }
 
 /**
@@ -221,6 +235,8 @@ function findBuildOrder(numTasks: number, deps: number[][]): number[] {
  * Also detects cycles using WHITE/GRAY/BLACK coloring.
  */
 function topologicalSortDFS(numTasks: number, deps: number[][]): number[] {
+  console.log(`\n--- topologicalSortDFS ---`);
+  console.log(`Input: ${numTasks} tasks`);
   const graph: number[][] = Array.from({ length: numTasks }, () => []);
   for (const [task, dep] of deps) {
     graph[dep].push(task);
@@ -234,9 +250,11 @@ function topologicalSortDFS(numTasks: number, deps: number[][]): number[] {
   function dfs(node: number): void {
     if (hasCycle) return;
     color[node] = GRAY; // Currently processing
+    console.log(`  Node ${node}: WHITE → GRAY`);
 
     for (const neighbor of graph[node]) {
       if (color[neighbor] === GRAY) {
+        console.log(`  Node ${node} → ${neighbor}: BACK EDGE → Cycle!`);
         hasCycle = true; // Back edge = cycle!
         return;
       }
@@ -247,13 +265,16 @@ function topologicalSortDFS(numTasks: number, deps: number[][]): number[] {
 
     color[node] = BLACK; // Done processing
     result.push(node);   // Post-order: add AFTER all descendants
+    console.log(`  Node ${node}: GRAY → BLACK (post-order push)`);
   }
 
   for (let i = 0; i < numTasks; i++) {
     if (color[i] === WHITE) dfs(i);
   }
 
-  return hasCycle ? [] : result.reverse(); // Reverse post-order
+  const finalResult = hasCycle ? [] : result.reverse();
+  console.log(`  Result: [${finalResult}]`);
+  return finalResult;
 }
 
 // Usage Example

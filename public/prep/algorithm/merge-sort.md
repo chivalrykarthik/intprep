@@ -71,11 +71,14 @@ function mergeSort(nums: number[]): number[] {
 
   // 1. Divide
   const mid = Math.floor(nums.length / 2);
+  console.log(`  Split: [${nums}] → [${nums.slice(0, mid)}] | [${nums.slice(mid)}]`);
   const left = mergeSort(nums.slice(0, mid));
   const right = mergeSort(nums.slice(mid));
 
   // 2. Merge
-  return merge(left, right);
+  const result = merge(left, right);
+  console.log(`  Merge: [${left}] + [${right}] → [${result}]`);
+  return result;
 }
 
 /**
@@ -134,6 +137,7 @@ Output: `[0,0,1,1,2,5]`
  */
 
 function sortList(head: ListNode | null): ListNode | null {
+    console.log(`\n--- sortList ---`);
     if (!head || !head.next) return head;
 
     // 1. Divide: Find the middle using Slow/Fast pointers
@@ -149,6 +153,7 @@ function sortList(head: ListNode | null): ListNode | null {
 
     // Break the link to split into two lists
     if (prev) prev.next = null;
+    console.log(`  Split at middle`);
 
     // Recursively sort
     const l1 = sortList(head);

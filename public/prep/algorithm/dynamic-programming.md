@@ -112,6 +112,8 @@ for i = 2 to n:
  * @spaceComplexity O(1) — Only need previous two values
  */
 function climbStairs(n: number): number {
+  console.log(`\n--- climbStairs ---`);
+  console.log(`Input: n = ${n}`);
   if (n <= 1) return 1;
 
   let prev2 = 1; // dp[i-2]
@@ -119,10 +121,12 @@ function climbStairs(n: number): number {
 
   for (let i = 2; i <= n; i++) {
     const current = prev1 + prev2;
+    console.log(`  Step ${i}: prev2=${prev2} + prev1=${prev1} = ${current}`);
     prev2 = prev1;
     prev1 = current;
   }
 
+  console.log(`  Result: ${prev1}`);
   return prev1;
 }
 
@@ -147,14 +151,20 @@ console.log("Ways to climb 5 stairs:", climbStairs(5)); // 8
  * @spaceComplexity O(N) — Memo array + recursion stack
  */
 function climbStairsMemo(n: number): number {
+  console.log(`\n--- climbStairsMemo ---`);
+  console.log(`Input: n = ${n}`);
   const memo = new Map<number, number>();
 
   function dp(i: number): number {
     if (i <= 1) return 1;          // Base case
-    if (memo.has(i)) return memo.get(i)!;  // Cache hit
+    if (memo.has(i)) {
+      console.log(`  dp(${i}): cache hit = ${memo.get(i)}`);
+      return memo.get(i)!;
+    }
 
     const result = dp(i - 1) + dp(i - 2);  // Transition
     memo.set(i, result);           // Cache result
+    console.log(`  dp(${i}): computed = ${result}`);
     return result;
   }
 
@@ -196,6 +206,8 @@ Output: `8` (1+1+1+1+1, 1+1+1+2, 1+1+2+1, 1+2+1+1, 2+1+1+1, 1+2+2, 2+1+2, 2+2+1)
  * @spaceComplexity O(M × N) — Can be optimized to O(min(M, N))
  */
 function longestCommonSubsequence(text1: string, text2: string): number {
+  console.log(`\n--- longestCommonSubsequence ---`);
+  console.log(`Input: text1 = "${text1}", text2 = "${text2}"`);
   const m = text1.length;
   const n = text2.length;
 
@@ -209,6 +221,7 @@ function longestCommonSubsequence(text1: string, text2: string): number {
       if (text1[i - 1] === text2[j - 1]) {
         // Characters match — extend the LCS
         dp[i][j] = dp[i - 1][j - 1] + 1;
+        console.log(`  dp[${i}][${j}]: '${text1[i-1]}' == '${text2[j-1]}' → ${dp[i][j]} (match!)`);
       } else {
         // Characters don't match — take the best of skipping either
         dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
@@ -216,6 +229,7 @@ function longestCommonSubsequence(text1: string, text2: string): number {
     }
   }
 
+  console.log(`  Result: ${dp[m][n]}`);
   return dp[m][n];
 }
 
@@ -265,19 +279,25 @@ function knapsack01(
   values: number[], 
   capacity: number
 ): number {
+  console.log(`\n--- knapsack01 ---`);
+  console.log(`Input: capacity = ${capacity}, items = ${weights.length}`);
   const n = weights.length;
   const dp = new Array(capacity + 1).fill(0);
 
   for (let i = 0; i < n; i++) {
+    console.log(`  Item ${i}: weight=${weights[i]}, value=${values[i]}`);
     // MUST iterate right-to-left to avoid reusing item i
     for (let w = capacity; w >= weights[i]; w--) {
-      dp[w] = Math.max(
-        dp[w],                          // Don't take item i
-        dp[w - weights[i]] + values[i]  // Take item i
-      );
+      const withoutItem = dp[w];
+      const withItem = dp[w - weights[i]] + values[i];
+      if (withItem > withoutItem) {
+        console.log(`    dp[${w}]: ${withoutItem} → ${withItem} (take item ${i})`);
+      }
+      dp[w] = Math.max(withoutItem, withItem);
     }
   }
 
+  console.log(`  Result: ${dp[capacity]}`);
   return dp[capacity];
 }
 

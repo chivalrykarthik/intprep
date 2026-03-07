@@ -65,11 +65,14 @@ Click "Next" to see the partitioning magic!
  * @spaceComplexity O(log N) - Recursion stack space.
  */
 function quickSort(nums: number[]): number[] {
+    console.log(`\n--- quickSort ---`);
+    console.log(`Input: [${nums}]`);
     // Helper function to handle recursion
     function sort(arr: number[], low: number, high: number) {
         if (low < high) {
             // pi is partitioning index, arr[pi] is now at right place
             const pi = partition(arr, low, high);
+            console.log(`  Partition [${low}..${high}]: pivot=${arr[pi]} at index ${pi}, array=[${arr}]`);
 
             // Recursively sort elements before partition and after partition
             sort(arr, low, pi - 1);
@@ -95,6 +98,7 @@ function quickSort(nums: number[]): number[] {
     }
 
     sort(nums, 0, nums.length - 1);
+    console.log(`  Sorted: [${nums}]`);
     return nums;
 }
 
@@ -130,18 +134,24 @@ Output: `[1,2,3,5]`
  * @spaceComplexity O(1) - Can be done iteratively.
  */
 function findKthLargest(nums: number[], k: number): number {
+    console.log(`\n--- findKthLargest ---`);
+    console.log(`Input: nums = [${nums}], k = ${k}`);
     const targetIndex = nums.length - k;
     let left = 0;
     let right = nums.length - 1;
 
     while (left <= right) {
         const pivotIndex = partition(nums, left, right);
+        console.log(`  Pivot at index ${pivotIndex} (value=${nums[pivotIndex]}), target index=${targetIndex}`);
 
         if (pivotIndex === targetIndex) {
+            console.log(`  ✅ Found ${k}th largest: ${nums[pivotIndex]}`);
             return nums[pivotIndex];
         } else if (pivotIndex < targetIndex) {
+            console.log(`  Search right half`);
             left = pivotIndex + 1;
         } else {
+            console.log(`  Search left half`);
             right = pivotIndex - 1;
         }
     }

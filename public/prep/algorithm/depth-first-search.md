@@ -109,6 +109,7 @@ Click "Next" to see DFS exploring depth-first!
  * @spaceComplexity O(M × N) - Worst case recursion depth (all land)
  */
 function numIslands(grid: string[][]): number {
+  console.log(`\n--- numIslands ---`);
   if (grid.length === 0) return 0;
   
   const rows = grid.length;
@@ -135,11 +136,13 @@ function numIslands(grid: string[][]): number {
     for (let c = 0; c < cols; c++) {
       if (grid[r][c] === '1') {
         count++;      // Found a new island
+        console.log(`  Found island #${count} at [${r},${c}]`);
         dfs(r, c);    // Sink it entirely
       }
     }
   }
 
+  console.log(`  Total islands: ${count}`);
   return count;
 }
 
@@ -195,6 +198,8 @@ console.log("Islands:", numIslands(grid)); // Output: 3
  * @spaceComplexity O(V) — Color array + recursion stack
  */
 function hasCycle(numNodes: number, edges: number[][]): boolean {
+  console.log(`\n--- hasCycle ---`);
+  console.log(`Input: ${numNodes} nodes, ${edges.length} edges`);
   // Build adjacency list
   const graph = new Map<number, number[]>();
   for (let i = 0; i < numNodes; i++) {
@@ -206,13 +211,15 @@ function hasCycle(numNodes: number, edges: number[][]): boolean {
   
   const WHITE = 0, GRAY = 1, BLACK = 2;
   const color = new Array(numNodes).fill(WHITE);
+  const colorName = ['WHITE', 'GRAY', 'BLACK'];
   
   function dfs(node: number): boolean {
     color[node] = GRAY; // Mark as "in progress"
+    console.log(`  Node ${node}: WHITE → GRAY (exploring)`);
     
     for (const neighbor of graph.get(node) || []) {
       if (color[neighbor] === GRAY) {
-        // Found back edge = cycle!
+        console.log(`  Node ${node} → Node ${neighbor}: BACK EDGE (GRAY) → ❌ Cycle detected!`);
         return true;
       }
       if (color[neighbor] === WHITE && dfs(neighbor)) {
@@ -221,6 +228,7 @@ function hasCycle(numNodes: number, edges: number[][]): boolean {
     }
     
     color[node] = BLACK; // Mark as "complete"
+    console.log(`  Node ${node}: GRAY → BLACK (complete)`);
     return false;
   }
   
@@ -231,6 +239,7 @@ function hasCycle(numNodes: number, edges: number[][]): boolean {
     }
   }
   
+  console.log(`  ✅ No cycle found`);
   return false;
 }
 
@@ -344,6 +353,7 @@ function postorder(node: TreeNode | null): void {
  * @spaceComplexity O(H) — H = height of tree
  */
 function inorderIterative(root: TreeNode | null): number[] {
+  console.log(`\n--- inorderIterative ---`);
   const result: number[] = [];
   const stack: TreeNode[] = [];
   let current = root;
@@ -351,18 +361,21 @@ function inorderIterative(root: TreeNode | null): number[] {
   while (current || stack.length > 0) {
     // Go left as far as possible
     while (current) {
+      console.log(`  Push ${current.val} to stack`);
       stack.push(current);
       current = current.left;
     }
 
     // Process the leftmost unprocessed node
     current = stack.pop()!;
+    console.log(`  Pop ${current.val}, result: [${[...result, current.val]}]`);
     result.push(current.val);
 
     // Move to right subtree
     current = current.right;
   }
 
+  console.log(`  Final: [${result}]`);
   return result;
 }
 
@@ -377,6 +390,7 @@ function inorderIterative(root: TreeNode | null): number[] {
  * Trick: Push RIGHT child first, then LEFT — so LEFT is processed first (LIFO).
  */
 function preorderIterative(root: TreeNode | null): number[] {
+  console.log(`\n--- preorderIterative ---`);
   if (!root) return [];
   const result: number[] = [];
   const stack: TreeNode[] = [root];
@@ -384,11 +398,13 @@ function preorderIterative(root: TreeNode | null): number[] {
   while (stack.length > 0) {
     const node = stack.pop()!;
     result.push(node.val);             // Process immediately
+    console.log(`  Process ${node.val}, result: [${result}]`);
 
     if (node.right) stack.push(node.right); // Push right FIRST
     if (node.left) stack.push(node.left);   // Push left SECOND (processed first)
   }
 
+  console.log(`  Final: [${result}]`);
   return result;
 }
 ```

@@ -130,6 +130,7 @@ class Trie {
    * @spaceComplexity O(L) worst case (new nodes)
    */
   insert(word: string): void {
+    console.log(`  Trie insert: "${word}"`);
     let node = this.root;
     
     for (const char of word) {
@@ -153,7 +154,9 @@ class Trie {
    */
   search(word: string): boolean {
     const node = this.findNode(word);
-    return node !== null && node.isEndOfWord;
+    const found = node !== null && node.isEndOfWord;
+    console.log(`  Trie search("${word}"): ${found ? '✅ found' : '❌ not found'}`);
+    return found;
   }
 
   /**
@@ -164,7 +167,9 @@ class Trie {
    * @timeComplexity O(L)
    */
   startsWith(prefix: string): boolean {
-    return this.findNode(prefix) !== null;
+    const exists = this.findNode(prefix) !== null;
+    console.log(`  Trie startsWith("${prefix}"): ${exists}`);
+    return exists;
   }
 
   /**
@@ -194,6 +199,7 @@ class Trie {
    * @timeComplexity O(L)
    */
   delete(word: string): boolean {
+    console.log(`  Trie delete: "${word}"`);
     return this.deleteHelper(this.root, word, 0);
   }
 
@@ -272,6 +278,8 @@ class AutocompleteSystem {
    * @timeComplexity O(P + N) where P = prefix length, N = words with prefix
    */
   getSuggestions(prefix: string, limit: number = 5): string[] {
+    console.log(`\n--- getSuggestions ---`);
+    console.log(`Input: prefix = "${prefix}", limit = ${limit}`);
     const suggestions = this.getAllWordsWithPrefix(prefix);
     
     // Sort by frequency (descending)
@@ -279,7 +287,9 @@ class AutocompleteSystem {
       (this.wordFrequency.get(b) || 0) - (this.wordFrequency.get(a) || 0)
     );
     
-    return suggestions.slice(0, limit);
+    const result = suggestions.slice(0, limit);
+    console.log(`  Suggestions: [${result.map(s => `"${s}"`)}]`);
+    return result;
   }
 
   /**
@@ -324,6 +334,7 @@ class AutocompleteSystem {
   recordSearch(word: string): void {
     this.trie.insert(word);
     this.wordFrequency.set(word, (this.wordFrequency.get(word) || 0) + 1);
+    console.log(`  Recorded search: "${word}", freq=${this.wordFrequency.get(word)}`);
   }
 }
 
@@ -350,6 +361,8 @@ console.log(autocomplete.getSuggestions("hel", 3));
  * @timeComplexity O(M * N * 4^L * W) where M*N = grid size, L = word length
  */
 function findWords(board: string[][], words: string[]): string[] {
+  console.log(`\n--- findWords ---`);
+  console.log(`Board: ${board.length}x${board[0].length}, words: [${words.map(w => `"${w}"`)}]`);
   // Build trie from word list
   const trie = new Trie();
   for (const word of words) {
@@ -371,6 +384,7 @@ function findWords(board: string[][], words: string[]): string[] {
 
     if (nextNode.isEndOfWord) {
       result.add(newPath);
+      console.log(`  ✅ Found word: "${newPath}"`);
     }
 
     // Mark visited
@@ -393,6 +407,7 @@ function findWords(board: string[][], words: string[]): string[] {
     }
   }
 
+  console.log(`  ✅ Total found: ${result.size} words`);
   return [...result];
 }
 ```

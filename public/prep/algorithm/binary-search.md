@@ -67,22 +67,29 @@ Click "Next" to see the search in action!
  * @spaceComplexity O(1) - We only store a few pointers.
  */
 function binarySearch(nums: number[], target: number): number {
+  console.log(`\n--- binarySearch ---`);
+  console.log(`Input: nums = [${nums}], target = ${target}`);
   let left = 0;
   let right = nums.length - 1;
 
   while (left <= right) {
     // Avoid potential overflow with (left + right) / 2
     const mid = left + Math.floor((right - left) / 2);
+    console.log(`  left=${left}, right=${right}, mid=${mid}, nums[mid]=${nums[mid]}`);
 
     if (nums[mid] === target) {
+      console.log(`  ✅ Found target ${target} at index ${mid}`);
       return mid; // Target found
     } else if (nums[mid] < target) {
+      console.log(`  ${nums[mid]} < ${target} → search right half`);
       left = mid + 1; // Target is in the right half
     } else {
+      console.log(`  ${nums[mid]} > ${target} → search left half`);
       right = mid - 1; // Target is in the left half
     }
   }
 
+  console.log(`  ❌ Target ${target} not found`);
   return -1; // Target not found
 }
 
@@ -119,23 +126,26 @@ Output: `4` (Explanation: 9 exists in nums and its index is 4)
  */
 const solution = function(isBadVersion: any) {
     return function(n: number): number {
+        console.log(`\n--- firstBadVersion ---`);
+        console.log(`Input: n = ${n}`);
         let left = 1;
         let right = n;
         
         while (left < right) {
             const mid = left + Math.floor((right - left) / 2);
+            const isBad = isBadVersion(mid);
+            console.log(`  left=${left}, right=${right}, mid=${mid}, isBad=${isBad}`);
             
-            if (isBadVersion(mid)) {
-                // Determine if this is the *first* one, or if there's one before it.
-                // We don't exclude 'mid' because it could be the first one.
+            if (isBad) {
+                console.log(`  Version ${mid} is bad → search left (right = ${mid})`);
                 right = mid;
             } else {
-                // If it's strictly not bad, the first bad one must be after mid.
+                console.log(`  Version ${mid} is good → search right (left = ${mid + 1})`);
                 left = mid + 1;
             }
         }
         
-        // When left == right, we have found the boundary
+        console.log(`  ✅ First bad version: ${left}`);
         return left;
     };
 };
@@ -171,32 +181,43 @@ console.log("First bad version:", findFirstBad(n)); // Output: 4
  * @spaceComplexity O(1)
  */
 function searchRotatedArray(nums: number[], target: number): number {
+  console.log(`\n--- searchRotatedArray ---`);
+  console.log(`Input: nums = [${nums}], target = ${target}`);
   let left = 0;
   let right = nums.length - 1;
 
   while (left <= right) {
     const mid = left + Math.floor((right - left) / 2);
+    console.log(`  left=${left}, right=${right}, mid=${mid}, nums[mid]=${nums[mid]}`);
 
-    if (nums[mid] === target) return mid;
+    if (nums[mid] === target) {
+      console.log(`  ✅ Found target ${target} at index ${mid}`);
+      return mid;
+    }
 
     // Determine which half is sorted
     if (nums[left] <= nums[mid]) {
-      // LEFT half is sorted [left...mid]
+      console.log(`  Left half sorted [${nums[left]}..${nums[mid]}]`);
       if (target >= nums[left] && target < nums[mid]) {
-        right = mid - 1; // Target is in the sorted left half
+        console.log(`  Target in sorted left half`);
+        right = mid - 1;
       } else {
-        left = mid + 1;  // Target must be in the right half
+        console.log(`  Target in right half`);
+        left = mid + 1;
       }
     } else {
-      // RIGHT half is sorted [mid...right]
+      console.log(`  Right half sorted [${nums[mid]}..${nums[right]}]`);
       if (target > nums[mid] && target <= nums[right]) {
-        left = mid + 1;  // Target is in the sorted right half
+        console.log(`  Target in sorted right half`);
+        left = mid + 1;
       } else {
-        right = mid - 1; // Target must be in the left half
+        console.log(`  Target in left half`);
+        right = mid - 1;
       }
     }
   }
 
+  console.log(`  ❌ Target ${target} not found`);
   return -1;
 }
 

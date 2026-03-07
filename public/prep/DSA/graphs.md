@@ -130,6 +130,8 @@ function bfs(
   graph: Map<string, string[]>,
   start: string
 ): { distances: Map<string, number>; parents: Map<string, string | null> } {
+  console.log(`\n--- bfs ---`);
+  console.log(`Input: start = '${start}'`);
   const distances = new Map<string, number>();
   const parents = new Map<string, string | null>();
   const visited = new Set<string>();
@@ -142,6 +144,7 @@ function bfs(
   while (queue.length > 0) {
     const current = queue.shift()!;
     const currentDist = distances.get(current)!;
+    console.log(`  Visiting '${current}' (dist=${currentDist}), queue: [${queue}]`);
 
     for (const neighbor of graph.get(current) || []) {
       if (!visited.has(neighbor)) {
@@ -149,10 +152,12 @@ function bfs(
         distances.set(neighbor, currentDist + 1);
         parents.set(neighbor, current);
         queue.push(neighbor);
+        console.log(`    Discovered '${neighbor}' via '${current}' (dist=${currentDist + 1})`);
       }
     }
   }
 
+  console.log(`  Distances:`, Object.fromEntries(distances));
   return { distances, parents };
 }
 
@@ -164,6 +169,8 @@ function getShortestPath(
   start: string,
   end: string
 ): string[] {
+  console.log(`\n--- getShortestPath ---`);
+  console.log(`Input: start='${start}', end='${end}'`);
   const path: string[] = [];
   let current: string | null = end;
 
@@ -172,7 +179,9 @@ function getShortestPath(
     current = parents.get(current) ?? null;
   }
 
-  return path[0] === start ? path : []; // Return empty if no path
+  const result = path[0] === start ? path : []; // Return empty if no path
+  console.log(`  Path: [${result}]`);
+  return result;
 }
 
 // Example usage
@@ -222,6 +231,8 @@ Shortest path A → F: ['A', 'C', 'F'] (length 2)
  * @spaceComplexity O(V) - recursion stack
  */
 function dfs(graph: Map<string, string[]>, start: string): string[] {
+  console.log(`\n--- dfs ---`);
+  console.log(`Input: start = '${start}'`);
   const visited = new Set<string>();
   const result: string[] = [];
 
@@ -229,6 +240,7 @@ function dfs(graph: Map<string, string[]>, start: string): string[] {
     if (visited.has(node)) return;
     visited.add(node);
     result.push(node);
+    console.log(`  Explore '${node}', path: [${result}]`);
 
     for (const neighbor of graph.get(node) || []) {
       explore(neighbor);
@@ -236,6 +248,7 @@ function dfs(graph: Map<string, string[]>, start: string): string[] {
   }
 
   explore(start);
+  console.log(`  ✅ DFS result: [${result}]`);
   return result;
 }
 
@@ -250,6 +263,7 @@ function dfs(graph: Map<string, string[]>, start: string): string[] {
  * Cycle exists if we revisit a GRAY node.
  */
 function hasCycle(graph: Map<string, string[]>): boolean {
+  console.log(`\n--- hasCycle (graph) ---`);
   const WHITE = 0, GRAY = 1, BLACK = 2;
   const color = new Map<string, number>();
 
@@ -260,9 +274,11 @@ function hasCycle(graph: Map<string, string[]>): boolean {
 
   function dfs(node: string): boolean {
     color.set(node, GRAY); // Start processing
+    console.log(`  ${node}: WHITE → GRAY`);
 
     for (const neighbor of graph.get(node) || []) {
       if (color.get(neighbor) === GRAY) {
+        console.log(`  ${node} → ${neighbor}: BACK EDGE — Cycle detected!`);
         return true; // Back edge = cycle!
       }
       if (color.get(neighbor) === WHITE && dfs(neighbor)) {
@@ -271,6 +287,7 @@ function hasCycle(graph: Map<string, string[]>): boolean {
     }
 
     color.set(node, BLACK); // Finished processing
+    console.log(`  ${node}: GRAY → BLACK`);
     return false;
   }
 
@@ -280,6 +297,7 @@ function hasCycle(graph: Map<string, string[]>): boolean {
     }
   }
 
+  console.log(`  ✅ No cycle detected`);
   return false;
 }
 
@@ -291,6 +309,7 @@ function hasCycle(graph: Map<string, string[]>): boolean {
  * @timeComplexity O(V + E)
  */
 function countComponents(graph: Map<string, string[]>): number {
+  console.log(`\n--- countComponents ---`);
   const visited = new Set<string>();
   let count = 0;
 
@@ -306,9 +325,11 @@ function countComponents(graph: Map<string, string[]>): number {
     if (!visited.has(node)) {
       dfs(node);
       count++; // Found a new component
+      console.log(`  Found component #${count} starting at '${node}'`);
     }
   }
 
+  console.log(`  Total components: ${count}`);
   return count;
 }
 
@@ -321,6 +342,7 @@ function countComponents(graph: Map<string, string[]>): number {
  * @spaceComplexity O(M * N) for DFS stack
  */
 function numIslands(grid: string[][]): number {
+  console.log(`\n--- numIslands ---`);
   if (!grid.length || !grid[0].length) return 0;
 
   const rows = grid.length;
@@ -346,11 +368,13 @@ function numIslands(grid: string[][]): number {
     for (let c = 0; c < cols; c++) {
       if (grid[r][c] === '1') {
         islands++;
+        console.log(`  Found island #${islands} at [${r},${c}]`);
         dfs(r, c); // Sink the entire island
       }
     }
   }
 
+  console.log(`  Total islands: ${islands}`);
   return islands;
 }
 ```

@@ -100,6 +100,8 @@ When two keys hash to the same index:
  * @spaceComplexity O(N) - Store up to N elements in hash map
  */
 function twoSum(nums: number[], target: number): number[] {
+  console.log(`\n--- twoSum ---`);
+  console.log(`Input: nums = [${nums}], target = ${target}`);
   // Map: number -> index
   const seen = new Map<number, number>();
   
@@ -108,13 +110,17 @@ function twoSum(nums: number[], target: number): number[] {
     
     // Check if complement exists
     if (seen.has(complement)) {
+      console.log(`  i=${i}: nums[i]=${nums[i]}, complement=${complement} → FOUND at index ${seen.get(complement)!}`);
+      console.log(`  ✅ Result: [${seen.get(complement)!}, ${i}]`);
       return [seen.get(complement)!, i];
     }
     
+    console.log(`  i=${i}: nums[i]=${nums[i]}, complement=${complement} → not seen yet, storing`);
     // Store current number with its index
     seen.set(nums[i], i);
   }
   
+  console.log(`  ❌ No solution found`);
   return []; // No solution found
 }
 
@@ -155,11 +161,14 @@ Explanation: nums[0] + nums[1] = 2 + 7 = 9
  * @spaceComplexity O(N * K) for storing all strings
  */
 function groupAnagrams(strs: string[]): string[][] {
+  console.log(`\n--- groupAnagrams ---`);
+  console.log(`Input: [${strs.map(s => `"${s}"`)}]`);
   const groups = new Map<string, string[]>();
   
   for (const str of strs) {
     // Create key by sorting characters
     const key = str.split('').sort().join('');
+    console.log(`  "${str}" → key="${key}"`);
     
     if (!groups.has(key)) {
       groups.set(key, []);
@@ -167,7 +176,9 @@ function groupAnagrams(strs: string[]): string[][] {
     groups.get(key)!.push(str);
   }
   
-  return Array.from(groups.values());
+  const result = Array.from(groups.values());
+  console.log(`  Groups: ${result.map(g => `[${g}]`).join(', ')}`);
+  return result;
 }
 
 /**
@@ -176,6 +187,7 @@ function groupAnagrams(strs: string[]): string[][] {
  * @timeComplexity O(N * K) - no sorting needed
  */
 function groupAnagramsOptimized(strs: string[]): string[][] {
+  console.log(`\n--- groupAnagramsOptimized ---`);
   const groups = new Map<string, string[]>();
   
   for (const str of strs) {
@@ -185,6 +197,7 @@ function groupAnagramsOptimized(strs: string[]): string[][] {
       freq[char.charCodeAt(0) - 97]++;
     }
     const key = freq.join('#'); // "1#0#0#0#1#0#..." for "ae"
+    console.log(`  "${str}" → freq key (length ${key.length})`);
     
     if (!groups.has(key)) {
       groups.set(key, []);
@@ -262,32 +275,47 @@ class LRUCache {
 ```typescript
 // Pattern 1: Frequency Counter
 function characterFrequency(s: string): Map<string, number> {
+  console.log(`\n--- characterFrequency ---`);
+  console.log(`Input: "${s}"`);
   const freq = new Map<string, number>();
   for (const char of s) {
     freq.set(char, (freq.get(char) || 0) + 1);
   }
+  console.log(`  Frequencies:`, Object.fromEntries(freq));
   return freq;
 }
 
 // Pattern 2: Seen/Visited Tracking
 function hasDuplicates(nums: number[]): boolean {
+  console.log(`\n--- hasDuplicates ---`);
+  console.log(`Input: [${nums}]`);
   const seen = new Set<number>();
   for (const num of nums) {
-    if (seen.has(num)) return true;
+    if (seen.has(num)) {
+      console.log(`  ✅ Duplicate found: ${num}`);
+      return true;
+    }
     seen.add(num);
   }
+  console.log(`  No duplicates`);
   return false;
 }
 
 // Pattern 3: Index Mapping
 function firstUniqChar(s: string): number {
+  console.log(`\n--- firstUniqChar ---`);
+  console.log(`Input: "${s}"`);
   const lastIndex = new Map<string, number>();
   for (let i = 0; i < s.length; i++) {
     lastIndex.set(s[i], i);
   }
   for (let i = 0; i < s.length; i++) {
-    if (lastIndex.get(s[i]) === i) return i;
+    if (lastIndex.get(s[i]) === i) {
+      console.log(`  ✅ First unique char: '${s[i]}' at index ${i}`);
+      return i;
+    }
   }
+  console.log(`  ❌ No unique character found`);
   return -1;
 }
 ```

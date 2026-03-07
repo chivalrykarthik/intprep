@@ -77,6 +77,8 @@ Click "Next" to see BFS traversal using a Queue!
  * @spaceComplexity O(N) - Stack can hold all opening brackets.
  */
 function isValid(s: string): boolean {
+  console.log(`\n--- isValid ---`);
+  console.log(`Input: "${s}"`);
   const stack: string[] = [];
   const pairs: Record<string, string> = {
     ')': '(',
@@ -88,16 +90,22 @@ function isValid(s: string): boolean {
     if (char === '(' || char === '[' || char === '{') {
       // Opening bracket: push to stack
       stack.push(char);
+      console.log(`  Push '${char}', stack: [${stack}]`);
     } else {
       // Closing bracket: check if matches top of stack
+      const top = stack.length > 0 ? stack[stack.length - 1] : 'empty';
       if (stack.length === 0 || stack.pop() !== pairs[char]) {
+        console.log(`  ❌ '${char}' doesn't match top '${top}'`);
         return false;
       }
+      console.log(`  Match: '${char}' with '${pairs[char]}', stack: [${stack}]`);
     }
   }
   
   // Valid if stack is empty (all brackets matched)
-  return stack.length === 0;
+  const result = stack.length === 0;
+  console.log(`  ${result ? '✅ Valid' : '❌ Invalid (unmatched: [' + stack + '])'}`);
+  return result;
 }
 
 // Example Usage:
@@ -145,7 +153,9 @@ class MyQueue {
    */
   pop(): number {
     this.transferIfNeeded();
-    return this.stackOut.pop()!;
+    const val = this.stackOut.pop()!;
+    console.log(`  Queue pop: ${val}`);
+    return val;
   }
   
   /**
@@ -154,7 +164,9 @@ class MyQueue {
    */
   peek(): number {
     this.transferIfNeeded();
-    return this.stackOut[this.stackOut.length - 1];
+    const val = this.stackOut[this.stackOut.length - 1];
+    console.log(`  Queue peek: ${val}`);
+    return val;
   }
   
   /**
@@ -171,6 +183,7 @@ class MyQueue {
    */
   private transferIfNeeded(): void {
     if (this.stackOut.length === 0) {
+      console.log(`  Transfer: stackIn → stackOut (${this.stackIn.length} items)`);
       while (this.stackIn.length > 0) {
         this.stackOut.push(this.stackIn.pop()!);
       }
@@ -231,6 +244,9 @@ class MinStack {
     // Push to minStack if it's empty or val ≤ current min
     if (this.minStack.length === 0 || val <= this.getMin()) {
       this.minStack.push(val);
+      console.log(`  MinStack push(${val}): new min = ${val}`);
+    } else {
+      console.log(`  MinStack push(${val}): min unchanged = ${this.getMin()}`);
     }
   }
 
@@ -239,6 +255,9 @@ class MinStack {
     // If popped value is the current min, pop from minStack too
     if (val === this.getMin()) {
       this.minStack.pop();
+      console.log(`  MinStack pop(${val}): was min, new min = ${this.minStack.length > 0 ? this.getMin() : 'empty'}`);
+    } else {
+      console.log(`  MinStack pop(${val}): min unchanged = ${this.getMin()}`);
     }
   }
 
@@ -289,6 +308,8 @@ console.log(ms.getMin()); // -2 (still knows the min!)
  * @spaceComplexity O(N) — Stack + result array
  */
 function nextGreaterElement(nums: number[]): number[] {
+  console.log(`\n--- nextGreaterElement ---`);
+  console.log(`Input: [${nums}]`);
   const result = new Array(nums.length).fill(-1);
   const stack: number[] = []; // Stack of INDICES (decreasing values)
 
@@ -297,11 +318,13 @@ function nextGreaterElement(nums: number[]): number[] {
     while (stack.length > 0 && nums[stack[stack.length - 1]] < nums[i]) {
       const idx = stack.pop()!;
       result[idx] = nums[i];
+      console.log(`  nums[${idx}]=${nums[idx]} → next greater = ${nums[i]}`);
     }
     stack.push(i);
   }
 
   // Elements remaining in stack have no next greater element (-1)
+  console.log(`  ✅ Result: [${result}]`);
   return result;
 }
 
@@ -331,6 +354,8 @@ console.log("Next Greater:", nextGreaterElement(temperatures));
  * Same monotonic stack idea, but return INDEX DIFFERENCE instead of value.
  */
 function dailyTemperatures(temps: number[]): number[] {
+  console.log(`\n--- dailyTemperatures ---`);
+  console.log(`Input: [${temps}]`);
   const result = new Array(temps.length).fill(0);
   const stack: number[] = [];
 
@@ -338,9 +363,11 @@ function dailyTemperatures(temps: number[]): number[] {
     while (stack.length > 0 && temps[stack[stack.length - 1]] < temps[i]) {
       const prevIdx = stack.pop()!;
       result[prevIdx] = i - prevIdx; // Days to wait
+      console.log(`  Day ${prevIdx} (${temps[prevIdx]}°) → wait ${result[prevIdx]} days for ${temps[i]}°`);
     }
     stack.push(i);
   }
+  console.log(`  ✅ Result: [${result}]`);
   return result;
 }
 ```

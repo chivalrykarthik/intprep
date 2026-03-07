@@ -77,15 +77,21 @@ Click "Next" to see array operations in a sliding window context!
  * @spaceComplexity O(1) - Only two variables
  */
 function maxSubArray(nums: number[]): number {
+  console.log(`\n--- maxSubArray ---`);
+  console.log(`Input: [${nums}]`);
   let maxSum = nums[0];
   let currentSum = nums[0];
 
   for (let i = 1; i < nums.length; i++) {
     // Either extend the current subarray or start new from here
-    currentSum = Math.max(nums[i], currentSum + nums[i]);
+    const extended = currentSum + nums[i];
+    const decision = nums[i] > extended ? 'START NEW' : 'EXTEND';
+    currentSum = Math.max(nums[i], extended);
     maxSum = Math.max(maxSum, currentSum);
+    console.log(`  i=${i}: nums[i]=${nums[i]}, current=${currentSum}, max=${maxSum} (${decision})`);
   }
 
+  console.log(`  ✅ Result: ${maxSum}`);
   return maxSum;
 }
 
@@ -110,6 +116,8 @@ console.log("Max Subarray Sum:", maxSubArray(profits)); // 6
 
 ```typescript
 function maxSubArrayWithIndices(nums: number[]): { sum: number; start: number; end: number } {
+  console.log(`\n--- maxSubArrayWithIndices ---`);
+  console.log(`Input: [${nums}]`);
   let maxSum = nums[0], currentSum = nums[0];
   let start = 0, end = 0, tempStart = 0;
 
@@ -117,6 +125,7 @@ function maxSubArrayWithIndices(nums: number[]): { sum: number; start: number; e
     if (nums[i] > currentSum + nums[i]) {
       currentSum = nums[i];
       tempStart = i;
+      console.log(`  i=${i}: Start new subarray at index ${i}`);
     } else {
       currentSum += nums[i];
     }
@@ -125,9 +134,11 @@ function maxSubArrayWithIndices(nums: number[]): { sum: number; start: number; e
       maxSum = currentSum;
       start = tempStart;
       end = i;
+      console.log(`  i=${i}: New max=${maxSum}, subarray=[${start}..${end}]`);
     }
   }
 
+  console.log(`  ✅ Result: sum=${maxSum}, subarray=[${start}..${end}]`);
   return { sum: maxSum, start, end };
 }
 ```
@@ -163,10 +174,13 @@ class PrefixSum {
   private prefix: number[];
 
   constructor(nums: number[]) {
+    console.log(`\n--- PrefixSum constructor ---`);
+    console.log(`Input: [${nums}]`);
     this.prefix = new Array(nums.length + 1).fill(0);
     for (let i = 0; i < nums.length; i++) {
       this.prefix[i + 1] = this.prefix[i] + nums[i];
     }
+    console.log(`  Prefix array: [${this.prefix}]`);
   }
 
   /**
@@ -174,7 +188,9 @@ class PrefixSum {
    * @timeComplexity O(1)
    */
   rangeSum(left: number, right: number): number {
-    return this.prefix[right + 1] - this.prefix[left];
+    const result = this.prefix[right + 1] - this.prefix[left];
+    console.log(`  rangeSum(${left}, ${right}): prefix[${right+1}] - prefix[${left}] = ${this.prefix[right+1]} - ${this.prefix[left]} = ${result}`);
+    return result;
   }
 }
 
@@ -202,7 +218,9 @@ class PrefixSum2D {
   private prefix: number[][];
 
   constructor(matrix: number[][]) {
+    console.log(`\n--- PrefixSum2D constructor ---`);
     const m = matrix.length, n = matrix[0].length;
+    console.log(`Input matrix: ${m}x${n}`);
     this.prefix = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
 
     for (let i = 1; i <= m; i++) {
@@ -212,14 +230,17 @@ class PrefixSum2D {
           - this.prefix[i-1][j-1]; // Inclusion-exclusion
       }
     }
+    console.log(`  2D prefix built successfully`);
   }
 
   /**
    * Sum of sub-matrix from (r1,c1) to (r2,c2).
    */
   regionSum(r1: number, c1: number, r2: number, c2: number): number {
-    return this.prefix[r2+1][c2+1] - this.prefix[r1][c2+1]
+    const result = this.prefix[r2+1][c2+1] - this.prefix[r1][c2+1]
          - this.prefix[r2+1][c1] + this.prefix[r1][c1];
+    console.log(`  regionSum(${r1},${c1})→(${r2},${c2}) = ${result}`);
+    return result;
   }
 }
 ```
@@ -245,17 +266,22 @@ class PrefixSum2D {
  * @spaceComplexity O(1) - In-place reversal.
  */
 function rotate(nums: number[], k: number): void {
+  console.log(`\n--- rotate ---`);
+  console.log(`Input: [${nums}], k = ${k}`);
   const n = nums.length;
   k = k % n; // Handle k > n
   
-  if (k === 0) return;
+  if (k === 0) { console.log(`  k=0, no rotation needed`); return; }
   
   // Reverse entire array
   reverse(nums, 0, n - 1);
+  console.log(`  After full reverse: [${nums}]`);
   // Reverse first k elements
   reverse(nums, 0, k - 1);
+  console.log(`  After reverse [0..${k-1}]: [${nums}]`);
   // Reverse remaining elements
   reverse(nums, k, n - 1);
+  console.log(`  After reverse [${k}..${n-1}]: [${nums}]`);
 }
 
 function reverse(arr: number[], start: number, end: number): void {

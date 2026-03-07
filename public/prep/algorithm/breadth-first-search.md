@@ -96,6 +96,8 @@ function bfsShortestPath(
   start: string,
   target: string
 ): string[] {
+  console.log(`\n--- bfsShortestPath ---`);
+  console.log(`Input: start = '${start}', target = '${target}'`);
   if (start === target) return [start];
   
   const queue: string[] = [start];
@@ -104,12 +106,14 @@ function bfsShortestPath(
   
   while (queue.length > 0) {
     const current = queue.shift()!;
+    console.log(`  Visiting: '${current}', queue: [${queue}]`);
     
     for (const neighbor of graph.get(current) || []) {
       if (!visited.has(neighbor)) {
         visited.add(neighbor);
         parent.set(neighbor, current);
         queue.push(neighbor);
+        console.log(`    Discovered '${neighbor}' via '${current}'`);
         
         // Found target - reconstruct path
         if (neighbor === target) {
@@ -119,12 +123,14 @@ function bfsShortestPath(
             path.unshift(node);
             node = parent.get(node);
           }
+          console.log(`  ✅ Path found: [${path}]`);
           return path;
         }
       }
     }
   }
   
+  console.log(`  ❌ No path found`);
   return []; // No path found
 }
 
@@ -182,6 +188,7 @@ console.log("Shortest A to D:", bfsShortestPath(graph, 'A', 'D')); // ['A', 'B',
  * @spaceComplexity O(M × N) — Queue can hold all cells
  */
 function orangesRotting(grid: number[][]): number {
+  console.log(`\n--- orangesRotting ---`);
   const rows = grid.length;
   const cols = grid[0].length;
   const queue: [number, number][] = [];
@@ -194,6 +201,7 @@ function orangesRotting(grid: number[][]): number {
       if (grid[r][c] === 1) freshCount++;        // Fresh → count
     }
   }
+  console.log(`  Rotten sources: ${queue.length}, fresh oranges: ${freshCount}`);
 
   if (freshCount === 0) return 0; // No fresh oranges to rot
 
@@ -204,6 +212,7 @@ function orangesRotting(grid: number[][]): number {
   while (queue.length > 0 && freshCount > 0) {
     const levelSize = queue.length; // Process all oranges that rot at this minute
     minutes++;
+    console.log(`  Minute ${minutes}: processing ${levelSize} rotten orange(s)`);
 
     for (let i = 0; i < levelSize; i++) {
       const [r, c] = queue.shift()!;
@@ -217,12 +226,15 @@ function orangesRotting(grid: number[][]): number {
           grid[nr][nc] = 2;         // Rot it
           freshCount--;
           queue.push([nr, nc]);     // Add to queue for next minute
+          console.log(`    Rotted [${nr},${nc}], fresh remaining: ${freshCount}`);
         }
       }
     }
   }
 
-  return freshCount === 0 ? minutes : -1; // -1 if some fresh oranges are unreachable
+  const result = freshCount === 0 ? minutes : -1;
+  console.log(`  Result: ${result}${freshCount > 0 ? ' (some unreachable)' : ''}`);
+  return result;
 }
 
 // Example:

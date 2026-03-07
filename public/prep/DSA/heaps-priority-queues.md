@@ -135,6 +135,7 @@ class MinHeap<T = number> {
 
   push(val: T): void {
     this.data.push(val);
+    console.log(`  Heap push: ${JSON.stringify(val)}, size=${this.data.length}`);
     this.bubbleUp(this.data.length - 1);
   }
 
@@ -146,6 +147,7 @@ class MinHeap<T = number> {
       this.data[0] = last;
       this.siftDown(0);
     }
+    console.log(`  Heap pop: ${JSON.stringify(min)}, size=${this.data.length}`);
     return min;
   }
 
@@ -246,11 +248,14 @@ console.log(taskHeap.pop()); // { name: "Fix bug", priority: 1 }
  * @spaceComplexity O(N) for frequency map
  */
 function topKFrequent(nums: number[], k: number): number[] {
+  console.log(`\n--- topKFrequent ---`);
+  console.log(`Input: nums = [${nums}], k = ${k}`);
   // Step 1: Count frequencies
   const freqMap = new Map<number, number>();
   for (const num of nums) {
     freqMap.set(num, (freqMap.get(num) || 0) + 1);
   }
+  console.log(`  Frequencies:`, Object.fromEntries(freqMap));
 
   // Step 2: Use min-heap of size K
   const heap = new MinHeap<[number, number]>((a, b) => a[1] - b[1]);
@@ -259,7 +264,8 @@ function topKFrequent(nums: number[], k: number): number[] {
   for (const [num, freq] of freqMap) {
     heap.push([num, freq]);
     if (heap.size > k) {
-      heap.pop(); // Remove least frequent, keeping top K
+      const evicted = heap.pop(); // Remove least frequent, keeping top K
+      console.log(`  Evicted [${evicted![0]}, freq=${evicted![1]}] to keep top ${k}`);
     }
   }
 
@@ -268,6 +274,7 @@ function topKFrequent(nums: number[], k: number): number[] {
   while (heap.size > 0) {
     result.push(heap.pop()![0]);
   }
+  console.log(`  ✅ Top ${k} frequent: [${result}]`);
   return result;
 }
 
@@ -279,6 +286,8 @@ function topKFrequent(nums: number[], k: number): number[] {
  * Walk buckets from high to low.
  */
 function topKFrequentBucket(nums: number[], k: number): number[] {
+  console.log(`\n--- topKFrequentBucket ---`);
+  console.log(`Input: nums = [${nums}], k = ${k}`);
   const freqMap = new Map<number, number>();
   for (const num of nums) {
     freqMap.set(num, (freqMap.get(num) || 0) + 1);
@@ -288,13 +297,18 @@ function topKFrequentBucket(nums: number[], k: number): number[] {
   const buckets: number[][] = Array.from({ length: nums.length + 1 }, () => []);
   for (const [num, freq] of freqMap) {
     buckets[freq].push(num);
+    console.log(`  num=${num}, freq=${freq} → bucket[${freq}]`);
   }
 
   // Collect top K from highest frequency buckets
   const result: number[] = [];
   for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {
+    if (buckets[i].length > 0) {
+      console.log(`  Collecting from bucket[${i}]: [${buckets[i]}]`);
+    }
     result.push(...buckets[i]);
   }
+  console.log(`  ✅ Result: [${result.slice(0, k)}]`);
   return result.slice(0, k);
 }
 
@@ -346,27 +360,39 @@ class MedianFinder {
   }
 
   addNum(num: number): void {
+    console.log(`  addNum(${num}):`);
     // Step 1: Add to maxHeap (lower half)
     this.maxHeap.push(num);
 
     // Step 2: Balance — maxHeap's max should ≤ minHeap's min
     if (this.minHeap.size > 0 && this.maxHeap.peek()! > this.minHeap.peek()!) {
-      this.minHeap.push(this.maxHeap.pop()!);
+      const moved = this.maxHeap.pop()!;
+      this.minHeap.push(moved);
+      console.log(`    Moved ${moved} from maxHeap to minHeap (value balance)`);
     }
 
     // Step 3: Size balance — maxHeap can be at most 1 larger
     if (this.maxHeap.size > this.minHeap.size + 1) {
-      this.minHeap.push(this.maxHeap.pop()!);
+      const moved = this.maxHeap.pop()!;
+      this.minHeap.push(moved);
+      console.log(`    Moved ${moved} from maxHeap to minHeap (size balance)`);
     } else if (this.minHeap.size > this.maxHeap.size) {
-      this.maxHeap.push(this.minHeap.pop()!);
+      const moved = this.minHeap.pop()!;
+      this.maxHeap.push(moved);
+      console.log(`    Moved ${moved} from minHeap to maxHeap (size balance)`);
     }
+    console.log(`    maxHeap top=${this.maxHeap.peek()}, minHeap top=${this.minHeap.peek()}, sizes: ${this.maxHeap.size}|${this.minHeap.size}`);
   }
 
   findMedian(): number {
+    let median: number;
     if (this.maxHeap.size > this.minHeap.size) {
-      return this.maxHeap.peek()!;
+      median = this.maxHeap.peek()!;
+    } else {
+      median = (this.maxHeap.peek()! + this.minHeap.peek()!) / 2;
     }
-    return (this.maxHeap.peek()! + this.minHeap.peek()!) / 2;
+    console.log(`  findMedian(): ${median}`);
+    return median;
   }
 }
 

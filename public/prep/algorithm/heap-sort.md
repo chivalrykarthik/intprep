@@ -65,23 +65,28 @@ Click "Next" to see the heapify and extraction process!
  * @spaceComplexity O(1) - Done entirely in-place.
  */
 function heapSort(nums: number[]): number[] {
+  console.log(`\n--- heapSort ---`);
+  console.log(`Input: [${nums}]`);
   const n = nums.length;
 
   // 1. Build Max Heap
-  // Start from the last non-leaf node and move up
+  console.log(`  Building max heap...`);
   for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
     heapify(nums, n, i);
   }
+  console.log(`  Max heap: [${nums}]`);
 
   // 2. Extract elements one by one
   for (let i = n - 1; i > 0; i--) {
     // Move current root (max) to end
+    console.log(`  Swap root ${nums[0]} with position ${i} (${nums[i]})`);
     [nums[0], nums[i]] = [nums[i], nums[0]];
 
     // Call max heapify on the reduced heap
     heapify(nums, i, 0);
   }
 
+  console.log(`  Sorted: [${nums}]`);
   return nums;
 }
 
@@ -197,6 +202,8 @@ class MinHeap {
  * @spaceComplexity O(K) - Heap size is bounded by k+1
  */
 function sortKSortedArray(nums: number[], k: number): number[] {
+    console.log(`\n--- sortKSortedArray ---`);
+    console.log(`Input: [${nums}], k = ${k}`);
     const heap = new MinHeap();
     const result: number[] = [];
 
@@ -204,18 +211,24 @@ function sortKSortedArray(nums: number[], k: number): number[] {
     for (let i = 0; i <= k && i < nums.length; i++) {
         heap.push(nums[i]);
     }
+    console.log(`  Initial heap loaded with first ${Math.min(k + 1, nums.length)} elements`);
 
     // Process remaining elements
     for (let i = k + 1; i < nums.length; i++) {
-        result.push(heap.pop());
+        const min = heap.pop();
+        result.push(min);
+        console.log(`  Pop ${min}, push ${nums[i]}`);
         heap.push(nums[i]);
     }
 
     // Empty the heap
     while (heap.size() > 0) {
-        result.push(heap.pop());
+        const min = heap.pop();
+        console.log(`  Pop remaining: ${min}`);
+        result.push(min);
     }
 
+    console.log(`  Sorted: [${result}]`);
     return result;
 }
 
