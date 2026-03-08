@@ -126,7 +126,7 @@ export const TopKVisualizer = ({
         // Simulating Min Heap for Top K Largest
         // We keep size K. Smallest is at index 0 (if sorted) for visualization simplicity.
         // In real heap, root is min.
-        let heap: number[] = [];
+        const heap: number[] = [];
 
         snapshots.push({
             msg: `Start. Want Top ${k} Largest.`,

@@ -173,7 +173,7 @@ export const TopologicalSortVisualizer = ({
             inDegree[course]++;
         });
 
-        let queue: number[] = [];
+        const queue: number[] = [];
 
         // Initial Snapshot
         snapshots.push({
@@ -199,9 +199,9 @@ export const TopologicalSortVisualizer = ({
 
         // 3. Process
         let safety = 0;
-        let simQueue = [...queue];
-        let simInDegree = [...inDegree];
-        let simResult: number[] = [];
+        const simQueue = [...queue];
+        const simInDegree = [...inDegree];
+        const simResult: number[] = [];
 
         while (simQueue.length > 0 && safety < 20) {
             safety++;
@@ -219,7 +219,7 @@ export const TopologicalSortVisualizer = ({
 
             // Neighbors
             const neighbors = adj[node] || [];
-            let newUnlocks: number[] = [];
+            const newUnlocks: number[] = [];
 
             for (const neighbor of neighbors) {
                 simInDegree[neighbor]--;

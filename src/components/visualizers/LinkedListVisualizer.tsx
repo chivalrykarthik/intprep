@@ -167,7 +167,7 @@ export const LinkedListVisualizer = ({
 
         // Clone initial structure to simulate changes on
         // For visualization simplicity, we track the *target* next of each node
-        let nodeTargets: Record<number, number | 'NULL'> = {};
+        const nodeTargets: Record<number, number | 'NULL'> = {};
         data.forEach((val, idx) => {
             nodeTargets[val] = idx === data.length - 1 ? 'NULL' : data[idx + 1];
         });

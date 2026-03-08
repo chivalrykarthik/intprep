@@ -109,7 +109,7 @@ export const SubsetsVisualizer = ({
         const snapshots = [];
 
         // Initial
-        let subsets: number[][] = [[]];
+        const subsets: number[][] = [[]];
         snapshots.push({
             msg: "Start with an empty set [].",
             subsets: JSON.parse(JSON.stringify(subsets)),

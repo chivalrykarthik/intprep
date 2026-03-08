@@ -438,22 +438,24 @@ function DonutChart({ slices, centerLabel }: { slices: { label: string; value: n
     const total = slices.reduce((s, i) => s + i.value, 0) || 1;
     const r = 70, cx = 100, cy = 100, strokeW = 28;
     const circumference = 2 * Math.PI * r;
-    let offset = 0;
+    const offsets = slices.reduce<number[]>((acc, _s, i) => {
+        acc.push(i === 0 ? 0 : acc[i - 1] + (slices[i - 1].value / total) * circumference);
+        return acc;
+    }, []);
     return (
         <div style={{ display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap", justifyContent: "center" }}>
             <svg width="200" height="200" viewBox="0 0 200 200">
                 {slices.map((s, i) => {
                     const pct = s.value / total;
                     const dash = pct * circumference;
-                    const el = (
+                    const offset = offsets[i];
+                    return (
                         <circle key={i} cx={cx} cy={cy} r={r} fill="none" stroke={s.color} strokeWidth={strokeW}
                             strokeDasharray={`${dash} ${circumference - dash}`} strokeDashoffset={-offset}
                             transform={`rotate(-90 ${cx} ${cy})`} opacity={0.85}>
                             <animate attributeName="stroke-dashoffset" from={-offset + dash} to={-offset} dur="0.8s" fill="freeze" />
                         </circle>
                     );
-                    offset += dash;
-                    return el;
                 })}
                 <text x={cx} y={cy - 6} textAnchor="middle" fontSize="14" fill="currentColor" fontWeight="700">{centerLabel ?? "Total"}</text>
                 <text x={cx} y={cy + 14} textAnchor="middle" fontSize="12" fill="currentColor">{fmtBytes(total)}</text>

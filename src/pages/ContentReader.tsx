@@ -198,7 +198,7 @@ export const ContentReader = () => {
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
-                                code({ node, inline, className, children, ...props }: any) {
+                                code({ inline, className, children, ref: _ref, node: _node, ...props }: React.ClassAttributes<HTMLElement> & React.HTMLAttributes<HTMLElement> & { inline?: boolean; node?: unknown }) {
                                     const match = /language-(\w+)/.exec(className || '')
                                     const language = match ? match[1] : '';
 
@@ -257,7 +257,7 @@ export const ContentReader = () => {
                                             if (config.type === 'heap-sort') {
                                                 return <HeapSortVisualizer data={config.data} />;
                                             }
-                                        } catch (e) {
+                                        } catch (_e) {
                                             return <div style={{ color: 'red' }}>Invalid Visualizer Config</div>;
                                         }
                                     }

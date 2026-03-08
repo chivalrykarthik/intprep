@@ -129,20 +129,14 @@ const useStyles = makeStyles({
     }
 });
 
-// interface TreeNodeData {
-//     val: number;
-//     left?: TreeNodeData;
-//     right?: TreeNodeData;
-//     x?: number; // Calculated positions
-//     y?: number;
-// }
-
-// interface TreeBFSVisualizerProps {
-//     data?: TreeNodeData;
-// }
+interface TreeNodeData {
+    val: number;
+    left?: TreeNodeData;
+    right?: TreeNodeData;
+}
 
 interface TreeBFSVisualizerProps {
-    data?: any; // Using any for now as strict structure isn't defined/used
+    data?: TreeNodeData;
 }
 
 export const TreeBFSVisualizer = ({ data }: TreeBFSVisualizerProps) => {

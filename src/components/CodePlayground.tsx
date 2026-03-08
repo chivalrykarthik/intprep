@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
     makeStyles,
     shorthands,
@@ -99,7 +99,8 @@ interface CodePlaygroundProps {
 
 export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) => {
     const styles = useStyles();
-    const [code, setCode] = useState(initialCode.replace(/\n$/, ""));
+    const cleanedInitialCode = useMemo(() => initialCode.replace(/\n$/, ""), [initialCode]);
+    const [code, setCode] = useState(cleanedInitialCode);
     const [output, setOutput] = useState<string[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -107,12 +108,14 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
     const [leftPaneHeight, setLeftPaneHeight] = useState<number | undefined>(undefined);
     const editorContainerRef = useRef<HTMLDivElement>(null);
     const leftPaneRef = useRef<HTMLDivElement>(null);
+    const prevInitialCodeRef = useRef(cleanedInitialCode);
 
-    useEffect(() => {
-        setCode(initialCode.replace(/\n$/, ""));
+    if (prevInitialCodeRef.current !== cleanedInitialCode) {
+        prevInitialCodeRef.current = cleanedInitialCode;
+        setCode(cleanedInitialCode);
         setOutput([]);
         setHasError(false);
-    }, [initialCode]);
+    }
 
     // Measure left pane height whenever output changes
     useEffect(() => {
@@ -126,16 +129,16 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
         const logs: string[] = [];
 
         const mockConsole = {
-            log: (...args: any[]) => {
+            log: (...args: unknown[]) => {
                 logs.push(args.map(a =>
                     typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)
                 ).join(" "));
             },
-            error: (...args: any[]) => {
+            error: (...args: unknown[]) => {
                 logs.push("ERROR: " + args.join(" "));
                 setHasError(true);
             },
-            warn: (...args: any[]) => {
+            warn: (...args: unknown[]) => {
                 logs.push("WARN: " + args.join(" "));
             }
         };
@@ -186,9 +189,9 @@ export const CodePlayground = ({ initialCode, language }: CodePlaygroundProps) =
             }
             setOutput(logs);
 
-        } catch (e: any) {
+        } catch (e: unknown) {
             setHasError(true);
-            setOutput([`System Error: ${e.message}`]);
+            setOutput([`System Error: ${e instanceof Error ? e.message : String(e)}`]);
         }
     };
 

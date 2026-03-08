@@ -109,7 +109,7 @@ export const MergeSortVisualizer = ({
     const snapshots = useMemo(() => {
         const snaps: Snapshot[] = [];
         const nums = [...data];
-        let knownSorted = new Set<number>();
+        const knownSorted = new Set<number>();
 
         const pushSnap = (msg: string, range: number[], comparing: number[] = []) => {
             snaps.push({
